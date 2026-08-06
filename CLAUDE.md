@@ -95,28 +95,30 @@
 
 ## 5. 구조
 
+**스택은 Python (FastAPI)이다.** `docs/decisions.md` D-A.
+
 ```
-src/
-  http/routes/       라우트 = 얇은 어댑터. 로직 없음
-  http/errors.ts     FailureCode → HTTP 매핑. 이 한 곳에서만 결정
-  http/schema/       요청·응답 JSON Schema = 계약의 단일 출처
-  pipeline/kernel.ts Step / Deadline / Trace / run()
-  pipeline/*/steps/  스텝 구현
-  capability/llm/    단일 게이트웨이. 우회 호출 금지
-  capability/text/   클램프·정규화·offset 매핑 (순수 함수)
-  legacy/            원본 모듈. 고치지 않는다
-test/
-  golden/   순수 함수 고정값 — 원본과 동일 입력 동일 출력
-  contract/ 스키마 스냅샷
-  fault/    실패 주입 (타임아웃·잘린 JSON·풀 소진·데드라인 초과)
-  eval/     LLM 평가셋. M3부터
+app/
+  main.py         HTTP 표면 11개. 라우트 = 얇은 어댑터, 로직 없음
+  config.py       설정. data/ai-config.json > 환경변수 > 기본값 (원본과 같은 우선순위)
+  prompts.py      프롬프트 버전. 재사용 키의 일부다
+  embedding.py    POST /api/embed
+  llm/client.py   LM Studio·OpenAI 호환 클라이언트. 원본 lib/lms.js
+  llm/worker_pool.py  다중 엔드포인트 분배·쿨다운·페일오버. 원본 lib/llm-worker-pool.js
+server.py         uvicorn 진입점
+module_server.py  원본 module_a/module_b 서버
+module_a/ module_b/ korean-law-mcp/   Python 모듈 서버. 백엔드가 직접 프록시한다
+scripts/          test_http_contract.py · test_worker_pool.py · smoke_llm.py
 ```
 
-마일스톤: **M0** 스텁(3개 구현 + 8개 정직한 503) → **M1** embed → **M2** bid-summary →
-**M3** item-summary → **M4** price → **M5** legal·pledge.
+진척은 `PORTING_STATUS.md` 가 유일한 출처다. "곧 됩니다"는 쓰지 않는다.
+현재: `prompt-version`·`capacity`·`models`·`embed` 완료, 나머지 7개는 `501 NOT_PORTED`.
 
-M0을 먼저 내는 이유는 **폴백 계약이 정상 경로보다 먼저 검증되어야** 하기 때문이다.
-각 마일스톤 DoD: 스키마 스냅샷 갱신 + 폴트 주입 통과 + 골든 테스트 통과.
+남은 순서: **bid-summary** → **item-summary**(백엔드 첨부 파싱 대기) →
+**price** → **legal·pledge**.
+
+각 표면의 DoD: `scripts/test_http_contract.py` 통과 + `PORTING_STATUS.md` 갱신 +
+실패 응답이 `docs/failure-modes.md` 의 모양을 지킬 것.
 
 ---
 
@@ -144,23 +146,30 @@ M0 은 이 중 어느 것에도 의존하지 않기 때문에 먼저 낼 수 있
 ## 7. 명령어
 
 ```
-설치:           npm install           # Node ≥ 22
-개발 서버:       npm run dev           # tsx watch, 기본 :8100
-테스트:          npm test              # vitest run (모델 호출 없음)
-커버리지:        npm run test:coverage # 80% 게이트
-타입체크:        npm run typecheck     # tsc --noEmit
-빌드:           npm run build         # → dist/
-실행:           npm start             # node dist/src/server.js
+설치:        make install       # 임베딩까지 쓰려면 make install-ml
+설정:        cp .env.example .env
+실행:        make start         # http://127.0.0.1:8000
+계약 테스트:  python scripts/test_http_contract.py
+워커 풀:     python scripts/test_worker_pool.py
+LLM 연기:    python scripts/smoke_llm.py    # 실제 모델에 붙는다
 ```
 
-설정은 `.env.example` 참고. 값이 틀리면 기동을 거부한다(`src/config.ts`).
-린터는 아직 없다 — 타입체크가 그 자리를 대신하고 있고, 필요해지면 그때 붙인다.
+백엔드가 요구하는 것은 하나뿐이다 — **`AI_BASE_URL`(기본 `http://localhost:8000`)에서
+HTTP 로 응답할 것.** 언어도 프레임워크도 백엔드는 모른다.
 
-### 현재 상태 (M0)
+```
+cd ../g2bmaster-backend && AI_ENABLED=true AI_BASE_URL=http://localhost:8000 ./mvnw spring-boot:run
+```
 
-`GET` 3개는 실제로 답하고, `POST` 8개는 `503 NOT_IMPLEMENTED` 를 낸다.
-이것이 M0 의 정의이며, 백엔드의 200 폴백 계약을 LLM 없이 검증하기 위한 것이다.
-`test/contract/m0Surface.test.ts` 가 11개 표면 전부를 고정한다.
+### 지금 손대야 할 것
+
+`docs/decisions.md §1` 에 코드를 읽고 확인한 항목이 있다. 시급한 순서로:
+
+1. **F-4** — `501 NOT_PORTED` 가 백엔드의 `AiUnavailableException` 경로를 타는지 확인.
+   안 타면 프론트가 날것의 501 을 받고 AI 없이도 되는 화면까지 같이 죽는다.
+2. **F-1** — 실패 본문 모양이 다섯 가지다. `code`·`retryable`·`requestId` 가 빠져 있다.
+   표준형은 `docs/failure-modes.md`.
+3. **F-3** — 단일 `promptVersion` 은 `bid-summary` 가 들어오는 순간 깨진다. M2 이전에 정한다.
 
 ---
 
