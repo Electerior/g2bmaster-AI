@@ -1,0 +1,1897 @@
+name,vendor,generation,socket,lithography,cores,threads,base_clock_ghz,boost_clock_ghz,tdp_w,memory_types,max_memory_gb,memory_channels,ecc_support,has_igpu,url
+A10-7850K,AMD,Kaveri,,28nm,4,4,3.7,4.0,95,DDR3,64,2,No,Yes,https://pcspecs.io/cpus/a10-7850k
+A8-7600,AMD,Kaveri,,28nm,4,4,3.1,3.8,65,DDR3,64,2,No,Yes,https://pcspecs.io/cpus/a8-7600
+Athlon 200GE,AMD,Zen,AM4,14nm,2,4,3.2,3.2,35,DDR4,64,2,No,Yes,https://pcspecs.io/cpus/athlon-200ge
+Athlon 240GE,AMD,Zen,AM4,14nm,2,4,3.5,3.5,35,DDR4,64,2,No,Yes,https://pcspecs.io/cpus/athlon-240ge
+Athlon 3000G,AMD,Zen,AM4,14nm,2,4,3.5,3.5,35,DDR4,64,2,No,Yes,https://pcspecs.io/cpus/athlon-3000g
+Athlon X4 845,AMD,Excavator,,28nm,4,4,3.5,3.8,65,DDR3,64,2,No,No,https://pcspecs.io/cpus/athlon-x4-845
+Athlon X4 860K,AMD,Kaveri,,28nm,4,4,3.7,4.0,95,DDR3,64,2,No,No,https://pcspecs.io/cpus/athlon-x4-860k
+Athlon X4 880K,AMD,Godavari,,28nm,4,4,4.0,4.2,95,DDR3,64,2,No,No,https://pcspecs.io/cpus/athlon-x4-880k
+EPYC 4124P,AMD,EPYC Series,SP5,,4,8,3.8,5.1,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4244P,AMD,EPYC Series,SP5,,6,12,3.8,5.1,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4245P,AMD,EPYC Series,SP5,,6,12,3.9,5.4,28,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4344P,AMD,EPYC Series,SP5,,8,16,3.8,5.3,8,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4345P,AMD,EPYC Series,SP5,,8,16,3.8,5.5,28,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4364P,AMD,EPYC Series,SP5,,8,16,4.5,5.4,8,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4464P,AMD,EPYC Series,SP5,,12,24,3.7,5.4,12,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4465P,AMD,EPYC Series,SP5,,12,24,3.4,5.4,28,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4484PX,AMD,EPYC Series,SP5,,12,24,4.4,5.6,12,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4545P,AMD,EPYC Series,SP5,,16,32,3.0,5.4,28,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4564P,AMD,EPYC Series,SP5,,16,32,4.5,5.7,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4565P,AMD,EPYC Series,SP5,,16,32,4.3,5.7,28,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4584PX,AMD,EPYC Series,SP5,,16,32,4.2,5.7,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 4585PX,AMD,EPYC Series,SP5,,16,32,4.3,5.7,28,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7203(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,2.8,3.4,150,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7232P,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,3.1,3.2,120,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7251,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,2.1,2.9,120,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7252,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,3.1,3.2,120,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7261,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,2.5,2.9,170,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7262,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,3.2,3.4,155,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7272,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,12,24,2.9,3.2,120,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7281,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,2.1,2.7,170,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7282,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,2.8,3.2,120,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 72F3,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,3.7,4.1,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7301,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,2.2,2.7,170,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7302(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,3.0,3.3,155,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7303(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,2.4,3.4,150,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7313(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,3.0,3.7,180,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7343,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,3.2,3.9,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7351(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,2.4,2.9,170,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7352,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,2.3,3.2,155,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7371,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,3.1,3.8,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7373X,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,3.05,3.8,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 73F3,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,3.5,4.0,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7401(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,2.0,3.0,170,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7402(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,2.8,3.35,180,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7413,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,2.65,3.6,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7443(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,2.85,4.0,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7451,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,2.3,3.2,180,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7452,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.35,3.35,155,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7453,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,28,56,2.75,3.45,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7473X,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,2.8,3.7,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 74F3,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,3.2,4.0,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7501,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.0,3.0,170,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7502(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.5,3.35,180,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7513,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.6,3.65,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7532,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.4,3.3,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7542,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.9,3.4,225,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7543(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.8,3.7,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7551(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.0,3.0,180,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7552,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,48,96,2.2,3.3,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7571,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.2,3.0,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7573X,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.8,3.6,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 75F3,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.95,4.0,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7601,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,32,64,2.2,3.2,180,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7642,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,48,96,2.3,3.3,225,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7643(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,48,96,2.3,3.6,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7662,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,64,128,2.0,3.3,225,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7663,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,56,112,2.0,3.5,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7663P,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,56,112,2.0,3.5,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7702(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,64,128,2.0,3.35,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7713(P),AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,64,128,2.0,3.675,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7742,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,64,128,2.25,3.4,225,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7763,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,64,128,2.45,3.4,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7773X,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,64,128,2.2,3.5,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7F32,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,8,16,3.7,3.9,180,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7F52,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,16,32,3.5,3.9,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7F72,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,24,48,3.2,3.7,240,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7H12,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,64,128,2.6,3.3,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 7R13,AMD,EPYC 7002/7003 Series (Rome/Milan),SP3,,48,96,2.65,3.7,,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8024P,AMD,EPYC Series,SP5,,8,16,2.4,3.0,8,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8024PN,AMD,EPYC Series,SP5,,8,16,2.05,3.0,8,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8025P,AMD,EPYC Series,SP5,,8,16,2.9,4.5,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8124P,AMD,EPYC Series,SP5,,16,32,2.45,3.0,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8124PN,AMD,EPYC Series,SP5,,16,32,2.0,3.0,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8125P,AMD,EPYC Series,SP5,,16,32,2.65,4.5,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8224P,AMD,EPYC Series,SP5,,24,48,2.55,3.0,24,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8224PN,AMD,EPYC Series,SP5,,24,48,2.0,3.0,24,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8225P,AMD,EPYC Series,SP5,,24,48,2.95,4.5,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8324P,AMD,EPYC Series,SP5,,32,64,2.65,3.0,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8324PN,AMD,EPYC Series,SP5,,32,64,2.05,3.0,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8325P,AMD,EPYC Series,SP5,,32,64,2.7,4.5,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8434P,AMD,EPYC Series,SP5,,48,96,2.5,3.1,48,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8434PN,AMD,EPYC Series,SP5,,48,96,2.0,3.0,48,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8435P,AMD,EPYC Series,SP5,,48,96,2.45,4.5,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8534P,AMD,EPYC Series,SP5,,64,128,2.3,3.1,64,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8534PN,AMD,EPYC Series,SP5,,64,128,2.0,3.1,64,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8535P,AMD,EPYC Series,SP5,,64,128,2.0,4.5,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 8635P,AMD,EPYC Series,SP5,,84,168,1.6,4.5,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9015,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,8,16,3.6,4.1,125,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9016,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,8,16,3.05,4.8,130,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9115,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,2.6,4.1,125,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9116,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,2.85,4.5,160,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9124,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,3.0,3.7,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9135,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,3.65,4.3,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9174F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,4.1,4.4,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9175F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,4.2,5.0,320,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9176F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,3.9,5.0,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9184X,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,16,32,3.55,4.2,16,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9224,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,24,48,2.5,3.7,24,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9254,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,24,48,2.9,4.15,24,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9255,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,24,48,3.25,4.3,200,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9256,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,24,48,2.85,4.5,190,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9274F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,24,48,4.05,4.3,24,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9275F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,24,48,4.1,4.8,320,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9276F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,24,48,3.8,5.0,230,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9334,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,2.7,3.9,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9335,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.0,4.4,210,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9336,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.15,3.7,195,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9354,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.25,3.75,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9354P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.25,3.75,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9355,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.55,4.4,280,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9355P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.55,4.4,128,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9356,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.6,4.5,250,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9356P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.6,4.5,250,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9365,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,36,72,3.4,4.3,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9374F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.85,4.3,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9375F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.8,4.8,320,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9376F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.8,5.0,285,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9384X,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,32,64,3.1,3.9,32,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9454,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,2.75,3.8,48,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9454P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,2.75,3.8,48,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9455,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,3.15,4.4,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9455P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,3.15,4.4,128,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9456,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,3.2,3.7,265,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9456P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,3.2,3.7,265,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9474F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,3.6,4.1,48,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9475F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,3.65,4.8,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9476F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,48,96,3.65,5.0,330,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9526,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,2.75,3.7,220,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9534,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,2.45,3.7,64,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9535,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,2.4,4.3,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9536,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.25,4.0,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9536P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.25,4.0,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9554,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.1,3.75,64,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9554P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.1,3.75,64,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9555,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.2,4.4,360,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9555P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.2,4.4,128,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9556,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,2.75,4.3,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9565,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,72,144,3.15,4.3,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9575F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.3,5.0,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9576F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.55,5.0,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9586F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,64,128,3.75,5.0,500,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9634,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,84,168,2.25,3.7,84,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9645,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.3,3.7,320,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9646,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.8,3.7,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9646P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.8,3.7,300,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9654,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.4,3.7,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9654P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.4,3.7,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9655,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.5,4.5,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9655P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.5,4.5,128,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9656,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,3.05,3.7,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9676F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,3.1,5.0,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9684X,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,2.55,3.7,96,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9686F,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,3.4,5.0,500,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9734,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,112,224,2.2,3.0,7,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9736,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,256,2.7,3.7,360,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9736P,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,256,2.7,3.7,360,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9745,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,256,2.4,3.7,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9746,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,256,2.9,4.0,400,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9754,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,256,2.25,3.1,8,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9754S,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,128,2.25,3.1,8,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9755,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,256,2.7,4.1,500,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9756,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,128,256,3.15,4.0,500,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9825,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,144,288,2.2,3.7,390,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9845,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,160,320,2.1,3.7,390,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9846,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,168,336,2.85,3.7,500,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9965,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,192,384,2.25,3.7,500,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9966,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,192,384,2.9,4.0,600,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9996,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,256,512,2.55,4.1,600,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+EPYC 9G76,AMD,EPYC 9004/9005 Series (Genoa/Bergamo/Turin),SP5,,96,192,3.4,4.8,500,,,,,,https://en.wikipedia.org/wiki/AMD_EPYC
+FX-4300,AMD,Piledriver,AM3+,32nm,4,4,3.8,4.0,95,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-4300
+FX-6300,AMD,Piledriver,AM3+,32nm,6,6,3.5,4.1,95,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-6300
+FX-6350,AMD,Piledriver,AM3+,32nm,6,6,3.9,4.2,125,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-6350
+FX-8300,AMD,Piledriver,AM3+,32nm,8,8,3.3,4.2,95,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-8300
+FX-8320,AMD,Piledriver,AM3+,32nm,8,8,3.5,4.0,125,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-8320
+FX-8320E,AMD,Piledriver,AM3+,32nm,8,8,3.2,4.0,95,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-8320e
+FX-8350,AMD,Piledriver,AM3+,32nm,8,8,4.0,4.2,125,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-8350
+FX-8370,AMD,Piledriver,AM3+,32nm,8,8,4.0,4.3,125,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-8370
+FX-9590,AMD,Piledriver,AM3+,32nm,8,8,4.7,5.0,220,DDR3,32,2,No,No,https://pcspecs.io/cpus/fx-9590
+PS4 CPU,AMD,Jaguar (2013),Custom BGA,28nm,8,8,1.6,,,GDDR5,,,No,Yes,https://pcspecs.io/cpus/ps4-cpu
+PS4 Pro CPU,AMD,Jaguar (2016),Custom BGA,16nm,8,8,2.1,,310,GDDR5,,,No,Yes,https://pcspecs.io/cpus/ps4-pro-cpu
+PS5 CPU,AMD,Zen 2 (2020),Custom BGA,7nm,8,16,3.2,3.5,,GDDR6,,,No,Yes,https://pcspecs.io/cpus/ps5-cpu
+PS5 Pro CPU,AMD,Zen 2 (2024),Custom BGA,4nm,8,16,3.5,3.9,,GDDR6,,,No,Yes,https://pcspecs.io/cpus/ps5-pro-cpu
+PS6 CPU,AMD,Zen 6,Custom BGA,3nm,10,16,4.0,4.0,,GDDR7,,,No,No,https://pcspecs.io/cpus/ps6-cpu
+Ryzen 3 1200,AMD,Zen,AM4,14nm,4,4,3.1,3.4,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-3-1200
+Ryzen 3 1200 AF,AMD,Zen+,AM4,12nm,4,4,3.1,3.4,65,DDR4,64,2,No,No,https://pcspecs.io/cpus/ryzen-3-1200-af
+Ryzen 3 1300X,AMD,Zen,AM4,14nm,4,4,3.5,3.7,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-3-1300x
+Ryzen 3 2200G,AMD,Zen+,AM4,14nm,4,4,3.5,3.7,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/ryzen-3-2200g
+Ryzen 3 3100,AMD,Zen 2,AM4,7nm,4,8,3.6,3.9,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-3-3100
+Ryzen 3 3200G,AMD,Zen+,AM4,12nm,4,4,3.6,4.0,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/ryzen-3-3200g
+Ryzen 3 3300X,AMD,Zen 2,AM4,7nm,4,8,3.8,4.3,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-3-3300x
+Ryzen 3 4100,AMD,Zen 2,AM4,7nm,4,8,3.8,4.0,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-3-4100
+Ryzen 3 5305G,AMD,Ryzen 5000 Series,AM4,7nm,4,8,4.0,4.2,65,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-3-5305g
+Ryzen 3 5305GE,AMD,Ryzen 5000 Series,AM4,7nm,4,8,3.6,4.2,35,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-3-5305ge
+Ryzen 3 7320U,AMD,Mendocino (Zen 2),FP6,6nm,4,8,2.4,4.1,15,N/A,32,2,No,Yes,https://pcspecs.io/cpus/ryzen-3-7320u
+Ryzen 3 8300G,AMD,Ryzen 8000 Series,AM5,4nm,4,8,3.4,4.9,65,DDR5-5200,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-3-8300g
+Ryzen 5 1400,AMD,Zen,AM4,14nm,4,8,3.2,3.4,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-1400
+Ryzen 5 1500X,AMD,Zen,AM4,14nm,4,8,3.5,3.7,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-1500x
+Ryzen 5 1600,AMD,Zen,AM4,14nm,6,12,3.2,3.6,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-1600
+Ryzen 5 1600 AF,AMD,Zen+,AM4,12nm,6,12,3.2,3.6,65,DDR4,64,2,No,No,https://pcspecs.io/cpus/ryzen-5-1600-af
+Ryzen 5 1600X,AMD,Zen,AM4,14nm,6,12,3.6,4.0,95,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-1600x
+Ryzen 5 240,AMD,200 Series,FP8,4nm,6,12,4.3,5.0,45,"DDR5-5600, LPDDR5X-7500",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-240
+Ryzen 5 2400G,AMD,Zen+,AM4,14nm,4,8,3.6,3.9,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/ryzen-5-2400g
+Ryzen 5 2600,AMD,Zen+,AM4,12nm,6,12,3.4,3.9,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-2600
+Ryzen 5 2600X,AMD,Zen+,AM4,12nm,6,12,3.6,4.2,95,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-2600x
+Ryzen 5 3400G,AMD,Zen+,AM4,12nm,4,8,3.7,4.2,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/ryzen-5-3400g
+Ryzen 5 3500,AMD,Zen 2,AM4,7nm,6,6,3.6,4.1,65,DDR4,128,2,No,No,https://pcspecs.io/cpus/ryzen-5-3500
+Ryzen 5 3500X,AMD,Zen 2,AM4,7nm,6,6,3.6,4.1,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-3500x
+Ryzen 5 3600,AMD,Zen 2,AM4,7nm,6,12,3.6,4.2,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-3600
+Ryzen 5 3600X,AMD,Zen 2,AM4,7nm,6,12,3.8,4.4,95,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-3600x
+Ryzen 5 3600XT,AMD,Zen 2,AM4,7nm,6,12,3.8,4.5,95,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-5-3600xt
+Ryzen 5 4500,AMD,Zen 2,AM4,7nm,6,12,3.6,4.1,65,DDR4,128,2,No,No,https://pcspecs.io/cpus/ryzen-5-4500
+Ryzen 5 4500U,AMD,Renoir (Zen 2),FP6,7nm,6,6,2.3,4.0,15,"DDR4-3200, LPDDR4-4266",32,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-4500u
+Ryzen 5 4600G,AMD,Ryzen 4000 Series,AM4,7nm,6,12,3.7,4.2,65,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-4600g
+Ryzen 5 5500,AMD,Zen 3 (Cezanne),AM4,7nm,6,12,3.6,4.2,65,DDR4,64,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5500
+Ryzen 5 5500GT,AMD,Ryzen 5000 Series,AM4,7nm,6,12,3.6,4.4,65,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-5500gt
+Ryzen 5 5500U,AMD,Lucienne (Zen 2),FP6,7nm,6,12,2.1,4.0,15,"DDR4-3200, LPDDR4-4266",64,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-5500u
+Ryzen 5 5500X3D,AMD,Zen 3,AM4,7nm,6,12,3.0,4.0,65,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5500x3d
+Ryzen 5 5600,AMD,Zen 3 (Vermeer),AM4,7nm,6,12,3.5,4.4,65,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5600
+Ryzen 5 5600F,AMD,Zen 3 (Vermeer),AM4,7nm,6,12,3.5,4.4,65,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5600f
+Ryzen 5 5600G,AMD,Zen 3 (Cezanne),AM4,7nm,6,12,3.9,4.4,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-5600g
+Ryzen 5 5600GE,AMD,Zen 3 (Cezanne),AM4,7nm,6,12,3.4,4.4,35,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-5600ge
+Ryzen 5 5600GT,AMD,Zen 3 (Cezanne),AM4,7nm,6,12,3.6,4.6,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-5600gt
+Ryzen 5 5600H,AMD,Zen 3 (Cezanne),FP6,7nm,6,12,3.3,4.2,45,"DDR4, LPDDR4X",64,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-5600h
+Ryzen 5 5600T,AMD,Ryzen 5000 Series,AM4,7nm,6,12,3.5,4.5,65,DDR4-3200,64,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5600t
+Ryzen 5 5600U,AMD,Zen 3 (Cezanne),FP6,7nm,6,12,2.3,4.2,15,"DDR4, LPDDR4X",64,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-5600u
+Ryzen 5 5600X,AMD,Zen 3 (Vermeer),AM4,7nm,6,12,3.7,4.6,65,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5600x
+Ryzen 5 5600X3D,AMD,Zen 3 (Vermeer),AM4,7nm,6,12,3.3,4.4,105,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5600x3d
+Ryzen 5 5600XT,AMD,Zen 3 (Vermeer),AM4,7nm,6,12,3.8,4.7,65,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-5600xt
+Ryzen 5 5605G,AMD,Ryzen 5000 Series,AM4,7nm,6,12,3.9,4.4,65,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-5605g
+Ryzen 5 5605GE,AMD,Ryzen 5000 Series,AM4,7nm,6,12,3.4,4.4,35,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-5605ge
+Ryzen 5 5700U,AMD,Zen 3 (Cezanne),FP6,7nm,8,16,1.8,4.3,15,"DDR4, LPDDR4X",64,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-5700u
+Ryzen 5 7400,AMD,Ryzen 7000 Series,AM5,5nm,6,12,3.3,4.3,65,DDR5-5200,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-7400
+Ryzen 5 7400F,AMD,Ryzen 7000 Series,AM5,5nm,6,12,3.7,4.7,65,DDR5-5200,192,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-7400f
+Ryzen 5 7500F,AMD,Zen 4 (Raphael),AM5,5nm,6,12,3.7,5.0,65,DDR5,128,2,No,No,https://pcspecs.io/cpus/ryzen-5-7500f
+Ryzen 5 7500X3D,AMD,Ryzen 7000 Series,AM5,5nm,6,12,4.0,4.5,65,DDR5-5200,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-7500x3d
+Ryzen 5 7600,AMD,Zen 4 (Raphael),AM5,5nm,6,12,3.8,5.1,65,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-7600
+Ryzen 5 7600X,AMD,Zen 4 (Raphael),AM5,5nm,6,12,4.7,5.3,105,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-7600x
+Ryzen 5 7600X3D,AMD,Zen 4,AM5,5nm,6,12,4.1,5.3,120,DDR5,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-7600x3d
+Ryzen 5 7645HX,AMD,Zen 4 (Dragon Range-HX),,5nm,6,12,4.0,5.0,45,DDR5,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-7645hx
+Ryzen 5 8400F,AMD,Ryzen 8000 Series,AM5,4nm,6,12,4.2,4.7,65,DDR5-5200,192,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-8400f
+Ryzen 5 8500G,AMD,Ryzen 8000 Series,AM5,4nm,6,12,4.1,5.0,65,DDR5-5200,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-8500g
+Ryzen 5 8600G,AMD,Zen 4 (Hawk Point),AM5,4nm,6,12,4.3,5.0,65,DDR5,256,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-8600g
+Ryzen 5 9500F,AMD,Ryzen 9000 Series,AM5,4nm,6,12,3.8,5.0,65,DDR5-5600,192,2,Yes,No,https://pcspecs.io/cpus/ryzen-5-9500f
+Ryzen 5 9600,AMD,Zen 5 (9000 Series),AM5,4nm,6,12,3.8,5.2,65,DDR5,192,2,No,Yes,https://pcspecs.io/cpus/ryzen-5-9600
+Ryzen 5 9600X,AMD,Zen 5 (Granite Ridge),AM5,4nm,6,12,3.9,5.4,65,DDR5,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-9600x
+Ryzen 5 PRO 7645,AMD,Zen 4 (Raphael),AM5,5nm,6,12,3.8,5.1,65,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-5-pro-7645
+Ryzen 7 1700,AMD,Zen,AM4,14nm,8,16,3.0,3.7,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-1700
+Ryzen 7 1700X,AMD,Zen,AM4,14nm,8,16,3.4,3.8,95,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-1700x
+Ryzen 7 1800X,AMD,Zen,AM4,14nm,8,16,3.6,4.0,95,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-1800x
+Ryzen 7 260,AMD,200 Series,FP8,4nm,8,16,3.8,5.1,45,"DDR5-5600, LPDDR5X-7500",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-7-260
+Ryzen 7 2700,AMD,Zen+,AM4,12nm,8,16,3.2,4.1,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-2700
+Ryzen 7 2700X,AMD,Zen+,AM4,12nm,8,16,3.7,4.3,105,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-2700x
+Ryzen 7 3700X,AMD,Zen 2,AM4,7nm,8,16,3.6,4.4,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-3700x
+Ryzen 7 3800X,AMD,Zen 2,AM4,7nm,8,16,3.9,4.5,105,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-3800x
+Ryzen 7 3800XT,AMD,Zen 2,AM4,7nm,8,16,3.9,4.7,105,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-3800xt
+Ryzen 7 4700G,AMD,Zen 2,AM4,7nm,8,16,3.6,4.4,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-7-4700g
+Ryzen 7 5700,AMD,Zen 3,AM4,7nm,8,16,3.7,4.6,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-7-5700
+Ryzen 7 5700G,AMD,Zen 3 (Cezanne),AM4,7nm,8,16,3.8,4.6,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-7-5700g
+Ryzen 7 5700X,AMD,Zen 3 (Vermeer),AM4,7nm,8,16,3.4,4.6,65,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-7-5700x
+Ryzen 7 5700X3D,AMD,Zen 3 (Vermeer),AM4,7nm,8,16,3.0,4.1,105,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-7-5700x3d
+Ryzen 7 5705G,AMD,Ryzen 5000 Series,AM4,7nm,8,16,3.8,4.6,65,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-5705g
+Ryzen 7 5705GE,AMD,Ryzen 5000 Series,AM4,7nm,8,16,3.2,4.6,35,DDR4-3200,64,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-5705ge
+Ryzen 7 5800X,AMD,Zen 3 (Vermeer),AM4,7nm,8,16,3.8,4.7,105,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-7-5800x
+Ryzen 7 5800X3D,AMD,Zen 3 (Vermeer),AM4,7nm,8,16,3.4,4.5,105,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-7-5800x3d
+Ryzen 7 5800XT,AMD,Ryzen 5000 Series,AM4,7nm,8,16,3.8,4.8,105,DDR4-3200,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-7-5800xt
+Ryzen 7 7700,AMD,Zen 4 (Raphael),AM5,5nm,8,16,3.8,5.3,65,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-7700
+Ryzen 7 7700X,AMD,Zen 4 (Raphael),AM5,5nm,8,16,4.5,5.4,105,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-7700x
+Ryzen 7 7730U,AMD,Barcelo-R (Zen 3+),FP6,7nm,8,16,2.0,4.5,15,"DDR4-3200, LPDDR4x-4266",32,2,No,Yes,https://pcspecs.io/cpus/ryzen-7-7730u
+Ryzen 7 7745HX,AMD,Zen 4 (Dragon Range-HX),,5nm,8,16,3.6,5.1,55,DDR5,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-7-7745hx
+Ryzen 7 7800X3D,AMD,Zen 4 (Raphael),AM5,5nm,8,16,4.2,5.0,120,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-7800x3d
+Ryzen 7 8700F,AMD,Zen 4 (Phoenix),AM5,4nm,8,16,4.1,5.0,65,DDR5,128,2,No,No,https://pcspecs.io/cpus/ryzen-7-8700f
+Ryzen 7 8700G,AMD,Zen 4 (Hawk Point),AM5,4nm,8,16,4.2,5.1,65,DDR5,256,2,No,Yes,https://pcspecs.io/cpus/ryzen-7-8700g
+Ryzen 7 8845HS,AMD,Hawk Point (Zen 4),FP7/FP7r2,4nm,8,16,3.8,5.1,35,"DDR5-5600, LPDDR5x-7500",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-7-8845hs
+Ryzen 7 9700F,AMD,Ryzen 9000 Series,AM5,4nm,8,16,3.8,5.5,65,DDR5-5600,192,2,Yes,No,https://pcspecs.io/cpus/ryzen-7-9700f
+Ryzen 7 9700X,AMD,Zen 5 (Granite Ridge),AM5,4nm,8,16,3.8,5.5,65,DDR5,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-9700x
+Ryzen 7 9800X3D,AMD,Zen 5 (Granite Ridge),AM5,4nm,8,16,4.7,5.2,120,DDR5,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-9800x3d
+Ryzen 7 9850X3D,AMD,Ryzen 9000 Series,AM5,4nm,8,16,4.7,5.6,120,DDR5-5600,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-9850x3d
+Ryzen 7 PRO 7745,AMD,Zen 4 (Raphael),AM5,5nm,8,16,3.8,5.3,65,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-7-pro-7745
+Ryzen 9 270,AMD,200 Series,FP8,4nm,8,16,4.0,5.2,45,"DDR5-5600, LPDDR5X-7500",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-270
+Ryzen 9 3900X,AMD,Zen 2,AM4,7nm,12,24,3.8,4.6,105,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-9-3900x
+Ryzen 9 3900XT,AMD,Zen 2,AM4,7nm,12,24,3.8,4.7,105,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-9-3900xt
+Ryzen 9 3950X,AMD,Zen 2,AM4,7nm,16,32,3.5,4.7,105,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-9-3950x
+Ryzen 9 5900,AMD,Zen 3,AM4,7nm,12,24,3.0,4.7,65,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-9-5900
+Ryzen 9 5900H,AMD,Zen 3 (Cezanne),FP6,7nm,8,16,3.3,4.6,45,"DDR4, LPDDR4X",64,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-5900h
+Ryzen 9 5900HS,AMD,Zen 3 (Cezanne),FP6,7nm,8,16,3.0,4.6,35,"DDR4, LPDDR4X",64,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-5900hs
+Ryzen 9 5900HX,AMD,Zen 3 (Cezanne),FP6,7nm,8,16,3.3,4.6,45,"DDR4, LPDDR4X",64,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-5900hx
+Ryzen 9 5900X,AMD,Zen 3 (Vermeer),AM4,7nm,12,24,3.7,4.8,105,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-9-5900x
+Ryzen 9 5900XT,AMD,Zen 3 (Vermeer),AM4,7nm,16,32,3.3,4.8,105,DDR4,128,2,Yes,No,https://pcspecs.io/cpus/ryzen-9-5900xt
+Ryzen 9 5950X,AMD,Zen 3,AM4,7nm,16,32,3.4,4.9,105,DDR4,,,No,No,https://pcspecs.io/cpus/ryzen-9-5950x
+Ryzen 9 6900HS,AMD,Zen 3+ (Rembrandt),FP7,6nm,8,16,3.3,4.9,35,"DDR5, LPDDR5",64,4,No,Yes,https://pcspecs.io/cpus/ryzen-9-6900hs
+Ryzen 9 6900HX,AMD,Zen 3+ (Rembrandt),FP7,6nm,8,16,3.3,4.9,45,"DDR5, LPDDR5",64,4,No,Yes,https://pcspecs.io/cpus/ryzen-9-6900hx
+Ryzen 9 7845HX,AMD,Zen 4 (Dragon Range-HX),,5nm,12,24,3.0,5.2,55,DDR5,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-7845hx
+Ryzen 9 7900,AMD,Zen 4 (Raphael),AM5,5nm,12,24,3.7,5.4,65,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-7900
+Ryzen 9 7900X,AMD,Zen 4 (Raphael),AM5,5nm,12,24,4.7,5.4,170,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-7900x
+Ryzen 9 7900X3D,AMD,Zen 4 (Raphael),AM5,5nm,12,24,4.4,5.6,120,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-7900x3d
+Ryzen 9 7945HX,AMD,Zen 4 (Dragon Range-HX),,5nm,16,32,2.5,5.4,55,DDR5,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-7945hx
+Ryzen 9 7945HX3D,AMD,Zen 4 (Dragon Range-HX),,5nm,16,32,2.3,5.4,55,DDR5,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-7945hx3d
+Ryzen 9 7950X,AMD,Zen 4 (Raphael),AM5,5nm,16,32,4.5,5.7,170,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-7950x
+Ryzen 9 7950X3D,AMD,Zen 4 (Raphael),AM5,5nm,16,32,4.2,5.7,120,DDR5,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-7950x3d
+Ryzen 9 9900X,AMD,Zen 5 (Granite Ridge),AM5,4nm,12,24,4.4,5.6,120,DDR5,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-9900x
+Ryzen 9 9900X3D,AMD,Zen 5 (9000 Series),AM5,4nm,12,24,4.4,5.5,120,DDR5,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-9900x3d
+Ryzen 9 9950X,AMD,Zen 5 (Granite Ridge),AM5,4nm,16,32,4.3,5.7,170,DDR5,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-9950x
+Ryzen 9 9950X3D,AMD,Zen 5 (9000 Series),AM5,4nm,16,32,4.3,5.7,170,DDR5,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-9950x3d
+Ryzen 9 9950X3D2,AMD,Ryzen 9000 Series,AM5,4nm,16,32,4.3,5.6,200,DDR5-5600,192,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-9-9950x3d2
+Ryzen 9 9955HX3D,AMD,Zen 5,FP8,4nm,16,32,2.0,5.4,55,"DDR5, LPDDR5x",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-9955hx3d
+Ryzen 9 PRO 7945,AMD,Zen 4 (Raphael PRO),AM5,5nm,12,24,3.7,5.4,65,DDR5,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-9-pro-7945
+Ryzen AI 5 330,AMD,Ryzen AI 300 Series,FP8,4nm,4,8,2.0,4.5,28,"LPDDR5X-8000, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-5-330
+Ryzen AI 5 340,AMD,Ryzen AI 300 Series,FP8,4nm,6,12,2.0,4.8,28,"LPDDR5X-8000, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-5-340
+Ryzen AI 5 430,AMD,Ryzen AI 400 Series,FP8,4nm,4,8,2.0,4.5,28,"LPDDR5X-8533, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-5-430
+Ryzen AI 5 435,AMD,Ryzen AI 400 Series,FP8,4nm,6,12,2.0,4.5,28,"LPDDR5X-8533, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-5-435
+Ryzen AI 5 PRO 340,AMD,Ryzen AI PRO 300 Series,FP8,4nm,6,12,2.0,4.8,28,"LPDDR5X-8000, DDR5-5600",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-5-pro-340
+Ryzen AI 5 PRO 435,AMD,Ryzen AI PRO 400 Series,FP8,4nm,6,12,2.0,4.5,28,"LPDDR5X-8533, DDR5-5600",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-5-pro-435
+Ryzen AI 5 PRO 440,AMD,Ryzen AI PRO 400 Series,FP8,4nm,6,12,2.0,4.8,28,"LPDDR5X-8533, DDR5-5600",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-5-pro-440
+Ryzen AI 7 350,AMD,Zen 5 (Krackan Point),FP8,4nm,8,16,2.0,5.0,28,"LPDDR5X, DDR5",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-7-350
+Ryzen AI 7 445,AMD,Ryzen AI 400 Series,FP8,4nm,6,12,2.0,4.6,28,"LPDDR5X-8533, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-7-445
+Ryzen AI 7 450,AMD,Ryzen AI 400 Series,FP8,4nm,8,16,2.0,5.1,28,"LPDDR5X-8533, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-7-450
+Ryzen AI 7 PRO 350,AMD,Ryzen AI PRO 300 Series,FP8,4nm,8,16,2.0,5.0,28,"LPDDR5X-7500, DDR5-5600, LPDDR5X-6400",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-7-pro-350
+Ryzen AI 7 PRO 360,AMD,Ryzen AI PRO 300 Series,FP8,4nm,8,16,2.0,5.0,28,"LPDDR5X-7500, DDR5-5600, LPDDR5X-6400",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-7-pro-360
+Ryzen AI 7 PRO 450,AMD,Ryzen AI PRO 400 Series,FP8,4nm,8,16,2.0,5.1,28,"LPDDR5X-8533, DDR5-5600",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-7-pro-450
+Ryzen AI 9 365,AMD,Zen 5 (Strix Point),FP8,4nm,10,20,2.0,5.0,28,"LPDDR5X, DDR5",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-9-365
+Ryzen AI 9 465,AMD,Ryzen AI 400 Series,FP8,4nm,10,20,2.0,5.0,28,"LPDDR5X-8533, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-9-465
+Ryzen AI 9 HX 370,AMD,Zen 5 (Strix Point),FP8,4nm,12,24,2.0,5.1,28,"LPDDR5X, DDR5",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-9-hx-370
+Ryzen AI 9 HX 375,AMD,Zen 5 (Strix Point),FP8,4nm,12,24,2.0,5.1,28,"LPDDR5X, DDR5",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-9-hx-375
+Ryzen AI 9 HX 470,AMD,Ryzen AI 400 Series,FP8,4nm,12,24,2.0,5.2,28,"LPDDR5X-8533, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-9-hx-470
+Ryzen AI 9 HX 475,AMD,Ryzen AI 400 Series,FP8,4nm,12,24,2.0,5.2,28,"LPDDR5X-8533, DDR5-5600",256,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-9-hx-475
+Ryzen AI 9 HX PRO 470,AMD,Ryzen AI PRO 400 Series,FP8,4nm,12,24,2.0,5.2,28,"LPDDR5X-8533, DDR5-5600",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-9-hx-pro-470
+Ryzen AI 9 HX PRO 475,AMD,Ryzen AI PRO 400 Series,FP8,4nm,12,24,2.0,5.2,28,"LPDDR5X-8533, DDR5-5600",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-9-hx-pro-475
+Ryzen AI 9 PRO 465,AMD,Ryzen AI PRO 400 Series,FP8,4nm,10,20,2.0,5.0,28,"LPDDR5X-8533, DDR5-5600",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-9-pro-465
+Ryzen AI 9 PRO HX 370,AMD,Ryzen AI PRO 300 Series,FP8,4nm,12,24,2.0,5.1,28,"LPDDR5X-8000, DDR5-5600, LPDDR5X-7500",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-9-pro-hx-370
+Ryzen AI 9 PRO HX 375,AMD,Ryzen AI PRO 300 Series,FP8,4nm,12,24,2.0,5.1,28,"LPDDR5X-8000, DDR5-5600, LPDDR5X-7500",256,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-9-pro-hx-375
+Ryzen AI MAX 385,AMD,Ryzen AI 300 Series,FP11,4nm,8,16,3.6,5.0,55,LPDDR5X-8000,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-max-385
+Ryzen AI Max 390,AMD,Zen 5 (Strix Halo),FP11,4nm,12,24,3.2,5.0,55,LPDDR5X,128,8,No,Yes,https://pcspecs.io/cpus/ryzen-ai-max-390
+Ryzen AI MAX 392,AMD,Ryzen AI 300 Series,FP11,4nm,12,24,3.0,5.0,55,LPDDR5X-8000,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-max-392
+Ryzen Ai Max 395,AMD,,,,,,,,,,,,,,https://pcspecs.io/cpus/ryzen-ai-max-395
+Ryzen AI MAX PRO 380,AMD,Ryzen AI PRO 300 Series,FP11,4nm,6,12,3.0,5.0,55,LPDDR5X-8000,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-max-pro-380
+Ryzen AI MAX PRO 385,AMD,Ryzen AI PRO 300 Series,FP11,4nm,8,16,3.6,5.0,55,LPDDR5X-8000,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-max-pro-385
+Ryzen AI MAX+ 388,AMD,Ryzen AI 300 Series,FP11,4nm,8,16,3.1,5.0,55,LPDDR5X-8000,128,2,No,Yes,https://pcspecs.io/cpus/ryzen-ai-max-plus-388
+Ryzen AI MAX+ PRO 395,AMD,Ryzen AI PRO 300 Series,FP11,4nm,16,32,3.0,5.1,55,LPDDR5X-8000,128,2,Yes,Yes,https://pcspecs.io/cpus/ryzen-ai-max-plus-pro-395
+Ryzen Threadripper 1900X,AMD,Threadripper,sTRX4,,8,16,3.8,4.0,180,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 1920X,AMD,Threadripper,sTRX4,,12,24,3.5,4.0,180,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 1950X,AMD,Threadripper,sTRX4,,16,32,3.4,4.0,180,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 2920X,AMD,Threadripper,sTRX4,,12,24,3.5,4.3,180,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 2950X,AMD,Threadripper,sTRX4,,16,32,3.5,4.4,180,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 2970WX,AMD,Threadripper,sWRX8,,24,48,3.0,4.2,250,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 2990WX,AMD,Threadripper,sWRX8,,32,64,3.0,4.2,250,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 3945WX,AMD,Threadripper,sWRX8,,12,24,4.0,4.3,,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 3955WX,AMD,Threadripper,sWRX8,,16,32,3.9,4.3,,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 3960X,AMD,Threadripper,sTRX4,,24,48,3.8,4.5,,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 3970X,AMD,Threadripper,sTRX4,,32,64,3.7,4.5,,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 3975WX,AMD,Threadripper,sWRX8,,32,64,3.5,4.2,,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 3990X,AMD,Threadripper,sTRX4,,64,128,2.9,4.3,,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 3995WX,AMD,Threadripper,sWRX8,,64,128,2.7,4.2,,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 5945WX,AMD,Threadripper,sWRX8,,12,24,4.1,4.5,280,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 5955WX,AMD,Threadripper,sWRX8,,16,32,4.0,4.5,280,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 5965WX,AMD,Threadripper,sWRX8,,24,48,3.8,4.5,280,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 5975WX,AMD,Threadripper,sWRX8,,32,64,3.6,4.5,280,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 5995WX,AMD,Threadripper,sWRX8,,64,128,2.7,4.5,280,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7945WX,AMD,Threadripper,sWRX8,,12,24,4.7,5.3,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7955WX,AMD,Threadripper,sWRX8,,16,32,4.5,5.3,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7960X,AMD,Threadripper,sTRX4,,24,48,4.2,5.3,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7965WX,AMD,Threadripper,sWRX8,,24,48,4.2,5.3,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7970X,AMD,Threadripper,sTRX4,,32,64,4.0,5.3,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7975WX,AMD,Threadripper,sWRX8,,32,64,4.0,5.3,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7980X,AMD,Threadripper,sTRX4,,64,128,3.2,5.1,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7985WX,AMD,Threadripper,sWRX8,,64,128,3.2,5.1,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 7995WX,AMD,Threadripper,sWRX8,,96,192,2.5,5.1,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9945WX,AMD,Threadripper,sWRX8,,12,24,4.7,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9955WX,AMD,Threadripper,sWRX8,,16,32,4.5,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9960X,AMD,Threadripper,sTRX4,,24,48,4.2,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9965WX,AMD,Threadripper,sWRX8,,24,48,4.2,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9970X,AMD,Threadripper,sTRX4,,32,64,4.0,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9975WX,AMD,Threadripper,sWRX8,,32,64,4.0,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9980X,AMD,Threadripper,sTRX4,,64,128,3.2,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9985WX,AMD,Threadripper,sWRX8,,64,128,3.2,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Ryzen Threadripper 9995WX,AMD,Threadripper,sWRX8,,96,192,2.5,5.4,350,,,,,,https://en.wikipedia.org/wiki/List_of_AMD_Ryzen_processors
+Steam Machine CPU,AMD,Zen 4 (2026),Custom BGA,,6,12,4.8,4.8,30,DDR5,,,No,No,https://pcspecs.io/cpus/steam-machine-cpu
+Xbox One CPU,AMD,Jaguar (2013),Custom BGA,28nm,8,8,1.8,,,DDR3,,,No,Yes,https://pcspecs.io/cpus/xbox-one-cpu
+Xbox One X CPU,AMD,Jaguar (2017),Custom BGA,16nm,8,8,2.3,,,GDDR5,,,No,Yes,https://pcspecs.io/cpus/xbox-one-x-cpu
+Xbox Project Helix CPU,AMD,Zen 6,Custom BGA,3nm,11,22,3.5,3.5,,GDDR7,,,No,No,https://pcspecs.io/cpus/xbox-project-helix-cpu
+Xbox Series S CPU,AMD,Zen 2 (2020),Custom BGA,7nm,8,16,3.4,3.6,,GDDR6,,,No,Yes,https://pcspecs.io/cpus/xbox-series-s-cpu
+Xbox Series X CPU,AMD,Zen 2 (2020),Custom BGA,7nm,8,16,3.6,3.8,,GDDR6,,,No,Yes,https://pcspecs.io/cpus/xbox-series-x-cpu
+Celeron G1840,Intel,4th Gen,LGA1150,22nm,2,2,2.8,2.8,53,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/celeron-g1840
+Celeron G4900,Intel,8th Gen,LGA1151,14nm,2,2,3.1,3.1,54,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/celeron-g4900
+Core i3-10100,Intel,10th Gen (Comet Lake),LGA1200,14nm,4,8,3.6,4.3,65,DDR4-2666,128,2,No,Yes,https://pcspecs.io/cpus/core-i3-10100
+Core i3-10100F,Intel,10th Gen,LGA1200,14nm,4,8,3.6,4.3,65,DDR4,128,2,No,No,https://pcspecs.io/cpus/core-i3-10100f
+Core i3-10105F,Intel,10th Gen,LGA1200,14nm,4,8,3.7,4.4,65,DDR4,128,2,No,No,https://pcspecs.io/cpus/core-i3-10105f
+Core i3-12100,Intel,12th Gen (Alder Lake),LGA1700,10nm,4,8,3.3,4.3,60,"DDR5, DDR4",128,2,No,Yes,https://pcspecs.io/cpus/core-i3-12100
+Core i3-12100F,Intel,12th Gen (Alder Lake),LGA1700,10nm,4,8,3.3,4.3,60,"DDR5, DDR4",128,2,No,No,https://pcspecs.io/cpus/core-i3-12100f
+Core i3-12300,Intel,12th Gen,LGA1700,10nm,4,8,3.5,4.4,60,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i3-12300
+Core i3-13100F,Intel,13th Gen,LGA1700,10nm,4,8,3.4,4.5,58,DDR4/DDR5,128,2,No,No,https://pcspecs.io/cpus/core-i3-13100f
+Core i3-14100F,Intel,14th Gen,LGA1700,10nm,4,8,3.5,4.7,58,DDR4/DDR5,192,2,No,No,https://pcspecs.io/cpus/core-i3-14100f
+Core i3-4130,Intel,4th Gen,LGA1150,22nm,2,4,3.4,3.4,54,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i3-4130
+Core i3-4150,Intel,4th Gen,LGA1150,22nm,2,4,3.5,3.5,54,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i3-4150
+Core i3-4160,Intel,4th Gen,LGA1150,22nm,2,4,3.6,3.6,54,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i3-4160
+Core i3-4170,Intel,4th Gen,LGA1150,22nm,2,4,3.7,3.7,54,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i3-4170
+Core i3-4340,Intel,4th Gen,LGA1150,22nm,2,4,3.6,3.6,54,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i3-4340
+Core i3-6100,Intel,6th Gen,LGA1151,14nm,2,4,3.7,3.7,51,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i3-6100
+Core i3-6300,Intel,6th Gen,LGA1151,14nm,2,4,3.8,3.8,51,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i3-6300
+Core i3-6320,Intel,6th Gen,LGA1151,14nm,2,4,3.9,3.9,51,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i3-6320
+Core i3-7100,Intel,7th Gen,LGA1151,14nm,2,4,3.9,3.9,51,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i3-7100
+Core i3-7350K,Intel,7th Gen,LGA1151,14nm,2,4,4.2,4.2,60,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i3-7350k
+Core i3-8100,Intel,8th Gen,LGA1151,14nm,4,4,3.6,3.6,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i3-8100
+Core i3-8350K,Intel,8th Gen,LGA1151,14nm,4,4,4.0,4.0,91,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i3-8350k
+Core i3-9100F,Intel,9th Gen,LGA1151,14nm,4,4,3.6,4.2,65,DDR4,128,2,No,No,https://pcspecs.io/cpus/core-i3-9100f
+Core i5-1035G1,Intel,10th Gen (Ice Lake),FCBGA1526,10nm,4,8,1.0,3.6,15,"DDR4-3200, LPDDR4-3733",64,2,No,Yes,https://pcspecs.io/cpus/core-i5-1035g1
+Core i5-10400,Intel,10th Gen,LGA1200,14nm,6,12,2.9,4.3,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-10400
+Core i5-10400F,Intel,10th Gen,LGA1200,14nm,6,12,2.9,4.3,65,DDR4,,,No,No,https://pcspecs.io/cpus/core-i5-10400f
+Core i5-10500,Intel,10th Gen,LGA1200,14nm,6,12,3.1,4.5,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-10500
+Core i5-10600,Intel,10th Gen,LGA1200,14nm,6,12,3.3,4.8,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-10600
+Core i5-10600K,Intel,10th Gen,LGA1200,14nm,6,12,4.1,4.8,125,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-10600k
+Core i5-10600KF,Intel,10th Gen,LGA1200,14nm,6,12,4.1,4.8,125,DDR4,,,No,No,https://pcspecs.io/cpus/core-i5-10600kf
+Core i5-1135G7,Intel,11th Gen (Tiger Lake),FCBGA1449,10nm,4,8,2.4,4.2,28,"DDR4-3200, LPDDR4x-4267",64,2,No,Yes,https://pcspecs.io/cpus/core-i5-1135g7
+Core i5-11400,Intel,11th Gen,LGA1200,14nm,6,12,2.6,4.4,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-11400
+Core i5-11400F,Intel,11th Gen,LGA1200,14nm,6,12,2.6,4.4,65,DDR4,,,No,No,https://pcspecs.io/cpus/core-i5-11400f
+Core i5-11500,Intel,11th Gen,LGA1200,14nm,6,12,2.7,4.6,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-11500
+Core i5-11600,Intel,11th Gen,LGA1200,14nm,6,12,2.8,4.8,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-11600
+Core i5-11600K,Intel,11th Gen,LGA1200,14nm,6,12,3.9,4.9,125,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-11600k
+Core i5-11600KF,Intel,11th Gen,LGA1200,14nm,6,12,3.9,4.9,125,DDR4,,,No,No,https://pcspecs.io/cpus/core-i5-11600kf
+Core i5-12400,Intel,12th Gen (Alder Lake),LGA1700,10nm,6,12,2.5,4.4,65,"DDR5, DDR4",128,2,No,Yes,https://pcspecs.io/cpus/core-i5-12400
+Core i5-12400F,Intel,12th Gen (Alder Lake),LGA1700,10nm,6,12,2.5,4.4,65,"DDR5, DDR4",128,2,No,No,https://pcspecs.io/cpus/core-i5-12400f
+Core i5-12450HX,Intel,12th Gen (Alder Lake),FCBGA1964,10nm,8,12,2.4,4.4,55,"DDR5-4800, DDR4-3200",128,2,No,Yes,https://pcspecs.io/cpus/core-i5-12450hx
+Core i5-12500,Intel,12th Gen,LGA1700,10nm,6,12,3.0,4.6,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i5-12500
+Core i5-12600,Intel,12th Gen,LGA1700,10nm,6,12,3.3,4.8,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i5-12600
+Core i5-12600K,Intel,12th Gen,LGA1700,10nm,10,16,3.7,4.9,125,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i5-12600k
+Core i5-12600KF,Intel,12th Gen,LGA1700,10nm,10,16,3.7,4.9,125,DDR4/DDR5,,,No,No,https://pcspecs.io/cpus/core-i5-12600kf
+Core i5-13400,Intel,13th Gen (Raptor Lake),LGA1700,10nm,10,16,2.5,4.6,65,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i5-13400
+Core i5-13400F,Intel,13th Gen (Raptor Lake),LGA1700,10nm,10,16,2.5,4.6,65,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i5-13400f
+Core i5-13420H,Intel,13th Gen,FCBGA1744,10nm,8,12,2.1,4.6,45,"DDR5-5200, DDR4-3200, LPDDR5x-5200, LPDDR4x-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-i5-13420h
+Core i5-13450HX,Intel,13th Gen (Raptor Lake),FCBGA1964,10nm,10,16,2.4,4.6,55,"DDR5-4800, DDR4-3200",192,2,Yes,Yes,https://pcspecs.io/cpus/core-i5-13450hx
+Core i5-13500,Intel,13th Gen,LGA1700,10nm,14,20,2.5,4.8,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i5-13500
+Core i5-13500H,Intel,13th Gen,FCBGA1744,10nm,12,16,1.9,4.7,45,"DDR5-5200, DDR4-3200, LPDDR5x-5200, LPDDR4x-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-i5-13500h
+Core i5-13500HX,Intel,13th Gen (Raptor Lake),FCBGA1964,10nm,14,20,2.5,4.7,55,"DDR5-4800, DDR4-3200",192,2,Yes,Yes,https://pcspecs.io/cpus/core-i5-13500hx
+Core i5-13600,Intel,13th Gen,LGA1700,10nm,14,20,2.7,5.0,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i5-13600
+Core i5-13600HX,Intel,13th Gen (Raptor Lake),FCBGA1964,10nm,14,20,2.6,4.8,55,"DDR5-4800, DDR4-3200",192,2,Yes,Yes,https://pcspecs.io/cpus/core-i5-13600hx
+Core i5-13600K,Intel,13th Gen (Raptor Lake),LGA1700,10nm,14,20,3.5,5.1,125,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i5-13600k
+Core i5-13600KF,Intel,13th Gen (Raptor Lake),LGA1700,10nm,14,20,3.5,5.1,125,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i5-13600kf
+Core i5-14400,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,10,16,2.5,4.7,65,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i5-14400
+Core i5-14400F,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,10,16,2.5,4.7,65,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i5-14400f
+Core i5-14500,Intel,14th Gen,LGA1700,10nm,14,20,2.6,5.0,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i5-14500
+Core i5-14600,Intel,14th Gen,LGA1700,10nm,14,20,2.7,5.2,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i5-14600
+Core i5-14600K,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,14,20,3.5,5.3,125,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i5-14600k
+Core i5-14600KF,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,14,20,3.5,5.3,125,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i5-14600kf
+Core i5-14600T,Intel,Raptor Lake Refresh,LGA1700,10nm,14,20,1.8,5.1,35,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i5-14600t
+Core i5-2500K,Intel,2nd Gen,LGA1155,32nm,4,4,3.3,3.7,95,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-2500k
+Core i5-3570K,Intel,3rd Gen,LGA1155,22nm,4,4,3.4,3.8,77,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-3570k
+Core i5-4430,Intel,4th Gen,LGA1150,22nm,4,4,3.0,3.2,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4430
+Core i5-4440,Intel,4th Gen,LGA1150,22nm,4,4,3.1,3.3,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4440
+Core i5-4460,Intel,4th Gen,LGA1150,22nm,4,4,3.2,3.4,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4460
+Core i5-4570,Intel,4th Gen,LGA1150,22nm,4,4,3.2,3.6,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4570
+Core i5-4590,Intel,4th Gen,LGA1150,22nm,4,4,3.3,3.7,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4590
+Core i5-4670K,Intel,4th Gen,LGA1150,22nm,4,4,3.4,3.8,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4670k
+Core i5-4690,Intel,4th Gen,LGA1150,22nm,4,4,3.5,3.9,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4690
+Core i5-4690K,Intel,4th Gen,LGA1150,22nm,4,4,3.5,3.9,88,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i5-4690k
+Core i5-5675C,Intel,5th Gen,LGA1150,14nm,4,4,3.1,3.6,65,DDR3,,,No,Yes,https://pcspecs.io/cpus/core-i5-5675c
+Core i5-6400,Intel,6th Gen,LGA1151,14nm,4,4,2.7,3.3,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-6400
+Core i5-6500,Intel,6th Gen,LGA1151,14nm,4,4,3.2,3.6,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-6500
+Core i5-6600,Intel,6th Gen,LGA1151,14nm,4,4,3.3,3.9,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-6600
+Core i5-6600K,Intel,6th Gen,LGA1151,14nm,4,4,3.5,3.9,91,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-6600k
+Core i5-7400,Intel,7th Gen,LGA1151,14nm,4,4,3.0,3.5,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-7400
+Core i5-7500,Intel,7th Gen,LGA1151,14nm,4,4,3.4,3.8,65,DDR4,64,2,No,Yes,https://pcspecs.io/cpus/core-i5-7500
+Core i5-7600,Intel,7th Gen,LGA1151,14nm,4,4,3.5,4.1,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-7600
+Core i5-7600K,Intel,7th Gen,LGA1151,14nm,4,4,3.8,4.2,91,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-7600k
+Core i5-8400,Intel,8th Gen,LGA1151,14nm,6,6,2.8,4.0,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-8400
+Core i5-8500,Intel,8th Gen,LGA1151,14nm,6,6,3.0,4.1,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/core-i5-8500
+Core i5-8600,Intel,8th Gen,LGA1151,14nm,6,6,3.1,4.3,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/core-i5-8600
+Core i5-8600K,Intel,8th Gen,LGA1151,14nm,6,6,3.6,4.3,95,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-8600k
+Core i5-9400,Intel,9th Gen,LGA1151,14nm,6,6,2.9,4.1,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-9400
+Core i5-9400F,Intel,9th Gen,LGA1151,14nm,6,6,2.9,4.1,65,DDR4,,,No,No,https://pcspecs.io/cpus/core-i5-9400f
+Core i5-9500,Intel,9th Gen,LGA1151,14nm,6,6,3.0,4.4,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/core-i5-9500
+Core i5-9600,Intel,9th Gen,LGA1151,14nm,6,6,3.1,4.6,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/core-i5-9600
+Core i5-9600K,Intel,9th Gen,LGA1151,14nm,6,6,3.7,4.6,95,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i5-9600k
+Core i5-9600KF,Intel,9th Gen,LGA1151,14nm,6,6,3.7,4.6,95,DDR4,,,No,No,https://pcspecs.io/cpus/core-i5-9600kf
+Core i7-10510U,Intel,10th Gen (Comet Lake),FCBGA1528,14nm,4,8,1.8,4.9,15,"DDR4-2666, LPDDR3-2133, LPDDR4-2933",64,2,No,Yes,https://pcspecs.io/cpus/core-i7-10510u
+Core i7-10700,Intel,10th Gen,LGA1200,14nm,8,16,2.9,4.8,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-10700
+Core i7-10700F,Intel,10th Gen,LGA1200,14nm,8,16,2.9,4.8,65,DDR4,,,No,No,https://pcspecs.io/cpus/core-i7-10700f
+Core i7-10700K,Intel,10th Gen,LGA1200,14nm,8,16,3.8,5.1,125,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-10700k
+Core i7-10700KF,Intel,10th Gen,LGA1200,14nm,8,16,3.8,5.1,125,DDR4,,,No,No,https://pcspecs.io/cpus/core-i7-10700kf
+Core i7-1165G7,Intel,11th Gen (Tiger Lake),FCBGA1449,10nm,4,8,2.8,4.7,28,"DDR4-3200, LPDDR4x-4267",64,2,No,Yes,https://pcspecs.io/cpus/core-i7-1165g7
+Core i7-11700,Intel,11th Gen,LGA1200,14nm,8,16,2.5,4.9,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-11700
+Core i7-11700F,Intel,11th Gen,LGA1200,14nm,8,16,2.5,4.9,65,DDR4,,,No,No,https://pcspecs.io/cpus/core-i7-11700f
+Core i7-11700K,Intel,11th Gen,LGA1200,14nm,8,16,3.6,5.0,125,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-11700k
+Core i7-11700KF,Intel,11th Gen,LGA1200,14nm,8,16,3.6,5.0,125,DDR4,,,No,No,https://pcspecs.io/cpus/core-i7-11700kf
+Core i7-12700,Intel,12th Gen,LGA1700,10nm,12,20,2.1,4.9,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i7-12700
+Core i7-12700F,Intel,12th Gen,LGA1700,10nm,12,20,2.1,4.9,65,DDR4/DDR5,,,No,No,https://pcspecs.io/cpus/core-i7-12700f
+Core i7-12700K,Intel,12th Gen,LGA1700,10nm,12,20,3.6,5.0,125,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i7-12700k
+Core i7-12700KF,Intel,12th Gen,LGA1700,10nm,12,20,3.6,5.0,125,DDR4/DDR5,,,No,No,https://pcspecs.io/cpus/core-i7-12700kf
+Core i7-13650HX,Intel,13th Gen (Raptor Lake),FCBGA1964,10nm,14,20,2.6,4.9,55,"DDR5-4800, DDR4-3200",192,2,No,Yes,https://pcspecs.io/cpus/core-i7-13650hx
+Core i7-13700,Intel,13th Gen,LGA1700,10nm,16,24,2.1,5.2,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i7-13700
+Core i7-13700F,Intel,13th Gen (Raptor Lake),LGA1700,10nm,16,24,2.1,5.2,65,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i7-13700f
+Core i7-13700H,Intel,13th Gen,FCBGA1744,10nm,14,20,1.8,5.0,45,"DDR5-5200, DDR4-3200, LPDDR5x-6400, LPDDR4x-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-i7-13700h
+Core i7-13700HX,Intel,13th Gen (Raptor Lake),FCBGA1964,10nm,16,24,2.1,5.0,55,"DDR5-4800, DDR4-3200",192,2,No,Yes,https://pcspecs.io/cpus/core-i7-13700hx
+Core i7-13700K,Intel,13th Gen (Raptor Lake),LGA1700,10nm,16,24,3.4,5.4,125,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i7-13700k
+Core i7-13700KF,Intel,13th Gen (Raptor Lake),LGA1700,10nm,16,24,3.4,5.4,125,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i7-13700kf
+Core i7-13700T,Intel,Raptor Lake,LGA1700,10nm,16,24,1.4,4.9,35,"DDR5, DDR4",128,2,Yes,Yes,https://pcspecs.io/cpus/core-i7-13700t
+Core i7-14700,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,20,28,2.1,5.4,65,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i7-14700
+Core i7-14700F,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,20,28,2.1,5.4,65,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i7-14700f
+Core i7-14700HX,Intel,Raptor Lake-HX Refresh,FCBGA1964,10nm,20,28,2.1,5.5,55,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i7-14700hx
+Core i7-14700K,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,20,28,3.4,5.6,125,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i7-14700k
+Core i7-14700KF,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,20,28,3.4,5.6,125,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i7-14700kf
+Core i7-2600K,Intel,2nd Gen,LGA1155,32nm,4,8,3.4,3.8,95,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i7-2600k
+Core i7-3770K,Intel,3rd Gen,LGA1155,22nm,4,8,3.5,3.9,77,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i7-3770k
+Core i7-4770,Intel,4th Gen,LGA1150,22nm,4,8,3.4,3.9,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i7-4770
+Core i7-4770K,Intel,4th Gen,LGA1150,22nm,4,8,3.5,3.9,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i7-4770k
+Core i7-4790,Intel,4th Gen,LGA1150,22nm,4,8,3.6,4.0,84,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i7-4790
+Core i7-4790K,Intel,4th Gen,LGA1150,22nm,4,8,4.0,4.4,88,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/core-i7-4790k
+Core i7-4820K,Intel,4th Gen,LGA2011,22nm,4,8,3.7,3.9,130,DDR3,64,4,No,No,https://pcspecs.io/cpus/core-i7-4820k
+Core i7-4930K,Intel,4th Gen,LGA2011,22nm,6,12,3.4,3.9,130,DDR3,64,4,No,No,https://pcspecs.io/cpus/core-i7-4930k
+Core i7-5775C,Intel,5th Gen,LGA1150,14nm,4,8,3.3,3.7,65,DDR3,,,No,Yes,https://pcspecs.io/cpus/core-i7-5775c
+Core i7-5820K,Intel,5th Gen,LGA2011-3,22nm,6,12,3.3,3.6,140,DDR4,64,4,No,No,https://pcspecs.io/cpus/core-i7-5820k
+Core i7-5930K,Intel,5th Gen,LGA2011-3,22nm,6,12,3.5,3.7,140,DDR4,64,4,No,No,https://pcspecs.io/cpus/core-i7-5930k
+Core i7-5960X,Intel,5th Gen,LGA2011-3,22nm,8,16,3.0,3.5,140,DDR4,64,4,No,No,https://pcspecs.io/cpus/core-i7-5960x
+Core i7-6700,Intel,6th Gen,LGA1151,14nm,4,8,3.4,4.0,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-6700
+Core i7-6700HQ,Intel,6th Gen (Skylake),FCBGA1440,14nm,4,8,2.6,3.5,45,"DDR4-2133, DDR3L-1600, LPDDR3-1866",64,2,No,Yes,https://pcspecs.io/cpus/core-i7-6700hq
+Core i7-6700K,Intel,6th Gen,LGA1151,14nm,4,8,4.0,4.2,91,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-6700k
+Core i7-6800K,Intel,6th Gen,LGA2011-3,14nm,6,12,3.4,3.8,140,DDR4,128,4,No,No,https://pcspecs.io/cpus/core-i7-6800k
+Core i7-6900K,Intel,6th Gen,LGA2011-3,14nm,8,16,3.2,3.7,140,DDR4,128,4,No,No,https://pcspecs.io/cpus/core-i7-6900k
+Core i7-6950X,Intel,6th Gen,LGA2011-3,14nm,10,20,3.0,3.5,140,DDR4,128,4,No,No,https://pcspecs.io/cpus/core-i7-6950x
+Core i7-7700,Intel,7th Gen,LGA1151,14nm,4,8,3.6,4.2,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-7700
+Core i7-7700HQ,Intel,7th Gen (Kaby Lake),FCBGA1440,14nm,4,8,2.8,3.8,45,"DDR4-2400, DDR3L-1600",64,2,No,Yes,https://pcspecs.io/cpus/core-i7-7700hq
+Core i7-7700K,Intel,7th Gen,LGA1151,14nm,4,8,4.2,4.5,91,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-7700k
+Core i7-8700,Intel,8th Gen,LGA1151,14nm,6,12,3.2,4.6,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-8700
+Core i7-8700K,Intel,8th Gen,LGA1151,14nm,6,12,3.7,4.7,95,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-8700k
+Core i7-9700,Intel,9th Gen,LGA1151,14nm,8,8,3.0,4.7,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/core-i7-9700
+Core i7-9700K,Intel,9th Gen,LGA1151,14nm,8,8,3.6,4.9,95,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i7-9700k
+Core i7-9700KF,Intel,9th Gen,LGA1151,14nm,8,8,3.6,4.9,95,DDR4,,,No,No,https://pcspecs.io/cpus/core-i7-9700kf
+Core i9-10850K,Intel,10th Gen,LGA1200,14nm,10,20,3.6,5.2,125,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/core-i9-10850k
+Core i9-10900,Intel,10th Gen,LGA1200,14nm,10,20,2.8,5.2,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i9-10900
+Core i9-10900F,Intel,10th Gen,LGA1200,14nm,10,20,2.8,5.2,65,DDR4,,,No,No,https://pcspecs.io/cpus/core-i9-10900f
+Core i9-10900K,Intel,10th Gen,LGA1200,14nm,10,20,3.7,5.3,125,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i9-10900k
+Core i9-10900KF,Intel,10th Gen,LGA1200,14nm,10,20,3.7,5.3,125,DDR4,,,No,No,https://pcspecs.io/cpus/core-i9-10900kf
+Core i9-11900,Intel,11th Gen,LGA1200,14nm,8,16,2.5,5.2,65,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i9-11900
+Core i9-11900F,Intel,11th Gen,LGA1200,14nm,8,16,2.5,5.2,65,DDR4,,,No,No,https://pcspecs.io/cpus/core-i9-11900f
+Core i9-11900K,Intel,11th Gen,LGA1200,14nm,8,16,3.5,5.3,125,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i9-11900k
+Core i9-11900KF,Intel,11th Gen,LGA1200,14nm,8,16,3.5,5.3,125,DDR4,,,No,No,https://pcspecs.io/cpus/core-i9-11900kf
+Core i9-12900,Intel,12th Gen,LGA1700,10nm,16,24,2.4,5.1,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i9-12900
+Core i9-12900F,Intel,12th Gen,LGA1700,10nm,16,24,2.4,5.1,65,DDR4/DDR5,,,No,No,https://pcspecs.io/cpus/core-i9-12900f
+Core i9-12900K,Intel,12th Gen (Alder Lake),LGA1700,10nm,16,24,3.2,5.2,125,"DDR5, DDR4",128,2,No,Yes,https://pcspecs.io/cpus/core-i9-12900k
+Core i9-12900KF,Intel,12th Gen,LGA1700,10nm,16,24,3.2,5.2,125,DDR4/DDR5,,,No,No,https://pcspecs.io/cpus/core-i9-12900kf
+Core i9-12900KS,Intel,12th Gen,LGA1700,10nm,16,24,3.4,5.5,150,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i9-12900ks
+Core i9-13900,Intel,13th Gen,LGA1700,10nm,24,32,2.0,5.6,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i9-13900
+Core i9-13900F,Intel,13th Gen,LGA1700,10nm,24,32,2.0,5.6,65,DDR4/DDR5,,,No,No,https://pcspecs.io/cpus/core-i9-13900f
+Core i9-13900K,Intel,13th Gen (Raptor Lake),LGA1700,10nm,24,32,3.0,5.8,125,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i9-13900k
+Core i9-13900KF,Intel,13th Gen (Raptor Lake),LGA1700,10nm,24,32,3.0,5.8,125,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i9-13900kf
+Core i9-13900KS,Intel,13th Gen,LGA1700,10nm,24,32,3.0,6.0,150,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i9-13900ks
+Core i9-14900,Intel,14th Gen,LGA1700,10nm,24,32,2.0,5.8,65,DDR4/DDR5,,,No,Yes,https://pcspecs.io/cpus/core-i9-14900
+Core i9-14900F,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,24,32,2.0,5.8,65,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i9-14900f
+Core i9-14900HX,Intel,14th Gen (Raptor Lake Refresh),FCBGA1964,10nm,24,32,2.2,5.8,55,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i9-14900hx
+Core i9-14900K,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,24,32,3.2,6.0,125,"DDR5, DDR4",192,2,Yes,Yes,https://pcspecs.io/cpus/core-i9-14900k
+Core i9-14900KF,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,24,32,3.2,6.0,125,"DDR5, DDR4",192,2,No,No,https://pcspecs.io/cpus/core-i9-14900kf
+Core i9-14900KS,Intel,14th Gen (Raptor Lake Refresh),LGA1700,10nm,24,32,3.2,6.2,150,"DDR5, DDR4",192,2,No,Yes,https://pcspecs.io/cpus/core-i9-14900ks
+Core i9-9900,Intel,9th Gen,LGA1151,14nm,8,16,3.1,5.0,65,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/core-i9-9900
+Core i9-9900K,Intel,9th Gen,LGA1151,14nm,8,16,3.6,5.0,95,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i9-9900k
+Core i9-9900KF,Intel,9th Gen,LGA1151,14nm,8,16,3.6,5.0,95,DDR4,,,No,No,https://pcspecs.io/cpus/core-i9-9900kf
+Core i9-9900KS,Intel,9th Gen,LGA1151,14nm,8,16,4.0,5.0,127,DDR4,,,No,Yes,https://pcspecs.io/cpus/core-i9-9900ks
+Core Ultra 5 225,Intel,Arrow Lake,FCLGA1851,3nm,10,10,3.3,4.9,65,DDR5,256,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-225
+Core Ultra 5 225F,Intel,Arrow Lake,FCLGA1851,3nm,10,10,3.3,4.9,65,DDR5,256,2,No,No,https://pcspecs.io/cpus/core-ultra-5-225f
+Core Ultra 5 225H,Intel,Arrow Lake,FCBGA2049,3nm,14,14,1.7,4.9,28,LPDDR5/DDR5,128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-225h
+Core Ultra 5 225U,Intel,Arrow Lake,FCBGA2049,3nm,12,14,1.5,4.8,15,LPDDR5/DDR5,128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-225u
+Core Ultra 5 226V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,2.1,4.5,17,LPDDR5X-8533,16,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-226v
+Core Ultra 5 228V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,2.1,4.5,17,LPDDR5X-8533,32,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-228v
+Core Ultra 5 235,Intel,Arrow Lake,FCLGA1851,3nm,14,14,3.4,5.0,65,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-235
+Core Ultra 5 235H,Intel,Arrow Lake,FCBGA2049,3nm,14,14,2.4,5.0,28,LPDDR5/DDR5,128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-235h
+Core Ultra 5 235HX,Intel,Arrow Lake,FCBGA2114,3nm,14,14,2.9,5.1,55,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-235hx
+Core Ultra 5 235T,Intel,Arrow Lake,FCLGA1851,3nm,14,14,1.8,5.0,35,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-235t
+Core Ultra 5 235U,Intel,Arrow Lake,FCBGA2049,3nm,12,14,2.0,4.9,15,LPDDR5/DDR5,128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-235u
+Core Ultra 5 236V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,2.1,4.7,17,LPDDR5X-8533,16,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-236v
+Core Ultra 5 238V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,2.1,4.7,17,LPDDR5X-8533,32,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-238v
+Core Ultra 5 245,Intel,Arrow Lake,FCLGA1851,3nm,14,14,2.2,5.1,65,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-245
+Core Ultra 5 245HX,Intel,Arrow Lake,FCBGA2114,3nm,14,14,3.1,5.1,55,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-245hx
+Core Ultra 5 245K,Intel,Arrow Lake,FCLGA1851,3nm,14,14,4.2,5.2,125,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-245k
+Core Ultra 5 245KF,Intel,Arrow Lake,FCLGA1851,3nm,14,14,4.2,5.2,125,DDR5,256,2,Yes,No,https://pcspecs.io/cpus/core-ultra-5-245kf
+Core Ultra 5 245T,Intel,Arrow Lake,FCLGA1851,3nm,14,14,2.2,5.1,35,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-245t
+Core Ultra 5 250K Plus,Intel,Core Ultra Series 2 Plus,FCLGA1851,3nm,18,18,4.2,5.3,125,"DDR5-7200, DDR5-6400",256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-5-250k-plus
+Core Ultra 5 250KF Plus,Intel,Core Ultra Series 2 Plus,FCLGA1851,3nm,18,18,4.2,5.3,125,"DDR5-7200, DDR5-6400",256,2,No,No,https://pcspecs.io/cpus/core-ultra-5-250kf-plus
+Core Ultra 5 322,Intel,Core Ultra Series 3,FCBGA2595,2nm,6,6,1.9,4.4,25,"LPDDR5X-7467, DDR5-6400",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-322
+Core Ultra 5 325,Intel,Core Ultra Series 3,FCBGA2595,2nm,8,8,1.6,4.5,25,"LPDDR5X-7467, DDR5-6400",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-325
+Core Ultra 5 332,Intel,Core Ultra Series 3,FCBGA2595,2nm,6,6,1.9,4.4,25,"LPDDR5X-7467, DDR5-6400",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-332
+Core Ultra 5 335,Intel,Core Ultra Series 3,FCBGA2595,2nm,8,8,1.6,4.6,25,"LPDDR5X-7467, DDR5-6400",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-335
+Core Ultra 5 336H,Intel,Core Ultra Series 3,FCBGA2540,2nm,12,12,1.9,4.6,25,"LPDDR5X-8533, DDR5-7200",96,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-336h
+Core Ultra 5 338H,Intel,Core Ultra Series 3,FCBGA2540,2nm,12,12,1.9,4.7,25,"LPDDR5X-8533, DDR5-7200",96,2,No,Yes,https://pcspecs.io/cpus/core-ultra-5-338h
+Core Ultra 7 255H,Intel,Arrow Lake-H,FCBGA2049,3nm,16,16,2.0,5.1,28,"LPDDR5X, DDR5",192,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-255h
+Core Ultra 7 255HX,Intel,Arrow Lake,FCBGA2114,3nm,20,20,2.3,5.2,55,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-7-255hx
+Core Ultra 7 255U,Intel,Arrow Lake,FCBGA2049,3nm,12,14,2.0,5.2,15,LPDDR5/DDR5,128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-255u
+Core Ultra 7 256V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,2.8,4.8,17,LPDDR5X-8533,16,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-256v
+Core Ultra 7 258V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,3.0,4.8,17,LPDDR5X-8533,32,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-258v
+Core Ultra 7 265,Intel,Arrow Lake,FCLGA1851,3nm,20,20,2.4,5.3,65,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-7-265
+Core Ultra 7 265F,Intel,Arrow Lake,FCLGA1851,3nm,20,20,2.4,5.3,65,DDR5,256,2,Yes,No,https://pcspecs.io/cpus/core-ultra-7-265f
+Core Ultra 7 265H,Intel,Arrow Lake,FCBGA2049,3nm,16,16,2.2,5.3,28,LPDDR5/DDR5,128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-265h
+Core Ultra 7 265HX,Intel,Arrow Lake,FCBGA2114,3nm,20,20,2.6,5.3,55,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-7-265hx
+Core Ultra 7 265K,Intel,Arrow Lake (Core Ultra 200),LGA1851,3nm,20,20,3.9,5.5,125,DDR5,256,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-265k
+Core Ultra 7 265KF,Intel,Arrow Lake (Core Ultra 200),LGA1851,3nm,20,20,3.9,5.5,125,DDR5,256,2,No,No,https://pcspecs.io/cpus/core-ultra-7-265kf
+Core Ultra 7 265T,Intel,Arrow Lake,FCLGA1851,3nm,20,20,1.5,5.3,35,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-7-265t
+Core Ultra 7 265U,Intel,Arrow Lake,FCBGA2049,3nm,12,14,2.1,5.3,15,LPDDR5/DDR5,128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-265u
+Core Ultra 7 266V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,3.3,5.0,17,LPDDR5X-8533,16,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-266v
+Core Ultra 7 268V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,3.3,5.0,17,LPDDR5X-8533,32,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-268v
+Core Ultra 7 270HX Plus,Intel,Core Ultra Series 2 Plus,FCBGA2114,3nm,20,20,2.4,5.3,55,DDR5-6400,256,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-270hx-plus
+Core Ultra 7 270K Plus,Intel,Core Ultra Series 2 Plus,FCLGA1851,3nm,24,24,3.7,5.5,125,"DDR5-7200, DDR5-6400",256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-7-270k-plus
+Core Ultra 7 355,Intel,Core Ultra Series 3,FCBGA2595,2nm,8,8,1.7,4.7,25,"LPDDR5X-7467, DDR5-6400",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-355
+Core Ultra 7 356H,Intel,Core Ultra Series 3,FCBGA2540,2nm,16,16,1.5,4.7,25,"LPDDR5X-8533, DDR5-7200",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-356h
+Core Ultra 7 365,Intel,Core Ultra Series 3,FCBGA2595,2nm,8,8,1.8,4.8,25,"LPDDR5X-7467, DDR5-6400",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-365
+Core Ultra 7 366H,Intel,Core Ultra Series 3,FCBGA2540,2nm,16,16,2.0,4.8,25,"LPDDR5X-8533, DDR5-7200",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-7-366h
+Core Ultra 9 275HX,Intel,Arrow Lake-HX,FCBGA2114,3nm,24,24,2.7,5.4,55,DDR5,192,2,No,Yes,https://pcspecs.io/cpus/core-ultra-9-275hx
+Core Ultra 9 285,Intel,Arrow Lake,FCLGA1851,3nm,24,24,2.5,5.6,65,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-9-285
+Core Ultra 9 285H,Intel,Arrow Lake-H,FCBGA2049,3nm,16,16,2.9,5.4,45,"LPDDR5X, DDR5",192,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-9-285h
+Core Ultra 9 285HX,Intel,Arrow Lake,FCBGA2114,3nm,24,24,2.8,5.5,55,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-9-285hx
+Core Ultra 9 285K,Intel,Arrow Lake (Series 2),LGA1851,3nm,24,24,3.7,5.7,125,DDR5,192,2,No,Yes,https://pcspecs.io/cpus/core-ultra-9-285k
+Core Ultra 9 285T,Intel,Arrow Lake,FCLGA1851,3nm,24,24,1.4,5.4,35,DDR5,256,2,Yes,Yes,https://pcspecs.io/cpus/core-ultra-9-285t
+Core Ultra 9 288V,Intel,Core Ultra Series 2,FCBGA2833,3nm,8,8,3.3,5.1,30,LPDDR5X-8533,32,2,No,Yes,https://pcspecs.io/cpus/core-ultra-9-288v
+Core Ultra 9 290HX Plus,Intel,Core Ultra Series 2 Plus,FCBGA2114,3nm,24,24,2.7,5.5,55,DDR5-6400,256,2,No,Yes,https://pcspecs.io/cpus/core-ultra-9-290hx-plus
+Core Ultra 9 386H,Intel,Core Ultra Series 3,FCBGA2540,2nm,16,16,1.6,4.9,25,"LPDDR5X-8533, DDR5-7200",128,2,No,Yes,https://pcspecs.io/cpus/core-ultra-9-386h
+Core Ultra X7 358H,Intel,Core Ultra Series 3,FCBGA2540,2nm,16,16,1.5,4.8,25,LPDDR5X-9600,96,2,No,Yes,https://pcspecs.io/cpus/core-ultra-x7-358h
+Core Ultra X7 368H,Intel,Core Ultra Series 3,FCBGA2540,2nm,16,16,2.0,5.0,25,LPDDR5X-9600,96,2,No,Yes,https://pcspecs.io/cpus/core-ultra-x7-368h
+Core Ultra X9 378H,Intel,Core Ultra Series 3,FCBGA2540,2nm,16,16,2.0,5.0,25,LPDDR5X-9600,96,2,No,Yes,https://pcspecs.io/cpus/core-ultra-x9-378h
+Core Ultra X9 388H,Intel,Core Ultra Series 3,FCBGA2540,2nm,16,16,2.1,5.1,25,LPDDR5X-9600,96,2,No,Yes,https://pcspecs.io/cpus/core-ultra-x9-388h
+Intel Core i5-14400T,Intel,14th Gen,LGA1700,10nm,10,16,1.5,4.5,35,"DDR4-3200, DDR5-4800",192,2,No,Yes,https://pcspecs.io/cpus/intel-core-i5-14400t
+Intel Core i5-14490F,Intel,14th Gen,LGA1700,10nm,10,16,2.5,4.9,65,"DDR4-3200, DDR5-4800",192,2,No,No,https://pcspecs.io/cpus/intel-core-i5-14490f
+Intel Core i5-14500T,Intel,14th Gen,LGA1700,10nm,14,20,1.7,4.8,35,"DDR4-3200, DDR5-4800",192,2,Yes,Yes,https://pcspecs.io/cpus/intel-core-i5-14500t
+Intel Core i7-14790F,Intel,14th Gen,LGA1700,10nm,16,24,2.1,5.3,65,"DDR4-3200, DDR5-5600",192,2,No,No,https://pcspecs.io/cpus/intel-core-i7-14790f
+Pentium 4 Xeon 80532KC021512 QFY8ES (engineering sample),Intel,,Socket 603/604,,,,,,,,,,,,
+Pentium G3220,Intel,4th Gen,LGA1150,22nm,2,2,3.0,3.0,53,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/pentium-g3220
+Pentium G3258,Intel,4th Gen,LGA1150,22nm,2,2,3.2,3.2,53,DDR3,32,2,No,Yes,https://pcspecs.io/cpus/pentium-g3258
+Pentium G3900,Intel,6th Gen,LGA1151,14nm,2,2,2.8,2.8,51,DDR4,64,2,No,Yes,https://pcspecs.io/cpus/pentium-g3900
+Pentium G4400,Intel,6th Gen,LGA1151,14nm,2,2,3.3,3.3,54,DDR4,64,2,No,Yes,https://pcspecs.io/cpus/pentium-g4400
+Pentium G4560,Intel,7th Gen,LGA1151,14nm,2,4,3.5,3.5,54,DDR4,64,2,No,Yes,https://pcspecs.io/cpus/pentium-g4560
+Pentium G5400,Intel,8th Gen,LGA1151,14nm,2,4,3.7,3.7,54,DDR4,128,2,No,Yes,https://pcspecs.io/cpus/pentium-g5400
+Pentium II Xeon 80523KX3001M Q246,Intel,,Slot 2,,,,,0.3,,,,,,,
+Pentium II Xeon 80523KX3002M Q247,Intel,,Slot 2,,,,,0.3,,,,,,,
+Pentium II Xeon 80523KX3501M Q429,Intel,,Slot 2,,,,,0.35,,,,,,,
+Pentium II Xeon 80523KX3501M Q509,Intel,,Slot 2,,,,,0.35,,,,,,,
+Pentium II Xeon 80523KX350512 Q515,Intel,,Slot 2,,,,,0.35,,,,,,,
+Pentium II Xeon 80523KX4001M Q619,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX4001M Q779,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX4001M SL2NB BX80523KX4001M SL2NB,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX4001M SL345,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX4001M SL34J,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX400512 Q519,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX400512 Q626,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX400512 SL2RH BX80523KX400512 SL2RH,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX400512 SL344,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX400512 SL34H,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium II Xeon 80523KX4501M Q666,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX4501M Q810,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX4501M SL2XK,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX4502M Q667,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX4502M Q811,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX4502M SL2XL,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX450512 Q665,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX450512 Q799,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX450512 Q809,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX450512 SL2XJ,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80523KX450512 SL354,Intel,,Slot 2,,,,,0.45,,,,,,,
+Pentium II Xeon 80525KY5001M (engineering sample),Intel,,Slot 2,,,,,,,,,,,,
+Pentium II Xeon 80525KY500512 (engineering sample),Intel,,Slot 2,,,,,,,,,,,,
+Pentium II Xeon 80526KZ800256 (engineering sample),Intel,,Slot 2,,,,,,,,,,,,
+Pentium II Xeon BX80523KX40N1M SL35P,Intel,,LGA 771,,,,,0.4,,,,,,,
+Pentium II Xeon BX80523KX40N512 SL35N,Intel,,LGA 771,,,,,0.4,,,,,,,
+Pentium II Xeon BX80523KX4501M SL33U,Intel,,LGA 771,,,,,0.45,,,,,,,
+Pentium II Xeon BX80523KX4502M SL33V,Intel,,LGA 771,,,,,0.45,,,,,,,
+Pentium II Xeon BX80523KX45G512 SL33T,Intel,,LGA 771,,,,,0.45,,,,,,,
+Pentium II Xeon PODP66X333 SL3EA,Intel,,Slot 2,,,,,0.333,,,,,,,
+Pentium III Xeon 80525KY5001M Q880,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5001M Q883,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5001M QB98,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5001M SL3DA,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5002M Q881,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5002M Q884,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5002M QB58,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5002M SL3DB,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY500512 Q879,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY500512 Q882,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY500512 SL2XU,Intel,,Slot 2,,,,,0.5,,,,,,,
+Pentium III Xeon 80525KY5501M QB75,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY5501M SL3CE,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY5502M Q876,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY5502M QB76,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY5502M SL3CF,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY550512 QB74,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY550512 SL3AJ,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY550512 SL3FK,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80525KY550512 SL3Y4,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon 80526KY6001M 5/12V QN43,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KY6002M 5/12V QN55,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KY6002M QN51,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KY6502M 2.8V QQ52,Intel,,Slot 2,,,,,0.65,,,,,,,
+Pentium III Xeon 80526KY7001M 2.8V QT74,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 2.8V QU37,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 2.8V QZ85,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 2.8V SL3U4,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 2.8V SL49P,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 2.8V SL4GD,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 2.8V SL4XU,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 5/12V QT76,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 5/12V QX47,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 5/12V QZ87,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 5/12V SL3U5,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 5/12V SL49Q,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 5/12V SL4GE,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7001M 5/12V SL4XV,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 2.8V QT78,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 2.8V QU39,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 2.8V QZ89,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 2.8V SL3WZ,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 2.8V SL49R,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 2.8V SL4GF,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 2.8V SL4XW,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 5/12V QT80,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 5/12V QU40,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 5/12V QZ91,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 5/12V SL3X2,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 5/12V SL49S,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 5/12V SL4GG,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY7002M 5/12V SL4XX,Intel,,Slot 2,,,,,0.7,,,,,,,
+Pentium III Xeon 80526KY8002M 2.8V QU34,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KY9002M 2.8V SL4XY,Intel,,Slot 2,,,,,0.9,,,,,,,
+Pentium III Xeon 80526KY9002M 5/12V QAL1,Intel,,Slot 2,,,,,0.9,,,,,,,
+Pentium III Xeon 80526KY9002M 5/12V SL4XZ,Intel,,Slot 2,,,,,0.9,,,,,,,
+Pentium III Xeon 80526KZ1000256 2.8V QY16,Intel,,Slot 2,,,,,1.0,,,,,,,
+Pentium III Xeon 80526KZ1000256 2.8V SL4HE,Intel,,Slot 2,,,,,1.0,,,,,,,
+Pentium III Xeon 80526KZ1000256 5/12V QY18,Intel,,Slot 2,,,,,1.0,,,,,,,
+Pentium III Xeon 80526KZ1000256 5/12V SL4HF,Intel,,Slot 2,,,,,1.0,,,,,,,
+Pentium III Xeon 80526KZ400256 2.8V QE61,Intel,,Slot 2,,,,,0.4,,,,,,,
+Pentium III Xeon 80526KZ600256 2.8V SL3BJ,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KZ600256 2.8V SL3WM,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KZ600256 5/12V QD77,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KZ600256 5/12V SL3BK,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KZ600256 5/12V SL3WN,Intel,,Slot 2,,,,,0.6,,,,,,,
+Pentium III Xeon 80526KZ667256 2.8V QE66,Intel,,Slot 2,,,,,0.667,,,,,,,
+Pentium III Xeon 80526KZ667256 2.8V SL3BL,Intel,,Slot 2,,,,,0.667,,,,,,,
+Pentium III Xeon 80526KZ667256 2.8V SL3WP,Intel,,Slot 2,,,,,0.667,,,,,,,
+Pentium III Xeon 80526KZ667256 5/12V QE67,Intel,,Slot 2,,,,,0.667,,,,,,,
+Pentium III Xeon 80526KZ667256 5/12V SL3DC,Intel,,Slot 2,,,,,0.667,,,,,,,
+Pentium III Xeon 80526KZ667256 5/12V SL3WQ,Intel,,Slot 2,,,,,0.667,,,,,,,
+Pentium III Xeon 80526KZ733256 2.8V QH36,Intel,,Slot 2,,,,,0.733,,,,,,,
+Pentium III Xeon 80526KZ733256 2.8V SL3SF,Intel,,Slot 2,,,,,0.733,,,,,,,
+Pentium III Xeon 80526KZ733256 2.8V SL3WR,Intel,,Slot 2,,,,,0.733,,,,,,,
+Pentium III Xeon 80526KZ733256 2.8V SL4H6,Intel,,Slot 2,,,,,0.733,,,,,,,
+Pentium III Xeon 80526KZ733256 5/12V SL3SG,Intel,,Slot 2,,,,,0.733,,,,,,,
+Pentium III Xeon 80526KZ733256 5/12V SL3WS,Intel,,Slot 2,,,,,0.733,,,,,,,
+Pentium III Xeon 80526KZ733256 5/12V SL4H7,Intel,,Slot 2,,,,,0.733,,,,,,,
+Pentium III Xeon 80526KZ800256 2.8V QJ31,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 2.8V QN74,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 2.8V SL3WT,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 2.8V SL4H8,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 5/12V QJ33,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 5/12V QN75,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 5/12V SL3V2,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 5/12V SL3V3,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 5/12V SL3WU,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ800256 5/12V SL4H9 BX80526KZ800256 SL4H9,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon 80526KZ866256 2.8V SL3WV,Intel,,Slot 2,,,,,0.866,,,,,,,
+Pentium III Xeon 80526KZ866256 2.8V SL4HA,Intel,,Slot 2,,,,,0.866,,,,,,,
+Pentium III Xeon 80526KZ866256 5/12V QS07,Intel,,Slot 2,,,,,0.866,,,,,,,
+Pentium III Xeon 80526KZ866256 5/12V QT46,Intel,,Slot 2,,,,,0.866,,,,,,,
+Pentium III Xeon 80526KZ866256 5/12V SL3WW,Intel,,Slot 2,,,,,0.866,,,,,,,
+Pentium III Xeon 80526KZ866256 5/12V SL4HB,Intel,,Slot 2,,,,,0.866,,,,,,,
+Pentium III Xeon 80526KZ933256 2.8V QS08,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon 80526KZ933256 2.8V QY19,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon 80526KZ933256 2.8V SL3WX,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon 80526KZ933256 2.8V SL4HC,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon 80526KZ933256 5/12V QS09,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon 80526KZ933256 5/12V QY20,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon 80526KZ933256 5/12V SL3WY,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon 80526KZ933256 5/12V SL4HD BX80526KZ933256 SL4HD,Intel,,Slot 2,,,,,0.933,,,,,,,
+Pentium III Xeon BX80525KY5001M SL2XV,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY5001M SL386,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY5001M SL3CA,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY5002M SL2XW,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY5002M SL387,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY5002M SL3CB,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY500512 SL385,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY500512 SL3C9,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY500512 SL3D9,Intel,,LGA 771,,,,,0.5,,,,,,,
+Pentium III Xeon BX80525KY5501M SL3LN,Intel,,LGA 771,,,,,0.55,,,,,,,
+Pentium III Xeon BX80525KY5501M SL3TW,Intel,,LGA 771,,,,,0.55,,,,,,,
+Pentium III Xeon BX80525KY5502M SL3LP,Intel,,LGA 771,,,,,0.55,,,,,,,
+Pentium III Xeon BX80525KY550512 SL3FR,Intel,,LGA 771,,,,,0.55,,,,,,,
+Pentium III Xeon BX80525KY550512 SL3LM,Intel,,LGA 771,,,,,0.55,,,,,,,
+Pentium III Xeon BX80526KB001256 SL4Q2,Intel,,LGA 771,,,,,1.0,,,,,,,
+Pentium III Xeon BX80526KB866256 SL4PZ,Intel,,LGA 771,,,,,0.866,,,,,,,
+Pentium III Xeon BX80526KB866256 SL4U2,Intel,,LGA 771,,,,,0.866,,,,,,,
+Pentium III Xeon BX80526KB933256 SL4R9,Intel,,LGA 771,,,,,0.933,,,,,,,
+Pentium III Xeon BX80526KY7001M SL4RZ,Intel,,LGA 771,,,,,0.7,,,,,,,
+Pentium III Xeon BX80526KY7001M SL5D4,Intel,,LGA 771,,,,,0.7,,,,,,,
+Pentium III Xeon BX80526KY7002M SL4R3,Intel,,LGA 771,,,,,0.7,,,,,,,
+Pentium III Xeon BX80526KY9002M SL5D3,Intel,,LGA 771,,,,,0.9,,,,,,,
+Pentium III Xeon BX80526KZ600256 SL3SS,Intel,,LGA 771,,,,,0.6,,,,,,,
+Pentium III Xeon BX80526KZ667256 SL3ST,Intel,,LGA 771,,,,,0.667,,,,,,,
+Pentium III Xeon BX80526KZ733256 SL3SU,Intel,,LGA 771,,,,,0.733,,,,,,,
+Pentium III Xeon BX80526KZ800256 SL3VU,Intel,,LGA 771,,,,,0.8,,,,,,,
+Pentium III Xeon BX80526KZ933256 SL4U3,Intel,,LGA 771,,,,,0.933,,,,,,,
+Pentium III Xeon NK80530KZ800512 SL7T4,Intel,,Slot 2,,,,,0.8,,,,,,,
+Pentium III Xeon QB52,Intel,,Slot 2,,,,,0.55,,,,,,,
+Pentium III Xeon QB56,Intel,,Slot 2,,,,,0.5,,,,,,,
+Xeon 3040,Intel,,LGA 775,,2,,1.87,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 3050,Intel,,LGA 775,,2,,2.13,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 3060,Intel,,LGA 775,,2,,2.4,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 3065,Intel,,LGA 775,,2,,2.33,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 3070,Intel,,LGA 775,,2,,2.67,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 3075,Intel,,LGA 775,,2,,2.67,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 3085,Intel,,LGA 775,,2,,3.0,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 5110,Intel,,LGA 771,,2,,1.6,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 5120,Intel,,LGA 771,,2,,1.87,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 5130,Intel,,LGA 771,,2,,2.0,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 5140,Intel,,LGA 771,,2,,2.33,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 5150,Intel,,LGA 771,,2,,2.67,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 5160,Intel,,LGA 771,,2,,3.0,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon 80528KC017G0K SL4WX,Intel,,Slot 2,,,,,1.4,,,,,,,
+Xeon 80528KC1.4G512 QEC6,Intel,,Slot 2,,,,,1.4,,,,,,,
+Xeon 80528KC1.5G1M QEC0,Intel,,Slot 2,,,,,1.5,,,,,,,
+Xeon 80528KC1.5G512 QEC5,Intel,,Slot 2,,,,,1.5,,,,,,,
+Xeon 80528KC1.XG1M QT71,Intel,,Slot 2,,,,,,,,,,,,
+Xeon 80528KC1.XG1M QV16,Intel,,Slot 2,,,,,,,,,,,,
+Xeon 80528KC1.XG1M QX04,Intel,,Slot 2,,,,,,,,,,,,
+Xeon 80532KC0492M QG11,Intel,,Socket 603/604,,,,,2.2,,,,,,,
+Xeon 80532KC0682M QG08,Intel,,Socket 603/604,,,,,2.7,,,,,,,
+Xeon 80532KC1.5G1M QPR2,Intel,,Socket 603/604,,,,,1.5,,,,,,,
+Xeon 80532KC2.0G2M QFP8,Intel,,Socket 603/604,,,,,2.0,,,,,,,
+Xeon 80532KE056512 QQU8,Intel,,Socket 603/604,,,,,2.4,,,,,,,
+Xeon 80546KG0722M SL8P7 BX80546KG2800FA SL8P7,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon 80546KG1122M SL8P2 BX80546KG3800FA SL8P2,Intel,,LGA 771,,,,,3.8,,,,,,,
+Xeon AD80582JH046003 SLG9M,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AD80582KH067007 SLG9P BX80582X7460 SLG9P,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AD80582QH056003 QGML,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AD80582QH056003 SLG9K BX80582E7450 SLG9K,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AD80582QH056007 SLG9N,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AD80583JH046003 QHPS,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AD80583JH046003 SLG9L,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AD80583QH046003 Q6FL,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AD80583QH046003 SLG9H BX80582E7430 SLG9H,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AD80583QH0468M SLG9G BX80583E7420 SLG9G,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AD80583QH056003 Q6FH,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AD80583QH056007 QEKD,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AD80583QH056007 SLG9J BX80583E7440 SLG9J,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80569JJ073N QLFG,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon AT80569JJ073N SLGPF BX80569L3360 SLGPF,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon AT80569KJ067N SLB8Y BX80569X3350 SLB8Y,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80569KJ073N SLB8X BX80569X3360 SLB8X,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon AT80569KJ080N QHFZ,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80569KJ080N SLB8Z BX80569X3370 SLB8Z,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80569KJ087N QKYR,Intel,,LGA 1366,,,,,3.167,,,,,,,
+Xeon AT80569KJ087N SLGPG BX80569X3380 SLGPG,Intel,,LGA 1366,,,,,3.167,,,,,,,
+Xeon AT80570JJ0806M QLFM,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80570JJ0806M SLGP9 BX80570L3110 SLGP9,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80570KJ0806M QHFA,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80570KJ0806M SLB9C BX80570E3110 SLB9C,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80570KJ0876M QHFM,Intel,,LGA 1366,,,,,3.167,,,,,,,
+Xeon AT80570KJ0876M SLB9D BX80570E3120 SLB9D,Intel,,LGA 1366,,,,,3.167,,,,,,,
+Xeon AT80573JH0366M SLBB3,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80573JJ0676MT QFZX,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80573JJ0676MT SLBAZ,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80573JJ0806M QFZP,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80573JJ0806M SLBAY,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80573KH0366M QFZB,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80573KH0366M SLBAU BX80573E5205A SLBAU,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80573KJ0806MT SLBAV,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80573KJ0936M QFYN,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80573KJ0936M SLBAS,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80573KJ1006M QFYE,Intel,,LGA 1366,,,,,3.5,,,,,,,
+Xeon AT80573KJ1006M SLBAQ,Intel,,LGA 1366,,,,,3.5,,,,,,,
+Xeon AT80573KL0966M QFYJ,Intel,,LGA 1366,,,,,3.4,,,,,,,
+Xeon AT80573KL0966M SLBAR,Intel,,LGA 1366,,,,,3.4,,,,,,,
+Xeon AT80573QJ0536M QFYX,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon AT80573QJ0536M SLBAT,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon AT80573QJ0806M QFYS,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80573QJ0806M SLBAW,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon AT80574JH046NT QFWH,Intel,,LGA 771,,,,,2.133,,,,,,,
+Xeon AT80574JH046NT SLBBT,Intel,,LGA 771,,,,,2.133,,,,,,,
+Xeon AT80574JJ053N QFWD,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon AT80574JJ053N SLBBS BX80574L5410A SLBBS,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon AT80574JJ060N QFVZ,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon AT80574JJ060N SLBBR BX80574L5420A SLBBR,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon AT80574JJ067N QFVV,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon AT80574JJ067N SLBBQ BX80574L5430A SLBBQ,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon AT80574KJ041N QFUY,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon AT80574KJ041N SLBBP BX80574E5405A SLBBP,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon AT80574KJ053N QFUU,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon AT80574KJ053N SLBBC BX80574E5410A SLBBC,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon AT80574KJ060N QFUP,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon AT80574KJ060N SLBBL BX80574E5420A SLBBL,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon AT80574KJ067N QFTS,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon AT80574KJ067N SLBBK BX80574E5430A SLBBK,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon AT80574KJ073N QFTM,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon AT80574KJ073N SLBBJ BX80574E5440A SLBBJ,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon AT80574KJ080N QFUF,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KJ080N SLBBM BX80574E5450A SLBBM,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KJ080NT QFUB,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KJ080NT SLBBE BX80574X5450A SLBBE,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KJ087N QFTX,Intel,,LGA 771,,,,,3.167,,,,,,,
+Xeon AT80574KJ087N SLBBA BX80574X5460A SLBBA,Intel,,LGA 771,,,,,3.167,,,,,,,
+Xeon AT80574KJ093N QFVH,Intel,,LGA 771,,,,,3.333,,,,,,,
+Xeon AT80574KJ093N SLBBF BX80574X5470A SLBBF,Intel,,LGA 771,,,,,3.333,,,,,,,
+Xeon AT80574KL072N QFUK,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon AT80574KL072N SLBBN,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon AT80574KL080N QFTD,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KL080N SLBBH,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KL080NT QFTH,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KL080NT SLBBB,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80574KL088NT QFSZ,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon AT80574KL088NT SLBBG,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon AT80574KL096N QFSV,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon AT80574KL096N SLBBD,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon AT80580KJ0606M QHHZ,Intel,,LGA 1366,,,,,2.5,,,,,,,
+Xeon AT80580KJ0606M SLB69 BX80580X3320 SLB69,Intel,,LGA 1366,,,,,2.5,,,,,,,
+Xeon AT80580KJ0676M QHHV,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80580KJ0676M SLB6C BX80580X3330 SLB6C,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80584KJ060J SLBC5,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon AT80584KJ067N SLBC4,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon AT80584KJ073N SLBC3,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon AT80588JH0563M SLBB2,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon AT80588QJ0806M SLBAX,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon AT80601000741AB Q1DU,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80601000741AB Q1HN,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80601000741AB SLBEW,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80601000897AB Q2KG,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80601000897AB SLBKR BX80601W3530 SLBKR,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80601000918AB Q1DV,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80601000918AB Q1HJ,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80601000918AB SLBES,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80601000921AB Q1DW,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80601000921AB Q1HP,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80601000921AB SLBEX,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80601002112AB Q1HM,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon AT80601002112AB SLBEY BX80601W3550 SLBEY,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon AT80601002274AB SLBET BX80601W3580 SLBET,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80601002727AB SLBEV BX80601W3565 SLBEV,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80601002865AA SLBGC,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80601002868AA SLBGD,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602000753AA SLBGE BX80602W5590 SLBGE,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80602000756AA Q1DX,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80602000756AD Q1G6,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80602000756AD SLBF2 BX80602W5580 SLBF2,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80602000759AA QGXP,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80602000765AA Q1DY,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80602000765AA Q1G9,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80602000765AA SLBF3 BX80602X5570 SLBF3,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80602000768AA Q1AC,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80602000768AA Q1DZ,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80602000768AA Q1GF,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80602000768AA SLBF4 BX80602X5560 SLBF4,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80602000771AA Q1AE,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80602000771AA Q1EH,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80602000771AA Q1GJ,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80602000771AA QGXU,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80602000771AA SLBF5 BX80602X5550 SLBF5,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80602000777AA QGXW,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602000789AA Q1AF,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80602000789AA Q1E2,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80602000789AA Q1G2,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80602000789AA SLBF6 BX80602E5540 SLBF6,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80602000792AA Q1E3,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602000792AA Q1GK,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602000792AA QGYA,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602000792AA SLBF7 BX80602E5530 SLBF7,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602000795AA Q2HG,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602000795AA SLBKC BX80602E5507 SLBKC,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602000798AA Q1GL,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602000798AA QGYC,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602000798AA SLBF8 BX80602E5506 SLBF8,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602000801AA Q1E5,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80602000801AA Q1GM,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80602000801AA SLBF9 BX80602E5504 SLBF9,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80602000804AA Q1E6,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80602000804AA Q1G8,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80602000804AA QGYE,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80602000804AA SLBEZ BX80602E5502 SLBEZ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80602000810AA Q1AM,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602000810AA Q1E8,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602000810AA Q1GN,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602000810AA SLBFA BX80602L5520 SLBFA,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602000813AA QGYH,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602000816AA QGXR,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80602002091AA Q1A2,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602002091AA Q1EA,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602002091AA Q1GR,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602002091AA SLBFD BX80602E5520 SLBFD,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80602002265AB Q1NE,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602002265AB SLBFW,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602002697AA Q1EN,Intel,,LGA 1366,,,,,,,,,,,,
+Xeon AT80602002697AC SLBGK,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80602002712AA Q1HG,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602002712AA SLBFH BX80602L5506 SLBFH,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80602002937AA Q1QX,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602002937AB SLBGF BX80602L5530 SLBGF,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80602003636AA SLBKD BX80602E5503 SLBKD,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604001797AB Q3KC,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604001797AB Q3WZ,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604001797AB SLBRB,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604001800AB SLBRC,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604003048AA Q1ZT,Intel,,LGA 1366,,,,,,,,,,,,
+Xeon AT80604003057AB Q1SS,Intel,,LGA 1366,,,,,,,,,,,,
+Xeon AT80604003771AA Q2KQ,Intel,,LGA 1366,,,,,,,,,,,,
+Xeon AT80604004869AA Q3WP,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80604004869AA Q3X5,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80604004869AA SLBRD BX80604X7560 SLBRD,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80604004872AA Q3KN,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604004872AA SLBRE BX80604X7550 SLBRE,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604004875AA SLBRF,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80604004878AA Q3K4,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604004878AA SLBRG BX80604E7540 SLBRG,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80604004881AA SLBRH,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80604004884AA SLBRJ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80604004887AA Q3KA,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80604004887AA SLBRK BX80604E7520 SLBRK,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80604004896AA SLBRL,Intel,,LGA 1366,,,,,1.733,,,,,,,
+Xeon AT80604005280AA SLBRM,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80612002931AB Q3S1,Intel,,LGA 1366,,,,,1.733,,,,,,,
+Xeon AT80612002931AB SLBWG,Intel,,LGA 1366,,,,,1.733,,,,,,,
+Xeon AT80612002946AA Q3P1,Intel,,LGA 1366,,,,,1.733,,,,,,,
+Xeon AT80612002946AA SLBWH,Intel,,LGA 1366,,,,,1.733,,,,,,,
+Xeon AT80612003090AA Q3NM,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80612003090AA SLBWJ,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80613003543AF Q3VH,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80613003543AF Q4EH,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80613003543AF SLBV2 BX80613W3680 SLBV2,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80613005490AC SLBVE BX80613W3670 SLBVE,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80613005931AB SLBW2 BX80613W3690 SLBW2,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon AT80614003528AB Q3Q6,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80614003591AB SLBWY,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80614003597AC Q4HA,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80614003597AC SLBWZ BX80614E5645 SLBWZ,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80614004320AD Q3QN,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80614004320AD Q3UQ,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80614004320AD Q4EJ,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80614004320AD SLBV3 BX80614X5650 SLBV3,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80614004329AA Q2WV,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80614005058AA Q3QS,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80614005067AA Q3QU,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80614005070AA Q3NC,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80614005073AB SLBV4 BX80614E5620 SLBV4,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80614005076AA Q3NE,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80614005076AB Q4U2,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80614005076AB SLBZJ,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80614005079AA Q3NF,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80614005079AB SLBX3,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80614005124AA Q3UV,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80614005124AA SLBV5 BX80614X5680 SLBV5,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon AT80614005127AA Q3QX,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80614005127AA Q3UX,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80614005127AA Q4EN,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80614005127AA SLBV6 BX80614X5660 SLBV6,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon AT80614005130AA Q3UW,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80614005130AA Q4EP,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80614005130AA SLBV7 BX80614X5670 SLBV7,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80614005133AB Q4BX,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80614005133AB Q4EQ,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80614005133AB SLBV8 BX80614L5640 SLBV8,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80614005136AB SLBVW,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80614005145AB Q3V5,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon AT80614005145AB Q4ES,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon AT80614005145AB SLBV9,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon AT80614005154AB Q3V6,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon AT80614005154AB Q4ET,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon AT80614005154AB SLBVA,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon AT80614005463AA Q4EU,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80614005463AA SLBVB BX80614E5630 SLBVB,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80614005466AA Q4EV,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80614005466AA SLBVC BX80614E5640 SLBVC,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80614005484AA Q4EX,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80614005484AA SLBVD BX80614L5630 SLBVD,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80614005913AB Q4F1,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon AT80614005913AB SLBVX BX80614X5690 SLBVX,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon AT80614005919AB Q4F3,Intel,,LGA 1366,,,,,3.6,,,,,,,
+Xeon AT80614005919AB SLBVY,Intel,,LGA 1366,,,,,3.6,,,,,,,
+Xeon AT80614005922AA Q4F4,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80614005922AA SLBYK,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80614005940AA Q4C4,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80614005940AA Q4F8,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80614005940AA SLBVJ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80614006696AA Q4SF,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon AT80614006696AA SLBYL BX80614X5675 SLBYL,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon AT80614006780AA Q4T1,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80614006780AA SLBZ7,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon AT80614006783AB Q4T2,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80614006783AB SLBZ8 BX80614E5649 SLBZ8,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon AT80614006789AA SLBZ9 BX80614E5607 SLBZ9,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80614006789AB Q5BA,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80614006924AA SLC2E,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon AT80614006954AA Q4WW,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon AT80614006954AA SLC2F BX80614E5603 SLC2F,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon AT80614007290AE Q5BB,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80614007290AE SLC2N BX80614E5606 SLC2N,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80614007314AA Q5C1,Intel,,LGA 1366,,,,,4.4,,,,,,,
+Xeon AT80614007314AA SLC32,Intel,,LGA 1366,,,,,4.4,,,,,,,
+Xeon AT80615005757AB SLC3E,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80615005760AB SLC3F,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80615005772AC SLC3G,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80615005781AB SLC3H,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80615005787AB SLC3J,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80615005826AB SLC3K,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80615006432AB SLC3L,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon AT80615006438AB SLC3M,Intel,,LGA 1366,,,,,1.733,,,,,,,
+Xeon AT80615006750AB SLC3N,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon AT80615007002AB Q4ZY,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80615007002AB SLC3P,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80615007089AA Q5F6,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80615007089AA SLC3Q BX80615E74830 SLC3Q,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon AT80615007245AA SLC3R,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80615007254AA SLC3S,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon AT80615007263AA SLC3T BX80615E74870 SLC3T,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80615007266AA SLC3U,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon AT80615007446AA SLC3D,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80615007449AA SLC3V,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AT80615007452AA SLC3W,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon AV8062701048800 SR0NS,Intel,,LGA 2011,,,,,1.0,,,,,,,
+Xeon AV8062701146600 SR0NU,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon B80546KG0721M SL7HF,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon B80546KG0721M SL7TB BX80546KG2800EA SL7TB,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon B80546KG0722MM SL8ZR,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon B80546KG0801M SL7HG,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon B80546KG0801M SL7TC BX80546KG3000EA SL7TC,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon B80546KG0881M SL7HH,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon B80546KG0881M SL7TD BX80546KG3200EA SL7TD,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon B80546KG0961M SL7HJ,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon B80546KG0961M SL7TE BX80546KG3400EA SL7TE,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon B80546KG1041M SL7HK,Intel,,LGA 771,,,,,3.6,,,,,,,
+Xeon B80546KG1041M SL7VF BX80546KG3600EA SL7VF,Intel,,LGA 771,,,,,3.6,,,,,,,
+Xeon BV80605001905AJ SLBJH BX80605X3470 SLBJH,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon BV80605001908AL Q3AM,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon BV80605001908AL SLBJK BX80605X3460 SLBJK,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon BV80605001911AQ SLBLD BX80605X3450 SLBLD,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon BV80605001914AG Q3AQ,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon BV80605001914AG SLBLJ BX80605X3430 SLBLJ,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon BV80605002505AH SLBPT BX80605X3480 SLBPT,Intel,,LGA 1366,,,,,3.067,,,,,,,
+Xeon BV80605002517AQ Q3AS,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon BV80605002517AQ SLBLF BX80605X3440 SLBLF,Intel,,LGA 1366,,,,,2.533,,,,,,,
+Xeon BV80605004737AA SLBN3 BX80605L3426 SLBN3,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon BX80528KL140GA SL56G,Intel,,LGA 771,,,,,1.4,,,,,,,
+Xeon BX80528KL140GD SL5RV,Intel,,LGA 771,,,,,1.4,,,,,,,
+Xeon BX80528KL150GA SL4ZT,Intel,,LGA 771,,,,,1.5,,,,,,,
+Xeon BX80528KL150GA SL5U6,Intel,,LGA 771,,,,,1.5,,,,,,,
+Xeon BX80528KL150GD SL5RW,Intel,,LGA 771,,,,,1.5,,,,,,,
+Xeon BX80528KL160GE SL5S4,Intel,,LGA 771,,,,,1.6,,,,,,,
+Xeon BX80528KL170GA SL56H,Intel,,LGA 771,,,,,1.7,,,,,,,
+Xeon BX80528KL170GA SL56N YF80528KC029G0K SL56N,Intel,,LGA 771,,,,,1.7,,,,,,,
+Xeon BX80528KL170GA SL5U7,Intel,,LGA 771,,,,,1.7,,,,,,,
+Xeon BX80528KL200GA SL5U8,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC1500E SL6GZ RN80532KC0211M SL6GZ,Intel,,LGA 771,,,,,1.5,,,,,,,
+Xeon BX80532KC1500E SL6KB,Intel,,LGA 771,,,,,1.5,,,,,,,
+Xeon BX80532KC1800D SL5Z8 BX80532KC1800DU SL5Z8,Intel,,LGA 771,,,,,1.8,,,,,,,
+Xeon BX80532KC1800D SL622 BX80532KC1800DU SL622,Intel,,LGA 771,,,,,1.8,,,,,,,
+Xeon BX80532KC1800D SL6JX,Intel,,LGA 771,,,,,1.8,,,,,,,
+Xeon BX80532KC1800D SL6YS BX80532KC1800DU SL6YS,Intel,,LGA 771,,,,,1.8,,,,,,,
+Xeon BX80532KC1800DU SL6EL RN80532KC033512 SL6EL,Intel,,LGA 771,,,,,1.8,,,,,,,
+Xeon BX80532KC1900E SL6H2 RN80532KC0371M SL6H2,Intel,,LGA 771,,,,,1.9,,,,,,,
+Xeon BX80532KC1900E SL6KC,Intel,,LGA 771,,,,,1.9,,,,,,,
+Xeon BX80532KC2000D SL5Z9 BX80532KC2000DU SL5Z9,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000D SL623,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000D SL6JY,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000D SL6YT BX80532KC2000DU SL6YT,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000DU SL6EM RN80532KC041512 SL6EM,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000E SL6YJ RN80532KC0411M SL6YJ,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000E SL6Z6,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000F SL66Z RN80532KC0412M SL66Z,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2000F SL6KD,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KC2200D SL5ZA BX80532KC2200DU SL5ZA,Intel,,LGA 771,,,,,2.2,,,,,,,
+Xeon BX80532KC2200D SL624 BX80532KC2200DU SL624,Intel,,LGA 771,,,,,2.2,,,,,,,
+Xeon BX80532KC2200D SL6JZ BX80532KC2200DU SL6JZ,Intel,,LGA 771,,,,,2.2,,,,,,,
+Xeon BX80532KC2200D SL6YU BX80532KC2200DU SL6YU,Intel,,LGA 771,,,,,2.2,,,,,,,
+Xeon BX80532KC2200DU SL6EN RN80532KC049512 SL6EN,Intel,,LGA 771,,,,,2.2,,,,,,,
+Xeon BX80532KC2200F SL7A5 RN80532KC0492M SL7A5,Intel,,LGA 771,,,,,2.2,,,,,,,
+Xeon BX80532KC2400D SL65T BX80532KC2400DU SL65T,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KC2400D SL687 BX80532KC2400DU SL687,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KC2400D SL6EP BX80532KC2400DU SL6EP,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KC2400D SL6K2 BX80532KC2400DU SL6K2,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KC2400D SL6YV BX80532KC2400DU SL6YV,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KC2400DU SL6W8 RN80532KC056512 SL6W8,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KC2500E SL6Z2 RN80532KC0601M SL6Z2,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon BX80532KC2500E SL6Z7,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon BX80532KC2600D SL6EQ BX80532KC2600DU SL6EQ,Intel,,LGA 771,,,,,2.6,,,,,,,
+Xeon BX80532KC2600D SL6K3 BX80532KC2600DU SL6K3,Intel,,LGA 771,,,,,2.6,,,,,,,
+Xeon BX80532KC2600D SL6YW BX80532KC2600DU SL6YW,Intel,,LGA 771,,,,,2.6,,,,,,,
+Xeon BX80532KC2600DU SL6W9 RN80532KC064512 SL6W9,Intel,,LGA 771,,,,,2.6,,,,,,,
+Xeon BX80532KC2700F SL79Z RN80532KC0682M SL79Z,Intel,,LGA 771,,,,,2.7,,,,,,,
+Xeon BX80532KC2800D SL6M7 BX80532KC2800DU SL6M7,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KC2800D SL6MS BX80532KC2800DU SL6MS,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KC2800D SL6YX BX80532KC2800DU SL6YX,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KC2800F SL6YL RN80532KC0722M SL6YL,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KC2800F SL6Z8,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KC3000D SL6VW RN80532KC080512 SL6VW,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80532KC3000D SL6WB RN80532KC080512 SL6WB,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80532KC3000D SL6YY,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80532KC3000DU SL6X4,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80532KC3000H SL79V RN80532KC0804M SL79V,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80532KE2000D SL6NP BX80532KE2000DU SL6NP,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KE2000D SL6RQ BX80532KE2000DU SL6RQ,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KE2000D SL6VK BX80532KE2000DU SL6VK,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KE2000D SL6YM BX80532KE2000DU SL6YM,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KE2000D SL72C BX80532KE2000DU SL72C,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KE2000D SL73K,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon BX80532KE2400D SL6GD BX80532KE2400DU SL6GD,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2400D SL6NQ BX80532KE2400DU SL6NQ,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2400D SL6VL BX80532KE2400DU SL6VL,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2400D SL6YN BX80532KE2400DU SL6YN,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2400D SL72D BX80532KE2400DU SL72D,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2400D SL73L BX80532KE2400DU SL73L,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2400E SL7D4 BX80532KE2400EU SL7D4,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2400E SL7DF BX80532KE2400EU SL7DF,Intel,,LGA 771,,,,,2.4,,,,,,,
+Xeon BX80532KE2667D SL6GF BX80532KE2667DU SL6GF,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon BX80532KE2667D SL6NR BX80532KE2667DU SL6NR,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon BX80532KE2667D SL6VM BX80532KE2667DU SL6VM,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon BX80532KE2667D SL6YP BX80532KE2667DU SL6YP,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon BX80532KE2667D SL72E BX80532KE2667DU SL72E,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon BX80532KE2667D SL73M BX80532KE2667DU SL73M,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon BX80532KE2800D SL6GG BX80532KE2800DU SL6GG,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE2800D SL6NS BX80532KE2800DU SL6NS,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE2800D SL6VN BX80532KE2800DU SL6VN,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE2800D SL6YQ BX80532KE2800DU SL6YQ,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE2800D SL72F BX80532KE2800DU SL72F,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE2800D SL73N BX80532KE2800DU SL73N,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE2800E SL7D5 BX80532KE2800EU SL7D5,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE2800E SL7DG BX80532KE2800EU SL7DG,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80532KE3066D SL6GH RK80532KE083512 SL6GH,Intel,,LGA 771,,,,,3.067,,,,,,,
+Xeon BX80532KE3066D SL6RR,Intel,,LGA 771,,,,,3.067,,,,,,,
+Xeon BX80532KE3066D SL6VP RK80532KE083512 SL6VP,Intel,,LGA 771,,,,,3.067,,,,,,,
+Xeon BX80532KE3066D SL6YR,Intel,,LGA 771,,,,,3.067,,,,,,,
+Xeon BX80532KE3066E SL72G RK80532KE0831M SL72G,Intel,,LGA 771,,,,,3.067,,,,,,,
+Xeon BX80532KE3066E SL73P BX80532KE3066EU SL73P,Intel,,LGA 771,,,,,3.067,,,,,,,
+Xeon BX80532KE3200E SL72Y RK80532KE0881M SL72Y,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon BX80532KE3200E SL73Q BX80532KE3200EU SL73Q,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon BX80532KE3200F SL7AE BX80532KE3200FU SL7AE,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon BX80532KE3200F SL7BW,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon BX80546KG2800EP SL7DV BX80546KG2800EU SL7DV,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon BX80546KG3000EU SL7DW BX80546KG3000EA SL7DW,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80546KG3000FA SL8P6 BX80546KG3000FP SL8P6,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80546KG3000FP SL8ZQ BX80546KG3000FU SL8ZQ,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80546KG3200EA SL7DX RK80546KG0881M SL7DX,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon BX80546KG3200FA SL8P5 BX80546KG3200FP SL8P5,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon BX80546KG3200FA SL8ZP BX80546KG3200FP SL8ZP,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon BX80546KG3400EU SL7DY BX80546KG3400EP SL7DY,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon BX80546KG3400FA SL7ZK BX80546KG3400FP SL7ZK,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon BX80546KG3400FA SL8P4 BX80546KG3400FP SL8P4,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon BX80546KG3600FA SL7ZJ BX80546KG3600FP SL7ZJ,Intel,,LGA 771,,,,,3.6,,,,,,,
+Xeon BX80546KG3600FA SL8P3 BX80546KG3600FP SL8P3,Intel,,LGA 771,,,,,3.6,,,,,,,
+Xeon BX805555020 SL92N,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon BX805565148A SL9PR BX805565148P SL9PR,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon BX80563X5365A SLAC3 BX80563X5365P SLAC3,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon BX80621E52403 SR0LS CM8062001048300 SR0LS,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon BX80621E52407 SR0LR CM8062001048200 SR0LR,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon BX80621E52420 SR0LN CM8062001183000 SR0LN,Intel,,LGA 2011,,,,,1.9,,,,,,,
+Xeon BX80621E52430 SR0LM CM8062001122601 SR0LM,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon BX80621E52440 SR0LK CM8062000862604 SR0LK,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon BX80621E52450 SR0LJ CM8062000862501 SR0LJ,Intel,,LGA 2011,,,,,2.1,,,,,,,
+Xeon BX80621E52470 SR0LG CM8062007187242 SR0LG,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon BX80621E54603 SR0LF CM8062101190400 SR0LF,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon BX80621E54607 SR0JL CM8062101038501 SR0JL,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon BX80621E54607 SR0KU CM8062101038501 SR0KU,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon BX80621E54610 SR0JJ CM8062100862401 SR0JJ,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon BX80621E54610 SR0KS CM8062100862401 SR0KS,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon BX80621E54620 SR0JP CM8062101145500 SR0JP,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon BX80621E54620 SR0L4 CM8062101145500 SR0L4,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon BX80621E54640 SR0JK CM8062101038303 SR0JK,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon BX80621E54640 SR0KT CM8062101038303 SR0KT,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon BX80621E54650 SR0KJ CM8062107184516 SR0KJ,Intel,,LGA 2011,,,,,2.7,,,,,,,
+Xeon BX80621E54650L SR0JN CM8062101144700 SR0JN,Intel,,LGA 2011,,,,,2.6,,,,,,,
+Xeon BX80621E54650L SR0L3 CM8062101144700 SR0L3,Intel,,LGA 2011,,,,,2.6,,,,,,,
+Xeon CM80616005010AA SLBQQ BX80616L3406 SLBQQ,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon CM80616005010AA SLBT8 BX80616L3406 SLBT8,Intel,,LGA 1366,,,,,2.267,,,,,,,
+Xeon CM80616005496AB SLBRX,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon CM8061907184014 QA8V,Intel,,LGA 1366,,,,,2.3,,,,,,,
+Xeon CM8062000862912 SR0LL,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062000911406 SR0M5,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062007187409 SR0M2,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon CM8062007187509 SR0M3,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon CM8062007283711 SR0LH,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon CM8062100854802 SR0H3,Intel,,LGA 2011,,,,,2.9,,,,,,,
+Xeon CM8062100854802 SR0KP,Intel,,LGA 2011,,,,,2.9,,,,,,,
+Xeon CM8062100854905 SR0LX,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon CM8062100856203 QA82,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062100856205 QA8G,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062100856205 QA8J,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062100856218 SR0H4,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062100856218 SR0KQ BX80621E52650 SR0KQ,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062100856401 SR0H5,Intel,,LGA 2011,,,,,2.5,,,,,,,
+Xeon CM8062100856401 SR0KR BX80621E52640 SR0KR,Intel,,LGA 2011,,,,,2.5,,,,,,,
+Xeon CM8062100856501 SR0LB BX80621E52603 SR0LB,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon CM8062101038603 QAFF,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon CM8062101038606 SR0LC,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon CM8062101038801 SR0H6,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon CM8062101038801 SR0KV BX80621E52630 SR0KV,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon CM8062101042805 SR0LZ,Intel,,LGA 2011,,,,,2.1,,,,,,,
+Xeon CM8062101048401 SR0H7,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062101048401 SR0KW BX80621E52620 SR0KW,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062101082703 QA8E,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon CM8062101082713 SR0H8,Intel,,LGA 2011,,,,,2.6,,,,,,,
+Xeon CM8062101082713 SR0KX BX80621E52670 SR0KX,Intel,,LGA 2011,,,,,2.6,,,,,,,
+Xeon CM8062101102002 SR0HC,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon CM8062101102002 SR0KZ,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon CM8062101122501 SR0HA,Intel,,LGA 2011,,,,,2.9,,,,,,,
+Xeon CM8062101122501 SR0L0 BX80621E52690 SR0L0,Intel,,LGA 2011,,,,,2.9,,,,,,,
+Xeon CM8062101143101 SR0HB,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon CM8062101143101 SR0L1 BX80621E52665 SR0L1,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon CM8062101143202 SR0LE,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon CM8062101145700 SR0L5,Intel,,LGA 2011,,,,,2.9,,,,,,,
+Xeon CM8062101229200 SR0QR BX80621E54650 SR0QR,Intel,,LGA 2011,,,,,2.7,,,,,,,
+Xeon CM8062101229300 SR0QS BX80621E54650L SR0QS,Intel,,LGA 2011,,,,,2.6,,,,,,,
+Xeon CM8062101229400 SR0QT BX80621E54640 SR0QT,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon CM8062107184302 QA92,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon CM8062107184308 QB7R,Intel,,LGA 2011,,,,,3.1,,,,,,,
+Xeon CM8062107184308 SR0GX,Intel,,LGA 2011,,,,,3.1,,,,,,,
+Xeon CM8062107184308 SR0KG BX80621E52687W SR0KG,Intel,,LGA 2011,,,,,3.1,,,,,,,
+Xeon CM8062107184400 Q19D,Intel,,LGA 2011,,,,,1.6,,,,,,,
+Xeon CM8062107184406 Q19E,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062107184420 QA8Z,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon CM8062107184420 QA90,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon CM8062107184424 QBEB,Intel,,LGA 2011,,,,,2.7,,,,,,,
+Xeon CM8062107184424 SR0GY,Intel,,LGA 2011,,,,,2.7,,,,,,,
+Xeon CM8062107184424 SR0KH BX80621E52680 SR0KH,Intel,,LGA 2011,,,,,2.7,,,,,,,
+Xeon CM8062107184516 QBEC,Intel,,LGA 2011,,,,,2.7,,,,,,,
+Xeon CM8062107184516 QBED,Intel,,LGA 2011,,,,,2.7,,,,,,,
+Xeon CM8062107184801 QB7B,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon CM8062107184801 SR0GZ,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon CM8062107184801 SR0KK BX80621E52660 SR0KK,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon CM8062107185302 QA88,Intel,,LGA 2011,,,,,1.6,,,,,,,
+Xeon CM8062107185302 QA89,Intel,,LGA 2011,,,,,1.6,,,,,,,
+Xeon CM8062107185309 SR0H0,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon CM8062107185309 SR0KL,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon CM8062107185403 QA7Z,Intel,,LGA 2011,,,,,1.9,,,,,,,
+Xeon CM8062107185405 SR0H1,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062107185405 SR0KM,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon CM8062107185603 QAFP,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon CM8062107185605 SR0L7,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8062107186102 SR0L8,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon CM8062107186502 SR0L9,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon CM8062107186604 SR0LA BX80621E52609 SR0LA,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon CM8062107284111 SR0H2,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8062107284111 SR0KN BX80621E51660 SR0KN,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8062207184506 QA8Y,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon CM8062300921702 SR00F BX80623E31220 SR00F,Intel,,LGA 2011,,,,,3.1,,,,,,,
+Xeon CM8062301061800 SR00M,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon CM8062301071705 SR055,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon CM8062307261903 Q1HY,Intel,,LGA 2011,,,,,3.5,,,,,,,
+Xeon CM8062307261903 SR00R BX80623E31280 SR00R,Intel,,LGA 2011,,,,,3.5,,,,,,,
+Xeon CM8062307262003 Q1HX,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon CM8062307262003 SR00P BX80623E31275 SR00P,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon CM8062307262103 Q1HU,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8062307262103 SR00L BX80623E31245 SR00L,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8062307262206 Q1HR,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon CM8062307262206 SR00J BX80623E31235 SR00J,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon CM8062307262304 SR00G BX80623E31225 SR00G,Intel,,LGA 2011,,,,,3.1,,,,,,,
+Xeon CM8062307262403 Q1HW,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon CM8062307262403 SR00N BX80623E31270 SR00N,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon CM8062307262503 Q1HS,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8062307262503 SR00K BX80623E31240 SR00K,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8062307262610 Q1HQ,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon CM8062307262610 SR00H BX80623E31230 SR00H,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon CM8062307262828 SR070,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon CM8063701098101 SR0P4 BX80637E31230V2 SR0P4,Intel,,LGA 2011,,,,,3.3,,,,,,,
+Xeon CM8063701098201 SR0P5 BX80637E31240V2 SR0P5,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon CM8063701098301 SR0P6 BX80637E31270V2 SR0P6,Intel,,LGA 2011,,,,,3.5,,,,,,,
+Xeon CM8063701098404 SR0P7 BX80637E31280V2 SR0P7,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon CM8063701098602 SR0P9 BX80637E31245V2 SR0P9,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon CM8063701098702 SR0PA BX80637E31275V2 SR0PA,Intel,,LGA 2011,,,,,3.5,,,,,,,
+Xeon CM8063701098906 SR0PB BX80637E31265LV2 SR0PB,Intel,,LGA 2011,,,,,2.5,,,,,,,
+Xeon CM8063701099001 SR0R6,Intel,,LGA 2011,,,,,2.3,,,,,,,
+Xeon CM8063701099101 SR0PC,Intel,,LGA 2011,,,,,3.7,,,,,,,
+Xeon CM8063701133702 SR0PD,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon CM8063701160503 SR0PH BX80637E31220V2 SR0PH,Intel,,LGA 2011,,,,,3.1,,,,,,,
+Xeon CM8063701160603 SR0PJ BX80637E31225V2 SR0PJ,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon E3110,Intel,,LGA 775,,2,,3.0,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E3120,Intel,,LGA 775,,2,,3.17,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5205,Intel,,LGA 771,,2,,1.87,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5220,Intel,,LGA 771,,2,,2.33,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5240,Intel,,LGA 771,,2,,3.0,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5310,Intel,,LGA 771,,4,,1.6,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5320,Intel,,LGA 771,,4,,1.87,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5330,Intel,,LGA 771,,4,,2.13,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5335,Intel,,LGA 771,,4,,2.0,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5340,Intel,,LGA 771,,4,,2.4,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5345,Intel,,LGA 771,,4,,2.33,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+"Xeon E5350, X5350",Intel,,LGA 771,,4,,2.67,,120,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5405,Intel,,LGA 771,,4,,2.0,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5410,Intel,,LGA 771,,4,,2.33,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5420,Intel,,LGA 771,,4,,2.5,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5430,Intel,,LGA 771,,4,,2.67,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5440,Intel,,LGA 771,,4,,2.83,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5450,Intel,,LGA 771,,4,,3.0,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5462,Intel,,LGA 771,,4,,2.8,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E5472,Intel,,LGA 771,,4,,3.0,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E7310,Intel,,Socket 604,,4,,1.6,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E7320,Intel,,Socket 604,,4,,2.13,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E7330,Intel,,Socket 604,,4,,2.4,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon E7340,Intel,,Socket 604,,4,,2.4,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon EU80569KJ067N Q9TS,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon EU80569KJ067N SLAN7,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon EU80569KJ067N SLAX2 BX80569X3350 SLAX2,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon EU80569KJ073N Q9TQ,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon EU80569KJ073N SLAN5,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon EU80569KJ073N SLAWZ BX80569X3360 SLAWZ,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon EU80570KJ0806M Q9SZ,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon EU80570KJ0806M SLAPM BX80570E3110 SLAPM,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon EU80573JJ0676M SLANM,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon EU80573JJ0806M Q684,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon EU80573JJ0806M SLAS3,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon EU80573JJ0876M Q3LQ,Intel,,LGA 1366,,,,,3.167,,,,,,,
+Xeon EU80573KH0366M Q3KZ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon EU80573KH0366M Q651,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon EU80573KH0366M SLANG BX80573E5205A SLANG,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon EU80573KJ0536M Q2LE,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon EU80573KJ0536M SLANF,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon EU80573KJ0676M Q2LD,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon EU80573KJ0806M Q631,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon EU80573KJ0806M SLAND,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon EU80573KJ0936M Q4QY,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon EU80573KJ0936M Q624,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon EU80573KJ0936M SLANJ,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon EU80573KL0966M Q617,Intel,,LGA 1366,,,,,3.4,,,,,,,
+Xeon EU80573KL0966M SLANH,Intel,,LGA 1366,,,,,3.4,,,,,,,
+Xeon EU80573QJ0806M SLAYK,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon EU80574JH046N Q9GK,Intel,,LGA 771,,,,,2.133,,,,,,,
+Xeon EU80574JH046N SLAP5,Intel,,LGA 771,,,,,2.133,,,,,,,
+Xeon EU80574JJ053N Q3JH,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon EU80574JJ053N Q9FU,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon EU80574JJ053N SLAP4 BX80574L5410A SLAP4,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon EU80574JJ060N Q3JG,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon EU80574JJ060N Q9FR,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon EU80574JJ060N SLARP BX80574L5420A SLARP,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon EU80574KJ041N Q9EL,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon EU80574KJ041N SLAP2 BX80574E5405A SLAP2,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon EU80574KJ053003 QZOZ,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon EU80574KJ053N Q3HP,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon EU80574KJ053N Q5YJ,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon EU80574KJ053N SLANW BX80574E5410A SLANW,Intel,,LGA 771,,,,,2.333,,,,,,,
+Xeon EU80574KJ060N Q9DB,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon EU80574KJ060N SLANV BX80574E5420A SLANV,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon EU80574KJ067N Q9CY,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon EU80574KJ067N SLANU BX80574E5430A SLANU,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon EU80574KJ073N Q3HE,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon EU80574KJ073N Q9CT,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon EU80574KJ073N Q9CU,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon EU80574KJ073N SLANS BX80574E5440A SLANS,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon EU80574KJ080N Q5YQ,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon EU80574KJ080N SLANQ BX80574E5450A SLANQ,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon EU80574KJ080NT QAMB,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon EU80574KJ080NT SLASB BX80574X5450A SLASB,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon EU80574KJ087N Q5XQ,Intel,,LGA 771,,,,,3.167,,,,,,,
+Xeon EU80574KJ087N SLANP BX80574X5460A SLANP,Intel,,LGA 771,,,,,3.167,,,,,,,
+Xeon EU80574KL072N SLANT,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon EU80574KL080N SLANR,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon EU80574KL080NT QALT,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon EU80574KL080NT SLASA,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon EU80574KL088N Q5ZS,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon EU80574KL088N Q9UF,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon EU80574KL088N SLANZ,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon EU80580KJ0606M QBBG,Intel,,LGA 1366,,,,,2.5,,,,,,,
+Xeon EU80580KJ0606M SLAWF BX80580X3320 SLAWF,Intel,,LGA 1366,,,,,2.5,,,,,,,
+Xeon EU80584KJ060J SLASE,Intel,,LGA 771,,,,,2.5,,,,,,,
+Xeon EU80584KJ067N SLASD,Intel,,LGA 771,,,,,2.667,,,,,,,
+Xeon EU80584KJ073N SLASC,Intel,,LGA 771,,,,,2.833,,,,,,,
+Xeon EU8060200000032 Q7WJ,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon EU8060200000068 QCZN,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80555KE0724M QGSH,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon HH80555KF0604M SL96F BX805555020A SL96F,Intel,,LGA 1366,,,,,2.5,,,,,,,
+Xeon HH80555KF0674M QMOW,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80555KF0674M SL96E BX805555030A SL96E,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80555KF0734M QHZN,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon HH80555KF0734M QMOU,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon HH80555KF0734M SL96D BX805555040A SL96D,Intel,,LGA 1366,,,,,2.833,,,,,,,
+Xeon HH80555KF0804M QHZK,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80555KF0804M QMOS,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80555KF0804M QPSL,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80555KF0804M SL96C BX805555050A SL96C,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80555KH0884M QFCI,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0884M QHYY,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0884M QJRY,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0884M QKIC,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0884M QMOP,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0884M QPSF,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0884M SL92A,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0884M SL96A BX805555060A SL96A,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555KH0994M QHYP,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon HH80555KH0994M QJYK,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon HH80555KH0994M QKIB,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon HH80555KH0994M QMON,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon HH80555KH0994M SL969 BX805555070A SL969,Intel,,LGA 1366,,,,,3.467,,,,,,,
+Xeon HH80555KH1094M QKIA,Intel,,LGA 1366,,,,,3.733,,,,,,,
+Xeon HH80555KH1094M QMOL,Intel,,LGA 1366,,,,,3.733,,,,,,,
+Xeon HH80555KH1094M QPRV,Intel,,LGA 1366,,,,,3.733,,,,,,,
+Xeon HH80555KH1094M SL968 BX805555080A SL968,Intel,,LGA 1366,,,,,3.733,,,,,,,
+Xeon HH80555QH0884M QHZB,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555QH0884M QKIH,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555QH0884M QMPB,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555QH0884M QPTD,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80555QH0884M SL96B,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon HH80556JG0254M QVOJ,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556JG0254M QXXG,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556JG0494M QVNX,Intel,,LGA 1366,,,,,2.2,,,,,,,
+Xeon HH80556JG0494M QXQD,Intel,,LGA 1366,,,,,2.2,,,,,,,
+Xeon HH80556JG0494M SLABJ,Intel,,LGA 1366,,,,,2.2,,,,,,,
+Xeon HH80556JH0364M QLCN,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556JH0364M QXQH,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556JH0364M SL9XA,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556JH0364M SLAG6,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556JH0464M QLCK,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80556JH0464M QXPJ,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80556JH0464M SL9RN,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80556JH0464M SLAG3,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80556JJ0534M QQLJ,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556JJ0534M QRAZ,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556JJ0534M QTHS,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556JJ0534M QXPZ,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556JJ0534M SL9RR BX805565148A SL9RR,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556JJ0534M SLABH BX805565148A SLABH,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556JJ0534M SLAG4 BX805565148A SLAG4,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KH0254M QLSN,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556KH0254M QOWW,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556KH0254M QTKE,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556KH0254M QXRN,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556KH0254M SL9RZ BX805565110A SL9RZ,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556KH0254M SLABR BX805565110A SLABR,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556KH0254M SLAGE BX805565110A SLAGE,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80556KH0364M QJGW,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M QLSJ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M QOWS,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M QRTZ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M QTIY,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M QXRJ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M SL9RY BX805565120A SL9RY,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M SLABQ BX805565120A SLABQ,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KH0364M SLAGD BX805565120A SLAGD,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80556KJ0414M QLCT,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M QLUR,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M QLYN,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M QOXU,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M QTIU,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M QXRF,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M SL9RX BX805565130A SL9RX,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M SLABP BX805565130A SLABP,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0414M SLAGC BX805565130A SLAGC,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80556KJ0534M QLUN,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M QLYJ,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M QOXQ,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M QQEO,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M QTIQ,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M QXRB,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M SL9RW BX805565140A SL9RW,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M SLABN BX805565140A SLABN,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0534M SLAGB BX805565140A SLAGB,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80556KJ0674M QLUJ,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0674M QLYF,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0674M QOXM,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0674M QTIM,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0674M QXQX,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0674M SL9RU BX805565150A SL9RU,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0674M SLABM BX805565150A SLABM,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0674M SLAGA BX805565150A SLAGA,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80556KJ0804M QLUF,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80556KJ0804M QOXI,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80556KJ0804M QTII,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80556KJ0804M QXQT,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80556KJ0804M SL9RT BX805565160A SL9RT,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80556KJ0804M SLABS BX805565160A SLABS,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80556KJ0804M SLAG9 BX805565160A SLAG9,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80557KH0362M QUBU,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80557KH0362M QUUK,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80557KH0362M SL9TW BX805573040 SL9TW,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80557KH0362M SL9VT BX805573040 SL9VT,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80557KH0362M SLAC2 BX805573040 SLAC2,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80557KH0462M QUBV,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80557KH0462M QUUG,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80557KH0462M SL9TY BX805573050 SL9TY,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80557KH0462M SL9VS BX805573050 SL9VS,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80557KH0462M SLABZ BX805573050 SLABZ,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80557KH0564M QUBW,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80557KH0564M SL9TZ BX805573060 SL9TZ,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80557KH0564M SL9ZH BX805573060 SL9ZH,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80557KH0564M SLACD BX805573060 SLACD,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80557KH0674M QUBX,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80557KH0674M SL9U2 BX805573070 SL9U2,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80557KH0674M SL9ZC BX805573070 SL9ZC,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80557KH0674M SLACC BX805573070 SLACC,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80557KJ0534MG QXIA,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80557KJ0534MG SLAA9 BX805573065 SLAA9,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80557KJ0674MG QXHN,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80557KJ0674MG SLAA3 BX805573075 SLAA3,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80557KJ0804MG QXHL,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80557KJ0804MG SLAA2 BX805573085 SLAA2,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80562KH0468M QVFQ,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80562KH0468M QYPV,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80562KH0568M QVFP,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80562KH0568M QYPU,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80562KH0678M QYPT,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80562QH0468M SL9UQ BX80562X3210 SL9UQ,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80562QH0468M SLACU BX80562X3210 SLACU,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80562QH0568M SL9UP BX80562X3220 SL9UP,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80562QH0568M SLACT BX80562X3220 SLACT,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80562QH0678M SLACS BX80562X3230 SLACS,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563JH0258M QURR,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563JH0258M QWVU,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563JH0258M SL9MT,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563JH0258M SLACA,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563JH0258M SLAEQ,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563JH0258MT SLAJE,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563JH0368M QWVO,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563JH0368M QYEI,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563JH0368M SLA4Q BX80563L5320A SLA4Q,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563JH0368M SLAC9 BX80563L5320A SLAC9,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563JH0368M SLAEP BX80563L5320A SLAEP,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563JJ0418MP QWUG,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80563JJ0418MP SLAEN BX80563L5335A SLAEN,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80563KH0468M QQYI,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80563KH0468M QQYL,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80563KH0568M QQNA,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80563KH0568M QQYH,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80563KH0568M QQYK,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80563KH0568M QTAT,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80563KH0568M QUQI,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon HH80563KH0678M QLWX,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KH0678M QQMV,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KH0678M QQYG,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KH0678M QUQD,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0538M QVDE,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80563KJ0678M QVQE,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0678M QVQF,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0678M QVRD,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0678M QWTM,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0678M SL9YM BX80563X5355A SL9YM,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0678M SLAC4 BX80563X5355A SLAC4,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0678M SLAEG BX80563X5355A SLAEG,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon HH80563KJ0808MP QWTH,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80563KJ0808MP SLAED BX80563X5365A SLAED,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon HH80563KL0728M QYPJ,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon HH80563QH0258M QVHM,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563QH0258M QWVK,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563QH0258M SL9XR BX80563E5310A SL9XR,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563QH0258M SLACB BX80563E5310A SLACB,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563QH0258M SLAEM BX80563E5310A SLAEM,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon HH80563QH0368M QQOE,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563QH0368M QRAU,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563QH0368M QURM,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563QH0368M QWVE,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563QH0368M SL9MV BX80563E5320A SL9MV,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563QH0368M SLAC8 BX80563E5320A SLAC8,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563QH0368M SLAEL BX80563E5320A SLAEL,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon HH80563QH0468M QQNZ,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80563QH0468M QURH,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon HH80563QJ0418M QVQU,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80563QJ0418M QWUB,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80563QJ0418M SL9YK BX80563E5335A SL9YK,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80563QJ0418M SLAC7 BX80563E5335A SLAC7,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80563QJ0418M SLAEK BX80563E5335A SLAEK,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon HH80563QJ0538M QVQO,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80563QJ0538M QVQP,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80563QJ0538M QWTW,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80563QJ0538M SL9YL BX80563E5345A SL9YL,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80563QJ0538M SLAC5 BX80563E5345A SLAC5,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon HH80563QJ0538M SLAEJ BX80563E5345A SLAEJ,Intel,,LGA 1366,,,,,2.333,,,,,,,
+Xeon JM80547KH1091M QDZA,Intel,,LGA 771,,,,,3.733,,,,,,,
+Xeon L3110,Intel,,LGA 775,,2,,3.0,,45,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L3360,Intel,,LGA 775,,4,,2.83,,65,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5215,Intel,,LGA 771,,2,,1.87,,20,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5238,Intel,,LGA 771,,2,,2.67,,35,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5240,Intel,,LGA 771,,2,,3.0,,40,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5248,Intel,,LGA 771,,2,,3.0,,55,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5310,Intel,,LGA 771,,4,,1.6,,50,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5318,Intel,,LGA 771,,4,,1.6,,40,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5320,Intel,,LGA 771,,4,,1.87,,50,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5335,Intel,,LGA 771,,4,,2.0,,50,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5408,Intel,,LGA 771,,4,,2.13,,40,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5410,Intel,,LGA 771,,4,,2.33,,50,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5420,Intel,,LGA 771,,4,,2.5,,50,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L5430,Intel,,LGA 771,,4,,2.67,,50,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon L7345,Intel,,Socket 604,,4,,1.87,,50,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon LF80539JF0282M SL9HS,Intel,,LGA 771,,,,,1.667,,,,,,,
+Xeon LF80539KF0282M QKIM,Intel,,LGA 771,,,,,1.667,,,,,,,
+Xeon LF80539KF0282M SL98Q BX80539KF16672M SL98Q,Intel,,LGA 771,,,,,1.667,,,,,,,
+Xeon LF80539KF0282M SL9HP BX80539KF16672M SL9HP,Intel,,LGA 771,,,,,1.667,,,,,,,
+Xeon LF80539KF0412M QHJQ,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon LF80539KF0412M SL8WT BX80539KF20002M SL8WT,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon LF80539KF0412M SL9HN BX80539KF20002M SL9HN,Intel,,LGA 771,,,,,2.0,,,,,,,
+Xeon LF80539KF0482M SL9HM,Intel,,LGA 771,,,,,2.167,,,,,,,
+Xeon LF80550KF0604M SL9QA,Intel,,LGA 1366,,,,,2.5,,,,,,,
+Xeon LF80550KF0608M QLJG,Intel,,LGA 1366,,,,,2.5,,,,,,,
+Xeon LF80550KF0804M SL9HF,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon LF80550KF0878M SL9HE,Intel,,LGA 1366,,,,,3.167,,,,,,,
+Xeon LF80550KF093007 SL9HD,Intel,,LGA 1366,,,,,3.333,,,,,,,
+Xeon LF80550KF100007 SL9YR,Intel,,LGA 1366,,,,,3.5,,,,,,,
+Xeon LF80550KG0644M QRLO,Intel,,LGA 1366,,,,,2.6,,,,,,,
+Xeon LF80550KG0644M SL9Q9 BX805507110M SL9Q9,Intel,,LGA 1366,,,,,2.6,,,,,,,
+Xeon LF80550KG0804M QRLF,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon LF80550KG0804M SL9HC BX805507120M SL9HC,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon LF80550KG0888M QQBC,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon LF80550KG0888M SL9HB BX805507130M SL9HB,Intel,,LGA 1366,,,,,3.2,,,,,,,
+Xeon LF80550KG096007 QQBB,Intel,,LGA 1366,,,,,3.4,,,,,,,
+Xeon LF80550KG096007 SL9HA BX805507140M SL9HA,Intel,,LGA 1366,,,,,3.4,,,,,,,
+Xeon LF80564QH0568M SLA6D,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon LF80564QH0778M SLA6C,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon LF80565JH0368M QWYD,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon LF80565JH0368M SLA6B,Intel,,LGA 1366,,,,,1.867,,,,,,,
+Xeon LF80565KH0464M QWGG,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon LF80565KH0678M QWFZ,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon LF80565KH0778M QWWZ,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon LF80565KH0778M QZCY,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon LF80565KH0778M SLA67 BX80565X7350 SLA67,Intel,,LGA 1366,,,,,2.933,,,,,,,
+Xeon LF80565QH0254M SLA6A BX80565E7310 SLA6A,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon LF80565QH0464M SLA69 BX80565E7320 SLA69,Intel,,LGA 1366,,,,,2.133,,,,,,,
+Xeon LF80565QH0566M SLA77 BX80565E7330 SLA77,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon LF80565QH0568M QZCZ,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon LF80565QH0568M SLA68 BX80565E7340 SLA68,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon LV 5113,Intel,,LGA 771,,2,,1.6,,40,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon LV 5128,Intel,,LGA 771,,2,,1.87,,40,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon LV 5133,Intel,,LGA 771,,2,,2.2,,40,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon LV 5138,Intel,,LGA 771,,2,,2.13,,35,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon LV 5148,Intel,,LGA 771,,2,,2.33,,40,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon NE80532EC025512 SL8TH,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Xeon NE80532EC041512 SL8SE,Intel,,LGA 1366,,,,,2.0,,,,,,,
+Xeon NE80532EE056512 SL8TJ,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon NE80532KE056512 SL8TL,Intel,,LGA 1366,,,,,2.4,,,,,,,
+Xeon NE80532KE072512 SL8TK,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon NE80546EG0721M SL8RW,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon NE80546JG0802MM SL8SV,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon NE80546KF0871MM SL8UM BX80546KF3160E SL8UM,Intel,,LGA 771,,,,,3.167,,,,,,,
+Xeon NE80546KF1071MM SL8UN BX80546KF3660E SL8UN,Intel,,LGA 771,,,,,3.667,,,,,,,
+Xeon NE80546KG0721M SL8KN,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon NE80546KG0722M QIJM,Intel,,LGA 771,,,,,2.8,,,,,,,
+Xeon NE80546KG0801M SL8KP,Intel,,LGA 771,,,,,3.0,,,,,,,
+Xeon NE80546KG0881M SL8KQ,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon NE80546KG0882M QIJK,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon NE80546KG0961M SL8KR,Intel,,LGA 771,,,,,3.4,,,,,,,
+Xeon NE80546KG1041M SL8KS,Intel,,LGA 771,,,,,3.6,,,,,,,
+Xeon NE80546QG0882MM SL8T3,Intel,,LGA 771,,,,,3.2,,,,,,,
+Xeon NE80551KG0724M QHUH,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon NE80551KG0724MM SL8MA BX80551KG2800HA SL8MA,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon NE80560KF0672M QHBQ,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon NE80560KF0672MH SL8UA BX80560KF2660F SL8UA,Intel,,LGA 1366,,,,,2.667,,,,,,,
+Xeon NE80560KF0804M QHBG,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon NE80560KF0804MH SL8UC BX80560KF3000H SL8UC,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon NE80560KG0722MH SL8UB,Intel,,LGA 1366,,,,,2.8,,,,,,,
+Xeon NE80560KG0804M QHBB,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon NE80560KG0804MH SL8UD,Intel,,LGA 1366,,,,,3.0,,,,,,,
+Xeon QBH7,Intel,,,,,,,1.5,,,,,,,
+Xeon QBH8,Intel,,,,,,,1.4,,,,,,,
+Xeon QBV3,Intel,,,,,,,1.2,,,,,,,
+Xeon QCB6,Intel,,,,,,,1.7,,,,,,,
+Xeon QF75,Intel,,,,,,,3.0,,,,,,,
+Xeon QFN1,Intel,,,,,,,1.7,,,,,,,
+Xeon QFY7,Intel,,,,,,,1.7,,,,,,,
+Xeon QFY8,Intel,,,,,,,1.5,,,,,,,
+Xeon QHP1,Intel,,,,,,,2.4,,,,,,,
+Xeon QHP2,Intel,,,,,,,2.2,,,,,,,
+Xeon QHP3,Intel,,,,,,,2.0,,,,,,,
+Xeon QHU7,Intel,,,,,,,2.0,,,,,,,
+Xeon QQV3,Intel,,,,,,,2.8,,,,,,,
+Xeon QQV6,Intel,,,,,,,3.0,,,,,,,
+Xeon QQV7,Intel,,,,,,,2.8,,,,,,,
+Xeon QWX9,Intel,,,,,,,1.5,,,,,,,
+Xeon QY89,Intel,,,,,,,1.3,,,,,,,
+Xeon QY90,Intel,,,,,,,1.3,,,,,,,
+Xeon QYS9,Intel,,,,,,,1.3,,,,,,,
+Xeon RB80529RZ667128 QV18,Intel,,,,,,,0.667,,,,,,,
+Xeon RK80532EC025512 QOH9,Intel,,LGA 2011,,,,,1.6,,,,,,,
+Xeon RK80532EC025512 QQV2,Intel,,LGA 2011,,,,,1.6,,,,,,,
+Xeon RK80532EC025512 SL6XK,Intel,,LGA 2011,,,,,1.6,,,,,,,
+Xeon RK80532EC041512 SL6XL,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon RK80532EC056512 SL7BJ,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RK80532EC064512 SL7HU,Intel,,LGA 2011,,,,,2.6,,,,,,,
+Xeon RK80532EE056512 QYP5,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RK80532EE056512 SL74T RK80532EC056512 SL74T,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RK80532KC025512 SL6GV,Intel,,LGA 2011,,,,,1.6,,,,,,,
+Xeon RK80532KE041512 QMZ4,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon RK80532KE0561M QM45,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RK80532KE056512 QMZ1,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RK80532KE067512 QQX2,Intel,,LGA 2011,,,,,2.667,,,,,,,
+Xeon RK80532KE0721M QM43,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80532KE072512 QQU6,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80532KE072512 QQX1,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80532KE0831M QYE1,Intel,,LGA 2011,,,,,3.067,,,,,,,
+Xeon RK80532KE083512 QQU5,Intel,,LGA 2011,,,,,3.067,,,,,,,
+Xeon RK80532KE083512 QQX0,Intel,,LGA 2011,,,,,3.067,,,,,,,
+Xeon RK80532KE083512 QWV3,Intel,,LGA 2011,,,,,3.067,,,,,,,
+Xeon RK80532KE0881M QYE0,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80532KE0882M QH63,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KE0461M QZY6,Intel,,LGA 2011,,,,,2.133,,,,,,,
+Xeon RK80546KE0561M QZE4,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RK80546KE0671M Q29P,Intel,,LGA 2011,,,,,2.667,,,,,,,
+Xeon RK80546KE0721M SL84A,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KE0721M SL8GU,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KF0538M QX94,Intel,,LGA 2011,,,,,2.333,,,,,,,
+Xeon RK80546KF0734M SL8ED,Intel,,LGA 2011,,,,,2.833,,,,,,,
+Xeon RK80546KF0808M Q84B,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KF0808M QEXW,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KF0808M SL8EW,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KF0871M QDIZ,Intel,,LGA 2011,,,,,3.167,,,,,,,
+Xeon RK80546KF0871M SL84U,Intel,,LGA 2011,,,,,3.167,,,,,,,
+Xeon RK80546KF0938M QCHX,Intel,,LGA 2011,,,,,3.333,,,,,,,
+Xeon RK80546KF0938M QEXS,Intel,,LGA 2011,,,,,3.333,,,,,,,
+Xeon RK80546KF0938M SL8EY,Intel,,LGA 2011,,,,,3.333,,,,,,,
+Xeon RK80546KF1071M SL84W,Intel,,LGA 2011,,,,,3.667,,,,,,,
+Xeon RK80546KG0561M QL88,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RK80546KG0721M Q043,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M Q13D,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M Q431,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M Q82R,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M QFFQ,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M QL86,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M QN48,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M QU10,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M QX14,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M SL7PD BX80546KG2800EA SL7PD,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0721M SL84B,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0722M QANA,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0722MM SL7ZG BX80546KG2800FA SL7ZG,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RK80546KG0801M Q81R,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0801M QFFP,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0801M QL85,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0801M QN47,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0801M QU09,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0801M SL7PE,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0802M QAMZ,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0802M QGWV,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0802MM SL7ZF BX80546KG3000FA SL7ZF,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon RK80546KG0881M Q80R,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0881M QFFO,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0881M QL84,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0881M QN46,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0881M SL7PF,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0882M QAMY,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0882MM SL7ZE,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0882MM SL943,Intel,,LGA 2011,,,,,3.2,,,,,,,
+Xeon RK80546KG0961M Q79R,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon RK80546KG0961M QFFN,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon RK80546KG0961M QN45,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon RK80546KG0961M SL7PG,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon RK80546KG0962M QAMX,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon RK80546KG0962M QGUU,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon RK80546KG0962MM SL7ZD,Intel,,LGA 2011,,,,,3.4,,,,,,,
+Xeon RK80546KG1041M Q78R,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon RK80546KG1041M QFFM,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon RK80546KG1041M QN44,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon RK80546KG1041M SL7DZ,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon RK80546KG1041M SL7PH BX80546KG3600EA SL7PH,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon RK80546KG1042M QAMW,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon RK80546KG1042MM SL7ZC,Intel,,LGA 2011,,,,,3.6,,,,,,,
+Xeon RK80546KG1122M QAMH,Intel,,LGA 2011,,,,,3.8,,,,,,,
+Xeon RK80546KG1122M QAMV,Intel,,LGA 2011,,,,,3.8,,,,,,,
+Xeon RK80546KG1122MM SL7ZB BX80546KG3800FA SL7ZB,Intel,,LGA 2011,,,,,3.8,,,,,,,
+Xeon RN80528KC021G0K SL5TD,Intel,,LGA 2011,,,,,1.5,,,,,,,
+Xeon RN80528KC029G0K SL5TE,Intel,,LGA 2011,,,,,1.7,,,,,,,
+Xeon RN80528KC041G0K SL5TH,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon RN80532KC033512 QMM1,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon RN80532KC033512 SL6W3,Intel,,LGA 2011,,,,,1.8,,,,,,,
+Xeon RN80532KC041512 QMM0,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon RN80532KC041512 QQQ2,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon RN80532KC041512 SL6W6,Intel,,LGA 2011,,,,,2.0,,,,,,,
+Xeon RN80532KC049512 QML9,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon RN80532KC049512 SL6W7,Intel,,LGA 2011,,,,,2.2,,,,,,,
+Xeon RN80532KC056512 QML8,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RN80532KC056512 QQQ0,Intel,,LGA 2011,,,,,2.4,,,,,,,
+Xeon RN80532KC064512 QML7,Intel,,LGA 2011,,,,,2.6,,,,,,,
+Xeon RN80532KC0724M QXU7,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RN80532KC072512 QQP8,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RN80532KC072512 SL6WA,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon RN80532KC080512 QQP7,Intel,,LGA 2011,,,,,3.0,,,,,,,
+Xeon SL4WY,Intel,,,,,,,1.5,,,,,,,
+Xeon WX80532KE2800D QYE2,Intel,,LGA 2011,,,,,2.8,,,,,,,
+Xeon X3210,Intel,,LGA 775,,4,,2.13,,105,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3220,Intel,,LGA 775,,4,,2.4,,105,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3230,Intel,,LGA 775,,4,,2.67,,100,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3323,Intel,,LGA 771,,4,,2.5,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3350,Intel,,LGA 775,,4,,2.67,,95,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3353,Intel,,LGA 771,,4,,2.67,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3360,Intel,,LGA 775,,4,,2.83,,95,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3363,Intel,,LGA 771,,4,,2.83,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3370,Intel,,LGA 775,,4,,3.0,,95,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X3380,Intel,,LGA 775,,4,,3.17,,95,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5260,Intel,,LGA 771,,2,,3.33,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5270,Intel,,LGA 771,,2,,3.5,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5272,Intel,,LGA 771,,2,,3.4,,80,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5355,Intel,,LGA 771,,4,,2.67,,120,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5365,Intel,,LGA 771,,4,,3.0,,150,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5450,Intel,,LGA 771,,4,,3.0,,120,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5460,Intel,,LGA 771,,4,,3.17,,120,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5470,Intel,,LGA 771,,4,,3.33,,120,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5472,Intel,,LGA 771,,4,,3.0,,120,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5482,Intel,,LGA 771,,4,,3.2,,150,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X5492,Intel,,LGA 771,,4,,3.4,,150,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon X7350,Intel,,Socket 604,,4,,2.93,,130,,,,,,https://en.wikipedia.org/wiki/List_of_Intel_Xeon_processors_(Core-based)
+Xeon YF80528KC017512 SL5FZ,Intel,,LGA 1366,,,,,1.4,,,,,,,
+Xeon YF80528KC021512 SL5G2,Intel,,LGA 1366,,,,,1.5,,,,,,,
+Xeon YF80528KC025G1M SL5G8,Intel,,LGA 1366,,,,,1.6,,,,,,,
+Core 5 210H,Unknown,Core Series 2,FCBGA1744,10nm,8,12,2.2,4.8,45,"DDR5-5200, DDR4-3200, LPDDR5X-5200, LPDDR4X-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-5-210h
+Core 5 220H,Unknown,Core Series 2,FCBGA1744,10nm,12,16,2.0,4.9,45,"DDR5-5200, DDR4-3200, LPDDR5X-5200, LPDDR4X-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-5-220h
+Core 5 220U,Unknown,Core Series 2,FCBGA1744,10nm,10,12,1.3,5.0,15,"DDR5-5200, DDR4-3200, LPDDR5X-5200, LPDDR4X-4267",64,2,No,Yes,https://pcspecs.io/cpus/core-5-220u
+Core 7 240H,Unknown,Core Series 2,FCBGA1744,10nm,10,16,2.5,5.2,45,"DDR5-5600, DDR4-3200, LPDDR5X-6400, LPDDR4X-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-7-240h
+Core 7 250H,Unknown,Core Series 2,FCBGA1744,10nm,14,20,2.5,5.4,45,"DDR5-6400, DDR4-3200, LPDDR5X-6400, LPDDR4X-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-7-250h
+Core 7 250U,Unknown,Core Series 2,FCBGA1744,10nm,10,12,1.9,5.4,15,"DDR5-5200, DDR4-3200, LPDDR5X-5200, LPDDR4X-4267",64,2,No,Yes,https://pcspecs.io/cpus/core-7-250u
+Core 9 270H,Unknown,Core Series 2,FCBGA1744,10nm,14,20,2.7,5.8,45,"DDR5-6400, DDR4-3200, LPDDR5X-6400, LPDDR4X-4267",96,2,No,Yes,https://pcspecs.io/cpus/core-9-270h

@@ -12,7 +12,10 @@
 
 ### D-001 — 스택: TypeScript(ESM) + Fastify + vitest, Node ≥ 22
 
-**상태:** 확정 · 2026-08-06
+**상태:** ⚠️ **D-009 가 뒤집을 가능성이 높다** · 2026-08-06
+
+> 이 결정은 **원격 저장소를 보지 못한 상태에서** 내려졌다. `origin/main` 에 이미
+> Python 구현이 있고 더 앞서 있다. 아래 D-009 를 먼저 읽어라.
 
 `CLAUDE.md §6 전제 A` 는 "저장소에 기존 Node 모듈이 이미 들어 있다" 를 가정했다.
 **틀렸다.** 이 저장소에는 문서와 TypeScript 초안 8개뿐이었고, 커밋조차 없었다.
@@ -120,6 +123,44 @@ M1(embed)에서 처음 필요해진다. 그때 결정할 것: 원본 파일을 �
 **주의:** `ai-boundary.md §2` 는 `lib/llm-worker-pool.js` 를 목록에 올렸지만
 원본 저장소의 `lib/` 에 그 파일은 **없다.** 다중 엔드포인트 부하 분산이 실제로 어디에
 있는지(아마 `lib/lms.js` 안) M1 전에 확인해야 한다.
+
+### D-009 — 같은 서비스의 구현이 두 개다 (Python vs TypeScript) — **미해결**
+
+**상태:** 🔴 **결정 대기** · 2026-08-06
+
+`origin/main` 을 처음 가져와 보니 **이미 Python 구현이 있었고, 이 저장소의 정식 구현이다.**
+로컬 TypeScript 작업(D-001)은 그것을 모른 채 병렬로 만들어진 것이다.
+
+| | Python (`origin/main`) | TypeScript (로컬 `main`) |
+|---|---|---|
+| 진척 | `prompt-version`·`capacity`·`models`·**`embed`** 완료 (≈M1) | `prompt-version`·`capacity`·`models` (M0) |
+| LLM 연동 | **있다.** LM Studio 4종 모델로 실측, 워커 풀 쿨다운·페일오버 | 없다. `ChatClient` 미배선 |
+| 모듈 서버 | `module_a/`·`module_b/`·`korean-law-mcp/` 포함 | 없음 |
+| 미구현 응답 | `501 NOT_PORTED` | `503 NOT_IMPLEMENTED` (D-002) |
+| 포트 | 8000 (백엔드 `AI_BASE_URL` 기본값) | 8100 |
+| 테스트 | `scripts/test_http_contract.py` 등 | vitest 106개, 커버리지 99.5% |
+
+**공통 조상이 없다.** `dev` 브랜치에서 `--allow-unrelated-histories` 로 병합했고,
+코드 트리가 서로 겹치지 않아 충돌은 `.gitignore`·`.env.example` 둘뿐이었다.
+즉 지금 트리에는 **같은 11개 표면을 각각 들고 있는 서버가 둘** 있다.
+
+**권고: Python 을 남긴다.** 이유는 취향이 아니다.
+
+1. 더 앞서 있고, **실제 모델에 붙는 것이 확인된** 유일한 구현이다.
+2. `module_a`·`module_b`·`korean-law-mcp` 가 이미 Python 이다(`ai-boundary.md §2`).
+   TS 를 고르면 이 프로세스들과 영원히 언어가 갈린다.
+3. README 가 이미 백엔드·프론트에 그 스택을 공표했다.
+
+**TS 쪽에서 건질 것** (버리기 아까운 것만):
+
+- `docs/failure-modes.md` — 실패 분류표. 언어와 무관하다.
+- 인용 검증의 빈 인용 기각(D-005)과 4xx 분류(D-006) — Python 쪽에 같은 구멍이 있는지 확인할 것.
+- 프롬프트 버전이 함수 소스에 의존하는 위험(D-004) — Python 이식본도 같은 방식인지 확인할 것.
+- `test/fault/*` 가 고정한 계약(재시도 한 겹, 데드라인 부등식) — 테스트 자체는 못 옮기지만
+  **무엇을 검증해야 하는지의 목록**으로는 그대로 쓸 수 있다.
+
+**정하기 전까지 두 구현을 함께 두는 비용:** 계약을 고칠 때마다 두 번 고쳐야 하고,
+한쪽만 고치면 조용히 갈린다. 오래 끌 결정이 아니다.
 
 ---
 

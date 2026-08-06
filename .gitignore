@@ -1,9 +1,22 @@
+# ─── Python (app/, module_a/, module_b/, korean-law-mcp/) ────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+data/
+
+# ─── Node/TypeScript (src/, test/ — 병렬 구현, docs/decisions.md D-009) ───────
 node_modules/
 dist/
 coverage/
+
+# ─── 공통 ────────────────────────────────────────────────────────────────────
 *.log
+.DS_Store
 
 # 접속 정보·공급자 비밀값. .env.example 만 커밋한다.
 .env
+.env.local
 .env.*
 !.env.example
