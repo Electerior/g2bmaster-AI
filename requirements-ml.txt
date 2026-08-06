@@ -1,0 +1,9 @@
+-r requirements.txt
+
+# 임베딩 · 의미검색 · 스펙추출 (module_a / module_b).
+# 원본 g2bmastersopen/requirements.txt 와 같은 버전을 유지한다.
+sentence-transformers>=2.2.0
+transformers==4.46.3
+regex==2024.11.6
+rank-bm25>=0.2.2
+numpy>=1.24.0

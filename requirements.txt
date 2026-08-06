@@ -1,0 +1,11 @@
+# 계약 엔드포인트를 띄우는 데 필요한 최소 집합.
+# 이것만 설치해도 서비스는 뜨고, LLM 관련 엔드포인트는 전부 동작한다.
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.7
+python-dotenv>=1.0
+httpx>=0.27
+
+# 임베딩(/api/embed)과 module_a/module_b 는 무거운 ML 스택을 쓴다.
+# 없어도 서비스는 뜨고 해당 경로만 503 으로 정직하게 응답한다.
+# 필요할 때 아래를 설치한다 (requirements-ml.txt).
