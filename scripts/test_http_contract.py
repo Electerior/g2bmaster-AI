@@ -105,6 +105,54 @@ for path in NOT_PORTED_POSTS:
         f"{path} 미구현 응답을 폴백처럼 위장하면 안 됩니다(캐시에 눌러앉습니다).",
     )
 
+
+# ── 실패 본문의 모양 ─────────────────────────────────────────────────────────
+# 예전에는 갈래마다 본문이 달라(501·503·404·401·422 가 전부 다른 모양) 백엔드가 하나의
+# 파서로 읽을 수 없었다. 네 필드가 모든 갈래에서 나오는지 본다 — docs/failure-modes.md.
+def check_failure_shape(response, expected_code: str, where: str) -> None:
+    payload = response.json()
+    check(
+        payload.get("code") == expected_code,
+        f"{where}: code 는 {expected_code} 여야 합니다(받은 값 {payload.get('code')!r}).",
+    )
+    check(bool(payload.get("error")), f"{where}: 사용자에게 보일 한국어 문구가 있어야 합니다.")
+    check(isinstance(payload.get("retryable"), bool), f"{where}: retryable 이 있어야 재시도 여부를 판단합니다.")
+    check(bool(payload.get("requestId")), f"{where}: requestId 가 없으면 두 저장소의 로그를 대조할 수 없습니다.")
+    check("detail" not in payload, f"{where}: 내부 진단(detail)은 본문에 나가면 안 됩니다.")
+
+
+check_failure_shape(client.post("/api/bid-summary", json={}), "NOT_PORTED", "501 미구현")
+check(
+    client.post("/api/bid-summary", json={}).json()["retryable"] is False,
+    "미구현은 다시 불러도 결과가 같습니다 — retryable 이 참이면 워커의 재시도 예산을 태웁니다.",
+)
+
+# 우리가 소유하지 않는 경로. 예전엔 {error, path} 라 code 가 없었다.
+check_failure_shape(client.get("/api/does-not-exist"), "BAD_REQUEST", "404 미등록 경로")
+
+# 본문 검증 실패. 예전엔 FastAPI 기본 422 {detail:[...]} 라 code·error 둘 다 없었다.
+bad_body = client.post("/api/bid-summary", content=b"[]", headers={"Content-Type": "application/json"})
+check(bad_body.status_code == 400, f"본문이 계약과 다르면 400 이어야 합니다(받은 값 {bad_body.status_code}).")
+check_failure_shape(bad_body, "BAD_REQUEST", "본문 검증 실패")
+
+# requestId 는 백엔드가 준 값을 그대로 되돌려 준다. 새로 만들면 로그를 이을 수 없다.
+check(
+    client.post("/api/bid-summary", json={}, headers={"X-Request-Id": "rid-header"}).json()["requestId"] == "rid-header",
+    "X-Request-Id 헤더를 그대로 되돌려 줘야 합니다.",
+)
+check(
+    client.post("/api/bid-summary", json={"requestId": "rid-body"}).json()["requestId"] == "rid-body",
+    "본문의 requestId 가 헤더보다 우선해야 합니다(백엔드가 payload 에 싣는 경로).",
+)
+
+# 프롬프트 버전 맵 — 단일 문자열은 업무구분이 갈리는 순간 깨진다.
+version_map = version.json().get("versions")
+check(isinstance(version_map, dict), "versions 맵이 있어야 합니다(엔드포인트 × 문서종류로 갈립니다).")
+check(
+    isinstance(version_map, dict) and version_map.get("item-summary") == ITEM_SUMMARY_PROMPT_VERSION,
+    "versions 의 item-summary 는 기존 promptVersion 과 같아야 합니다(캐시 호환).",
+)
+
 # 계약의 11개 경로가 하나도 빠지지 않았는지 확인한다.
 CONTRACT = {
     ("POST", "/api/item-summary"), ("POST", "/api/bid-summary"),

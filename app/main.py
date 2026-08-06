@@ -4,23 +4,30 @@
 계약 전문: `g2bmaster-backend/docs/ai-boundary.md`.
 
 **아직 옮기지 않은 경로는 501 `NOT_PORTED` 로 정직하게 응답한다.**
-백엔드가 `POST /api/system/backfill` 에 쓰는 것과 같은 규약이다 — "곧 됩니다"를 200 으로
-위장하면 폴백 결과가 캐시에 눌러앉아 영원히 재분석되지 않는다(ai-boundary.md §6.3).
-무엇이 되고 무엇이 안 되는지는 `PORTING_STATUS.md` 에 적는다.
+"곧 됩니다"를 200 으로 위장하면 폴백 결과가 캐시에 눌러앉아 영원히 재분석되지 않는다
+(ai-boundary.md §6.3). 무엇이 되고 무엇이 안 되는지는 `PORTING_STATUS.md` 에 적는다.
+
+**실패는 전부 `app/errors.py` 한 곳으로 모인다.** 예전에는 경로마다 본문 모양이 달라
+(`{code,error,reason}` · `{error,path}` · `{error}` · `{detail:[...]}`) 백엔드가
+하나의 파서로 읽을 수 없었다. 라우트는 `AiFailure` 를 올리기만 하고 조립은 핸들러가 한다.
 """
 
 from __future__ import annotations
 
 import logging
+import uuid
 
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from .config import PORT, SERVICE_SECRET, get_ai_config, llm_headers, mask_config
 from .embedding import EmbeddingUnavailable, embed_texts
+from .errors import AiFailure, resolve_request_id, to_body
 from .llm.client import available_models, host, llm_status
 from .llm.worker_pool import get_llm_worker_pool
-from .prompts import ITEM_SUMMARY_PROMPT_VERSION
+from .prompts import ITEM_SUMMARY_PROMPT_VERSION, PROMPT_VERSIONS
 
 logger = logging.getLogger("g2bmaster-ai")
 
@@ -33,23 +40,64 @@ app = FastAPI(
 OPEN_PATHS = {"/health", "/healthz", "/docs", "/openapi.json", "/redoc"}
 
 
-def not_ported(path: str, reason: str, blocked_by: str = "") -> JSONResponse:
-    """아직 이식하지 않은 경로. 백엔드의 501 NOT_PORTED 규약과 같은 모양이다."""
-    body = {"code": "NOT_PORTED", "error": f"{path} 는 아직 이식되지 않았습니다.", "reason": reason}
-    if blocked_by:
-        body["blockedBy"] = blocked_by
-    return JSONResponse(body, status_code=501)
+def not_ported(request: Request, payload: object, path: str, reason: str, blocked_by: str = "") -> None:
+    """아직 이식하지 않은 경로. 요청 ID 를 본문에서 건져 두고 분류된 실패를 올린다."""
+    request.state.request_id = resolve_request_id(request, payload)
+    raise AiFailure("NOT_PORTED", detail=path, reason=reason, blockedBy=blocked_by)
+
+
+# ── 실패 응답 ────────────────────────────────────────────────────────────────
+def _fail(request: Request, failure: AiFailure) -> JSONResponse:
+    request_id = resolve_request_id(request)
+    if failure.code == "INTERNAL":
+        # 분류되지 않은 예외 = 우리 버그. 스택을 남긴다.
+        logger.exception("unclassified error requestId=%s", request_id)
+    else:
+        logger.warning("request failed requestId=%s code=%s detail=%s", request_id, failure.code, failure.detail)
+    return JSONResponse(to_body(failure, request_id), status_code=failure.spec.status)
+
+
+@app.exception_handler(AiFailure)
+async def ai_failure_handler(request: Request, exc: AiFailure) -> JSONResponse:
+    return _fail(request, exc)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
+    """FastAPI 기본 422 `{detail:[...]}` 를 덮는다.
+
+    이걸 안 걸면 본문 오타가 `code` 도 `retryable` 도 없는 모양으로 나가고 백엔드는 분류에
+    실패한다. 호출자 쪽 문제라 재시도해도 결과가 같다 — `retryable=false` 여야 한다.
+    """
+    return _fail(request, AiFailure("BAD_REQUEST", detail=str(exc.errors())[:500]))
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException) -> JSONResponse:
+    """우리가 소유하지 않는 경로(404) 등. 4xx 는 호출자 문제이므로 재시도 대상이 아니다."""
+    code = "BAD_REQUEST" if exc.status_code < 500 else "INTERNAL"
+    return _fail(request, AiFailure(code, detail=f"{request.method} {request.url.path}"))
+
+
+@app.exception_handler(Exception)
+async def unhandled_handler(request: Request, exc: Exception) -> JSONResponse:
+    return _fail(request, AiFailure("INTERNAL", detail=str(exc)[:500]))
 
 
 @app.middleware("http")
 async def service_secret_guard(request: Request, call_next):
-    """AI_SERVICE_SECRET(또는 원본과 같은 INTERNAL_SECRET)을 설정하면 백엔드만 호출할 수 있다."""
+    """AI_SERVICE_SECRET(또는 원본과 같은 INTERNAL_SECRET)을 설정하면 백엔드만 호출할 수 있다.
+
+    요청 ID 도 여기서 먼저 잡는다 — 라우트가 본문에서 더 나은 값을 찾으면 덮어쓴다.
+    """
+    request.state.request_id = request.headers.get("x-request-id") or str(uuid.uuid4())
+
     if SERVICE_SECRET and request.url.path not in OPEN_PATHS:
         provided = request.headers.get("x-internal-secret") or ""
         authorization = request.headers.get("authorization") or ""
         bearer = authorization[7:] if authorization.lower().startswith("bearer ") else ""
         if provided != SERVICE_SECRET and bearer != SERVICE_SECRET:
-            return JSONResponse({"error": "unauthorized"}, status_code=401)
+            return _fail(request, AiFailure("UNAUTHORIZED", detail=request.url.path))
     return await call_next(request)
 
 
@@ -70,8 +118,13 @@ async def ai_config():
 
 @app.get("/api/ai/prompt-version")
 async def prompt_version():
-    """분석 재사용 키에 들어가는 프롬프트 버전. 백엔드가 하드코딩하지 않고 여기서 읽어 간다."""
-    return {"promptVersion": ITEM_SUMMARY_PROMPT_VERSION}
+    """분석 재사용 키에 들어가는 프롬프트 버전. 백엔드가 하드코딩하지 않고 여기서 읽어 간다.
+
+    `versions` 를 함께 낸다 — 프롬프트가 **엔드포인트 × 문서종류**로 갈리므로 문자열 하나로는
+    표현되지 않는다(`decisions.md F-3`). 기존 `promptVersion` 은 그대로 두므로
+    `AiClient.promptVersion()`(그 키만 읽는다)은 영향받지 않는다.
+    """
+    return {"promptVersion": ITEM_SUMMARY_PROMPT_VERSION, "versions": PROMPT_VERSIONS}
 
 
 @app.get("/api/ai/capacity")
@@ -103,19 +156,22 @@ async def llm_models():
 
 
 @app.post("/api/embed")
-async def embed(payload: dict):
+async def embed(request: Request, payload: dict):
     """텍스트 임베딩. 유사도 계산은 백엔드가 한다."""
+    request.state.request_id = resolve_request_id(request, payload)
     texts = payload.get("texts")
     texts = [str(text) for text in texts] if isinstance(texts, list) else []
     try:
         return embed_texts(texts, str(payload.get("model") or ""))
     except EmbeddingUnavailable as error:
-        return JSONResponse({"code": "EMBEDDING_UNAVAILABLE", "error": str(error)}, status_code=503)
+        raise AiFailure("EMBEDDING_UNAVAILABLE", detail=str(error)) from error
 
 
 @app.post("/api/item-summary")
-async def item_summary(payload: dict):
-    return not_ported(
+async def item_summary(request: Request, payload: dict):
+    not_ported(
+        request,
+        payload,
         "/api/item-summary",
         "심층 분석은 첨부 원문(Markdown)·문서 신호를 입력으로 받는다. "
         "그 입력을 만드는 백엔드의 첨부 파싱(HWP·PDF·ZIP)이 아직 이식되지 않아 "
@@ -125,47 +181,50 @@ async def item_summary(payload: dict):
 
 
 @app.post("/api/bid-summary")
-async def bid_summary(payload: dict):
-    return not_ported(
+async def bid_summary(request: Request, payload: dict):
+    not_ported(
+        request,
+        payload,
         "/api/bid-summary",
         "원본 lib/bid-summary.js 이식 예정. LLM 호출 계층(app/llm/)은 준비됐고 프롬프트 이식이 남았다.",
     )
 
 
 @app.post("/api/legal/review-clauses")
-async def review_clauses(payload: dict):
-    return not_ported(
+async def review_clauses(request: Request, payload: dict):
+    not_ported(
+        request,
+        payload,
         "/api/legal/review-clauses",
         "원본 lib/legal-review.js + lib/law-mcp.js 이식 예정. korean-law-mcp 는 이 저장소에 들어와 있다.",
     )
 
 
 @app.post("/api/legal/outreach-draft")
-async def outreach_draft(payload: dict):
-    return not_ported("/api/legal/outreach-draft", "원본 lib/legal-review.js 이식 예정.")
+async def outreach_draft(request: Request, payload: dict):
+    not_ported(request, payload, "/api/legal/outreach-draft", "원본 lib/legal-review.js 이식 예정.")
 
 
 @app.post("/api/pledge/revision-workflow")
-async def pledge_revision(payload: dict):
-    return not_ported(
+async def pledge_revision(request: Request, payload: dict):
+    not_ported(
+        request,
+        payload,
         "/api/pledge/revision-workflow",
         "원본 lib/pledge-workflow.js + lib/pledge-revision.js 이식 예정.",
     )
 
 
 @app.post("/api/price/resolve")
-async def price_resolve(payload: dict):
-    return not_ported(
+async def price_resolve(request: Request, payload: dict):
+    not_ported(
+        request,
+        payload,
         "/api/price/resolve",
         "원본 price-web.js 이식 예정. studyweb 검색 연동과 LLM 가격 추출이 함께 필요하다.",
     )
 
 
 @app.post("/api/price/url")
-async def price_url(payload: dict):
-    return not_ported("/api/price/url", "원본 price-web.js 이식 예정.")
-
-
-@app.exception_handler(404)
-async def not_found(request: Request, exc):
-    return JSONResponse({"error": "not found", "path": request.url.path}, status_code=404)
+async def price_url(request: Request, payload: dict):
+    not_ported(request, payload, "/api/price/url", "원본 price-web.js 이식 예정.")

@@ -57,10 +57,26 @@ smoke_llm: SKIP — LLM 400: Failed to load model "qwen/qwen3.6-35b-a3b". Error:
 > 적어 두었지만, 정작 그 400 의 본문을 읽지는 않았다. 이 이식본은 서버가 알려 준 사유를
 > 예외 메시지에 실어 올린다(`server_reason`). 위 SIGABRT 메시지가 그 결과다.
 
+### 실패 응답 계약
+
+전 표면의 실패가 `app/errors.py` 한 곳에서 나온다 — `{code, error, retryable, requestId}`.
+예전에는 갈래마다 본문이 달라(`{code,error,reason}` · `{error,path}` · `{error}` · `{detail:[...]}`)
+백엔드가 하나의 파서로 읽을 수 없었다.
+
+`docs/failure-modes.md §2` 의 표는 `scripts/test_errors.py` 가 파싱해 코드와 대조한다.
+한쪽만 고치면 `make check` 가 깨진다.
+
+> **아직 실효가 없다.** 백엔드 `AiClient` 는 `e.getMessage()` 만 남기고 이 본문을 읽지 않는다.
+> 계약을 먼저 세워 둔 것이고, 파싱 요청은 `docs/plan.md §8.2` 의 **R0** 이다.
+
 ### 프롬프트 버전
 
 `item-summary-2026-08-04-v4` — 원본 `lib/analysis-history.js` 값 그대로다.
 **프롬프트 본문을 옮기기 전까지 이 값을 올리지 않는다.** 올리는 순간 기존 분석 캐시가 전부 무효가 된다.
+
+`GET /api/ai/prompt-version` 은 `promptVersion`(단일 값, `AiClient` 가 읽는 키)과
+`versions`(엔드포인트별 맵)를 함께 낸다. 프롬프트가 업무구분별로 갈리면 문자열 하나로는
+표현되지 않는다(`decisions.md F-3`).
 
 ### 임베딩
 
@@ -111,6 +127,7 @@ make check
 | 스크립트 | 무엇을 막는가 |
 |---|---|
 | `test_worker_pool.py` | 워커 분배·쿨다운·페일오버 회귀 (GPU 한 대가 죽었을 때 처리량이 0 이 되는 상황) |
+| `test_errors.py` | 실패 한 건의 모양 — 문서 표와 코드의 어긋남, 재시도 가능한 4xx, `requestId` 유실, `detail` 유출 |
 | `test_http_contract.py` | 계약 11개 경로 누락, 미구현의 200 위장, 프롬프트 버전 변경, 호출자 인증 |
 | `smoke_llm.py` | 실제 LLM 서버 연동 (없으면 SKIP) |
 
