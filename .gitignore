@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+*.log
+
+# 접속 정보·공급자 비밀값. .env.example 만 커밋한다.
+.env
+.env.*
+!.env.example
