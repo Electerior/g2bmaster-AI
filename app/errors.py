@@ -82,24 +82,30 @@ def resolve_request_id(request: Request, payload: object = None) -> str:
     이 값은 두 저장소의 로그를 잇는 유일한 실이다. 여기서 새로 만들어 버리면
     백엔드 로그의 작업 하나와 우리 로그의 요청 하나를 이어 볼 방법이 사라진다.
 
-    본문 > 헤더 > 새로 발급 순서. 본문을 먼저 보는 이유는 백엔드가 payload 에 실어
-    보내는 경우가 있어서다 — 미들웨어는 본문을 읽을 수 없으므로 라우트가 넘겨준다.
+    본문 > 이미 정해진 값 > 헤더 > 새로 발급 순서. 본문을 먼저 보는 이유는 백엔드가
+    payload 에 실어 보내는 경우가 있어서다 — 미들웨어는 본문을 읽을 수 없으므로 라우트가 넘겨준다.
+
+    `state` 가 헤더보다 앞서야 한다. 라우트가 본문에서 건진 값을 state 에 넣어 두는데,
+    헤더를 먼저 보면 응답을 조립하는 쪽(payload 를 못 받는다)이 그 값을 도로 헤더로 덮는다.
     """
     if isinstance(payload, dict):
         from_body = payload.get("requestId")
         if isinstance(from_body, str) and from_body:
             return from_body
 
-    from_header = request.headers.get("x-request-id")
-    if from_header:
-        return from_header
-
-    return getattr(request.state, "request_id", "") or str(uuid.uuid4())
+    return (
+        getattr(request.state, "request_id", "")
+        or request.headers.get("x-request-id")
+        or str(uuid.uuid4())
+    )
 
 
 def to_body(failure: AiFailure, request_id: str) -> dict:
     """응답 본문. 다섯 갈래로 갈리던 실패 모양을 여기 하나로 모은다."""
+    # extra 를 먼저 깔고 핵심 네 필드로 덮는다. 순서가 반대면 `reason` 옆에 실수로 낀
+    # `retryable` 하나가 분류를 조용히 뒤집어 백엔드가 영구 실패를 무한 재시도한다.
     body: dict = {
+        **failure.extra,
         "code": failure.code,
         "error": failure.spec.message,
         "retryable": failure.spec.retryable,
@@ -108,7 +114,6 @@ def to_body(failure: AiFailure, request_id: str) -> dict:
     # retryAfterMs 는 있을 때만 싣는다. 없는데 0 을 실으면 "즉시 재시도" 로 읽힌다.
     if failure.retry_after_ms is not None:
         body["retryAfterMs"] = failure.retry_after_ms
-    body.update(failure.extra)
     return body
 
 

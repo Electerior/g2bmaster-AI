@@ -55,6 +55,9 @@ TypeScript 쪽에서 계약을 파고들며 나온 항목을 `app/` 에 대조�
 → 제안하는 단일 표는 `docs/failure-modes.md` 에 있다. 언어와 무관하게 그대로 쓸 수 있다.
 `422` 는 FastAPI 기본 핸들러를 덮어써야 잡힌다(`@app.exception_handler(RequestValidationError)`).
 
+→ **해소(2026-08-06, 커밋 `7b943dd`).** `app/errors.py` 한 곳에서 나온다.
+다만 **우리 쪽만 섰다** — 백엔드는 아직 이 본문을 읽지 않는다(F-4). 실효는 R0 에 달렸다.
+
 ### F-2 — `promptVersion` 이 손으로 고치는 상수다
 
 ```python
@@ -88,6 +91,9 @@ return {"promptVersion": ITEM_SUMMARY_PROMPT_VERSION}
 → `CLAUDE.md §6 전제 F` 가 정확히 이 문제다. **M2 이전에** 정한다.
 필드 추가는 자유이므로(`Principles §7.1`) 기존 `promptVersion` 을 두고
 `versions: {엔드포인트: 버전}` 을 함께 내려보내면 백엔드 변경 없이 넘어갈 수 있다.
+
+→ **해소(2026-08-06, 커밋 `7b943dd`).** 둘 다 내보낸다. `AiClient` 는 `promptVersion` 만
+읽으므로 백엔드 변경 없이 넘어갔다. 전제 F 는 이것으로 우회됐고 합의는 여전히 필요하다.
 
 ### F-4 — 미구현 응답이 `501` 인데, 백엔드가 그걸 폴백으로 바꾸는지 미확인 🔴
 
@@ -134,6 +140,41 @@ OPEN_PATHS = {"/health", "/healthz", "/docs", "/openapi.json", "/redoc"}
 
 → 운영 환경에서는 `FastAPI(docs_url=None, redoc_url=None, openapi_url=None)` 로 끄거나
 `OPEN_PATHS` 에서 뺀다.
+
+### F-7 — 실패 계약을 통일하고 나서, 유닛 테스트가 세 개를 더 찾았다
+
+2026-08-06. `scripts/test_errors.py` 를 쓰다 나온 것들이다. 셋 다 고쳤다.
+**세 개 모두 "모아 놓기만 하면 끝" 이 아니라는 증거다** — 한 곳에 모은 뒤에도 갈릴 구석이 남았다.
+
+1. **`requestId` 가 헤더에 덮였다.** `not_ported()` 는 본문의 값을 `state` 에 넣는데,
+   응답을 조립하는 `_fail()` 은 payload 를 받지 못해 `resolve_request_id(request)` 로
+   다시 푼다. 그때 순서가 `헤더 > state` 였다. **헤더와 본문이 동시에 오면 본문 우선이
+   무효**였고, 백엔드가 둘 다 보내는 순간 로그의 실이 끊긴다.
+   기존 `test_http_contract.py` 는 헤더와 본문을 **따로만** 보내서 이 갈림을 못 봤다.
+   → 순서를 `본문 > state > 헤더 > 신규` 로 바꿨다(`app/errors.py`).
+
+2. **`extra` 가 `retryable` 을 덮을 수 있었다.** `to_body` 의 마지막 줄이
+   `body.update(failure.extra)` 라, `AiFailure("NOT_PORTED", retryable=True)` 하나면
+   **영구 실패가 무한 재시도로 조용히 뒤집힌다.** `CLAUDE.md §2-1` 이 막으려던 것이
+   부가 정보 한 줄로 뚫리는 경로다.
+   → extra 를 먼저 깔고 핵심 네 필드로 덮는다. (`code`·`detail` 은 생성자 인자라
+   Python 이 `TypeError` 로 이미 막는다. 나머지 셋은 안 막혔다.)
+
+3. **`docs/failure-modes.md §2` 표가 코드와 달랐다.** `NOT_IMPLEMENTED 503` 으로 남아
+   있었다 — F-4 에서 철회된 503 제안의 잔해다. `UNAUTHORIZED`·`EMBEDDING_UNAVAILABLE`
+   두 줄은 아예 없었다. 문서는 스스로 "값이 어긋나면 코드가 이긴다" 고 적어 두었지만
+   **어긋났을 때 깨지는 것이 아무것도 없었다.**
+   → 표를 코드에 맞추고, `test_errors.py` 가 그 표를 파싱해 `FAILURES` 와 대조하게 했다.
+   이제 한쪽만 고치면 `make check` 가 깨진다.
+
+**안 고친 것 하나.** 404·405 가 status `400` 으로 뭉개진다 — `_fail()` 이 분류표의 status 를
+쓰기 때문이다. 백엔드는 `code` 로 판단하므로(`failure-modes.md §1`) 계약상 문제는 없다.
+다만 ops 대시보드에서 "없는 경로" 와 "잘못된 본문" 이 갈리지 않는다. 현재 동작을 사유와 함께
+테스트에 박아 뒀다 — 바꾸려면 `_fail()` 에 status 재정의를 넣어야 한다.
+
+**끊어진 참조 하나도 정리했다.** `failure-modes.md §5` 가 재시도 겹수를
+`test/fault/gateway.test.ts` 로 고정한다고 적었는데 그 파일은 TypeScript 와 함께 지워졌다.
+재시도하는 코드 자체가 아직 이식 전이라, **지금 겹수를 고정하는 테스트는 없다**고 명시했다.
 
 ---
 
