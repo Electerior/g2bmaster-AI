@@ -129,7 +129,7 @@ scripts/          test_http_contract.py · test_worker_pool.py · smoke_llm.py
 
 | # | 전제 | 확인되면 영향 |
 |---|---|---|
-| ~~A~~ | ~~저장소에 기존 Node 모듈이 이미 들어 있다~~ | **해소(틀림).** 이 저장소는 비어 있었다. 원본은 `../g2bmastersopen/lib/` 에 있고 아직 가져오지 않았다. 스택은 `docs/decisions.md` D-001 에서 다시 정했다 |
+| ~~A~~ | ~~저장소에 기존 Node 모듈이 이미 들어 있다~~ | **해소(틀림).** 이 저장소는 비어 있었다. 원본은 `../g2bmastersopen/lib/` 에 있고 아직 가져오지 않았다. 스택은 `docs/decisions.md` D-A 에서 다시 정했다 |
 | B | `item-summary`는 4단계다. 재사용 캐시·첨부 파싱은 백엔드가 끝내고 `documents[].text`로 넘겨준다 | §3, §4, 파이프라인 전체 |
 | C | `documentSignals`는 갈린다. `documentTags`·`bidBlockingClauses`는 백엔드, 우리는 `legalAssessment`·`summary`만 | 응답 조립 주체 |
 | D | 부분 결과 + 데드라인 초과 시 `504`보다 `200 degraded`가 낫다 | 백엔드 워커 재시도 정책과 맞물림 |
@@ -139,7 +139,7 @@ scripts/          test_http_contract.py · test_worker_pool.py · smoke_llm.py
 
 B~F 는 여전히 미확인이다. 해당 영역 코드를 쓰기 전에 확인한다.
 M0 은 이 중 어느 것에도 의존하지 않기 때문에 먼저 낼 수 있었다.
-합의가 필요한 전체 목록은 `docs/decisions.md §2`.
+합의가 필요한 전체 목록은 `docs/decisions.md §3`. 보내는 계획은 `docs/plan.md §8`.
 
 ---
 

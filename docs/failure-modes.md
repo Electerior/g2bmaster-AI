@@ -1,8 +1,8 @@
 # 실패 분류표 — g2bmaster-AI
 
-`Principles.md §2.1` 이 가리키는 문서다. 단일 출처는 코드(`src/http/errors.ts`)이고,
+`Principles.md §2.1` 이 가리키는 문서다. 단일 출처는 코드(`app/errors.py`)이고,
 이 문서는 **각 분류를 언제 쓰는지와 백엔드가 무엇을 해야 하는지**를 적는다.
-값이 어긋나면 코드가 이긴다 — `test/contract/failureTable.test.ts` 가 둘을 묶어 둔다.
+값이 어긋나면 코드가 이긴다 — `scripts/test_http_contract.py` 가 둘을 묶어 둔다.
 
 ---
 
@@ -53,17 +53,21 @@ status 는 프록시·로드밸런서·모니터링이 읽는 값이고, 분류�
 
 ---
 
-## 3. `NOT_IMPLEMENTED` 가 관례를 벗어나는 이유
+## 3. `NOT_PORTED` 가 관례를 벗어나는 이유
 
 관례상 5xx 는 재시도 가능인데 이것만 `retryable: false` 다. 의도적이다.
 
-- **503 인 이유** — 백엔드가 `AiUnavailableException` 경로로 받아 200 폴백을 만들게
-  하려는 것이다. 의미상 더 정확한 501 을 쓰면 그 경로를 타지 않고,
-  **M0 의 존재 이유인 "폴백 계약 선검증" 이 무의미해진다.**
+- **501 이어도 되는 이유** — 2026-08-06 `AiClient` 를 읽어 확인했다. `post()`/`get()` 이
+  `catch (RestClientException e)` 로 잡는데, 이는 `RestClient.retrieve()` 가 4xx·5xx
+  양쪽에 던지는 예외의 **부모**다. **status 로 분기하지 않으므로** 501 도
+  `AiUnavailableException` 이 되고 `ai-boundary.md §6.4` 의 200 폴백이 만들어진다.
+  (전에 이 절은 503 을 제안했다. 그 제안은 철회됐다 — `decisions.md F-4`.)
 - **재시도 불가인 이유** — 지금 다시 불러도 결과가 같다. 마일스톤이 배포되기 전까지
   재시도는 순수한 낭비이고, 워커의 재시도 예산을 태워 큐의 다른 작업을 굶긴다.
 
-→ 백엔드와 합의가 필요한 항목이다. `decisions.md D-002`.
+→ 다만 **백엔드는 아직 이 본문을 읽지 않는다.** `e.getMessage()` 만 남기고 `code`·
+`retryable` 을 버린다. 그래서 `retryable: false` 가 실효를 가지려면 `plan.md §8.2` 의
+**R0**(본문 파싱)이 함께 가야 한다.
 
 ---
 

@@ -9,7 +9,7 @@
 |---|---|---|
 | [`g2bmaster-frontend`](https://github.com/Electerior/g2bmaster-frontend) | 화면 | React 18 + TypeScript + Vite |
 | [`g2bmaster-backend`](https://github.com/Electerior/g2bmaster-backend) | API·적재·영속 | Spring Boot 4.1 + MySQL 8 |
-| **`g2bmaster-AI`** (이 저장소) | 추론 | 원본의 Node LLM 모듈 + Python 모듈 서버 |
+| **`g2bmaster-AI`** (이 저장소) | 추론 | Python 3 + FastAPI (`docs/decisions.md` D-A) |
 
 ---
 

@@ -99,9 +99,17 @@ return {"promptVersion": ITEM_SUMMARY_PROMPT_VERSION}
 `501` 이 그 경로를 타지 않으면 프론트가 날것의 `501` 을 받고,
 "AI 없이도 쓸 수 있는 문서 태그·법령 검토" 화면까지 같이 죽는다.
 
-→ **`AiClient` 코드를 직접 확인해야 하는 유일한 항목이다.** 둘 중 하나:
-- 상태 코드로 분기한다면 → `503` 으로 바꾸거나 백엔드에 `501` 을 추가한다.
-- `code` 로 분기한다면 → `NOT_PORTED` 를 그 목록에 넣는다.
+→ **해소(2026-08-06). `501` 은 폴백 경로를 탄다. 상태 코드를 바꾸지 않는다.**
+
+`AiClient.post()`/`get()` 은 `RestClientException` 을 잡는데, 이는 `RestClient.retrieve()` 가
+4xx·5xx 양쪽에 던지는 예외(`HttpClientErrorException`·`HttpServerErrorException`)의 **부모**다.
+**status 로 분기하지 않는다** — 따라서 `501` 도 `AiUnavailableException` 이 되고
+`ai-boundary.md §6.4` 의 200 폴백이 만들어진다.
+
+같은 코드를 읽다가 **더 나쁜 것을 봤다 — 실패 본문이 아예 파싱되지 않는다.**
+`e.getMessage()` 만 남기고 `code`·`retryable`·`requestId` 는 전부 버려진다.
+F-1 은 "백엔드가 하나의 파서로 읽을 수 없다" 가 아니라 **"읽지 않는다"** 였다.
+→ §3 의 2번이 **통보에서 요청(R0)으로 승격**된다.
 
 ### F-5 — 인용 검증: 빈 인용을 반드시 기각할 것 (아직 안 쓴 코드에 대한 메모)
 
@@ -152,16 +160,22 @@ Python 구현에 이미 `/health`·`/healthz` 가 있다. 11개 계약 표면과
 
 `ai-boundary.md §6` 은 현재 네 항목뿐이다. 최소한 다음이 더 필요하다:
 
-| # | 항목 | 출처 |
-|---|---|---|
-| 1 | **`AiClient` 가 `501 NOT_PORTED` 를 폴백으로 바꾸는가** | F-4 · 가장 시급 |
-| 2 | **실패 본문에 `code`·`retryable`·`requestId` 를 싣는 것** | F-1 · `docs/failure-modes.md` |
-| 3 | `prompt-version` 을 엔드포인트별 맵으로 확장할지 | F-3 · 전제 F |
-| 4 | `embeddingVersion` 의 저장 여부 | Principles §3.4 |
-| 5 | 엔드포인트별 타임아웃과 리스 시간의 부등식 | Principles §4.2 |
-| 6 | 인용 좌표계 — 문자열 대조인가 offset 대조인가 | Principles §2.4 |
-| 7 | `_analysisHistoryId` 의 생성 주체 (이력을 소유한 쪽이 맞다) | Principles §7.3 |
-| 8 | 부분 결과 + 데드라인 초과 시 `200 degraded` 가 맞는가 | 전제 D |
+**종류를 먼저 가른다.** 전부 "합의" 로 묶으면 읽으면 끝날 것이 답을 기다리며 멈춘다.
+`읽기` = 백엔드 코드에 답이 있다 · `요청` = 백엔드가 코드를 바꿔야 한다 ·
+`통보` = 필드 추가라 합의가 필요 없다(`Principles §7.1`). 보내는 계획은 `plan.md §8`.
+
+| # | 항목 | 종류 | 출처 |
+|---|---|---|---|
+| 1 | **`AiClient` 가 `501 NOT_PORTED` 를 폴백으로 바꾸는가** | **읽기** | F-4 · 가장 시급 |
+| 2 | 실패 본문에 `code`·`retryable`·`requestId` 를 싣는 것 | **통보** | F-1 · `docs/failure-modes.md` |
+| 3 | `prompt-version` 을 엔드포인트별 맵으로 확장할지 | **통보** | F-3 · 전제 F |
+| 4 | `embeddingVersion` 의 저장 여부 | **읽기** | Principles §3.4 |
+| 5 | 엔드포인트 **× 업무구분**별 타임아웃과 리스 시간의 부등식 | **요청 R3** | Principles §4.2 · `plan.md §7` |
+| 6 | 인용 좌표계 — 문자열 대조인가 offset 대조인가 | **읽기** | Principles §2.4 |
+| 7 | `_analysisHistoryId` 의 생성 주체 (이력을 소유한 쪽이 맞다) | **읽기** | Principles §7.3 |
+| 8 | 부분 결과 + 데드라인 초과 시 `200 degraded` 가 맞는가 | **요청 R4** | 전제 D · `failure-modes.md §4` |
+| 9 | **`bsnsDivNm` 을 `item-summary`·`bid-summary` 입력에 실을 것** | **요청 R1** | `plan.md §5.2` |
+| 10 | 첨부 선택 규칙을 업무구분별로 — `/규격서/` 파일명 게이트는 용역·공사에서 빈 결과를 낸다 | **요청 R2** | `plan.md §6` |
 
 ---
 

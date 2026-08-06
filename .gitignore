@@ -10,9 +10,3 @@ data/
 # 접속 정보·공급자 비밀값. .env.example 만 커밋한다.
 .env
 .env.local
-
-# TypeScript 구현을 걷어내는 중에 남은 잔재. 디렉터리를 지우고 나면 이 세 줄도 지운다.
-# (지우기 전에 실수로 git add -A 하면 50개 패키지가 통째로 커밋된다)
-node_modules/
-coverage/
-dist/

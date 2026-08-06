@@ -12,3 +12,13 @@
 """
 
 ITEM_SUMMARY_PROMPT_VERSION = "item-summary-2026-08-04-v4"
+
+#: 엔드포인트별 프롬프트 버전. 단일 문자열은 `bid-summary` 가 들어오는 순간 깨지고,
+#: 업무구분(물품·용역·공사·외자)별로 프롬프트가 갈리면 더 깨진다 — 키는 결국
+#: `엔드포인트:문서종류` 가 된다(`decisions.md F-3`, `plan.md §3`).
+#:
+#: 아직 옮긴 프롬프트가 없어 항목은 하나뿐이다. **없는 버전을 빈 문자열로 채우지 않는다** —
+#: 백엔드가 그것을 재사용 키에 넣으면 서로 다른 상태가 같은 키로 묶인다.
+PROMPT_VERSIONS: dict[str, str] = {
+    "item-summary": ITEM_SUMMARY_PROMPT_VERSION,
+}
