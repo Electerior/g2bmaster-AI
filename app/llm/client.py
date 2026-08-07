@@ -177,3 +177,7 @@ def server_reason(response: httpx.Response) -> str:
     if isinstance(error, str):
         return error[:300]
     return str(data)[:300]
+
+
+# Alias for backward compatibility with handlers that import llm_chat
+llm_chat = lms_chat

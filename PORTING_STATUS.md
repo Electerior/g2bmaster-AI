@@ -5,7 +5,7 @@
 "곧 됩니다"는 쓰지 않고, 되는 것과 안 되는 것만 적는다.
 
 기준 원본: `g2bmastersopen@d2fa9ada` (2026-08-05, `server.js` 5363줄 / `lib/` 52개 모듈).
-마지막 갱신: 2026-08-06
+마지막 갱신: 2026-08-07
 
 ---
 
@@ -17,8 +17,8 @@
 | `GET /api/ai/capacity` | ✅ 완료 |
 | `GET /api/llm/models` | ✅ 완료 |
 | `POST /api/embed` | ✅ 완료 (ML 스택 미설치 시 503 `EMBEDDING_UNAVAILABLE`) |
-| `POST /api/item-summary` | ❌ 501 `NOT_PORTED` — 백엔드 첨부 파싱 대기 |
-| `POST /api/bid-summary` | ❌ 501 `NOT_PORTED` |
+| `POST /api/item-summary` | 🟡 기본 구현 — AI 비활성 시 `aiDisabled=true` 반환, LLM 분석 로직 미착수 (백엔드 첨부 파싱 대기) |
+| `POST /api/bid-summary` | 🟡 기본 구현 — AI 비활성 시 `aiDisabled=true` 반환, LLM 분석 로직 미착수 |
 | `POST /api/legal/review-clauses` | ❌ 501 `NOT_PORTED` |
 | `POST /api/legal/outreach-draft` | ❌ 501 `NOT_PORTED` |
 | `POST /api/pledge/revision-workflow` | ❌ 501 `NOT_PORTED` |
@@ -90,24 +90,22 @@ smoke_llm: SKIP — LLM 400: Failed to load model "qwen/qwen3.6-35b-a3b". Error:
 
 ## ❌ 미착수
 
-### `POST /api/item-summary` — 백엔드에 막혀 있다
+### `POST /api/item-summary` — LLM 분석 로직 미착수
 
-심층 분석은 **첨부 원문(Markdown)과 문서 신호**를 입력으로 받는다. 그 입력을 만드는
-백엔드의 첨부 파싱(HWP·PDF·ZIP)이 아직 이식되지 않았다
-(`g2bmaster-backend/docs/porting-status.md`: "첨부 파싱 ❌ 미착수").
+기본 핸들러(`app/handlers/item_summary_handler.py`)는 갖춰졌다 — AI 비활성 시
+`aiDisabled=true` 로 응답하고, payload 정규화·기 response 구조·source 추론을 한다.
+심층 LLM 분석은 아직 구현되지 않았다.
 
-계약된 입력이 존재하지 않는 상태에서 구현하면 실제와 다른 입력을 가정하게 된다.
-백엔드 첨부 파싱이 들어온 뒤에 착수한다.
+### `POST /api/bid-summary` — LLM 분석 로직 미착수
 
-관련해서 확인해 둘 것 — ai-boundary.md §4 는 `procurement-analysis.js` 를 반으로 가른다.
-`analyzeProcurementMarkdown`(LLM 호출)은 이쪽, **근거 인용 검증**(`evidence.quote` 가 원문에
-문자 그대로 있는지)은 백엔드다. 현재 백엔드에 그 검증이 아직 없다.
+기본 핸들러(`app/handlers/bid_summary_handler.py`)는 기능한다 — payload 정규화,
+response 구조 조립, AI 비활성 시 `aiDisabled=true` 플래그 반환.
+영업 요약을 위한 프롬프트와 LLM 호출은 아직 옮기지 않았다.
 
-### 나머지 6개
+### 나머지 5개
 
 | 엔드포인트 | 옮겨올 원본 | 규모 |
 |---|---|---|
-| `bid-summary` | `lib/bid-summary.js` | 210줄 |
 | `legal/review-clauses` | `lib/legal-review.js` + `lib/law-mcp.js` | 520줄 |
 | `legal/outreach-draft` | `lib/legal-review.js` | (위와 공유) |
 | `pledge/revision-workflow` | `lib/pledge-workflow.js` + `lib/pledge-revision.js` | 255줄 |

@@ -86,8 +86,6 @@ if embed.status_code == 503:
 
 # ── 아직 이식하지 않은 경로 ──────────────────────────────────────────────────
 NOT_PORTED_POSTS = [
-    "/api/item-summary",
-    "/api/bid-summary",
     "/api/legal/review-clauses",
     "/api/legal/outreach-draft",
     "/api/pledge/revision-workflow",
@@ -106,6 +104,27 @@ for path in NOT_PORTED_POSTS:
     )
 
 
+# ── 이식된 분석 경로 ────────────────────────────────────────────────────────
+# AI 가 꺼져 있어도 200 으로 응답하고 aiDisabled 플래그로 알린다 — 200 폴백이
+# 캐시에 눌러앉지 않게 AiClient 가 aiFallback 건을 제외하는 규칙을 따른다.
+for path in ("/api/item-summary", "/api/bid-summary"):
+    resp = client.post(path, json={})
+    check(resp.status_code == 200, f"{path} 는 AI 가 없어도 200 이어야 합니다.")
+    body = resp.json()
+    check(body["aiDisabled"] is True, f"{path} 는 AI 비활 시 aiDisabled=true 여야 합니다.")
+    check(bool(body.get("aiError")), f"{path} 는 aiError 에 비활 이유가 있어야 합니다.")
+    check(bool(body.get("summary") == ""), f"{path} 는 빈 summary 로 시작합니다.")
+    check(bool(body.get("requestId")), f"{path} 는 requestId 가 있어야 로그 대조가 됩니다.")
+    check("retryable" not in body, f"{path} 성공 응답에 retryable 이 있으면 안 됩니다(실패 본체가 아닙니다).")
+
+# requestId 우선순위: 본문 > state > 헤더
+check(
+    client.post("/api/bid-summary", json={"requestId": "rid-body"}, headers={"X-Request-Id": "rid-header"}).json()["requestId"]
+    == "rid-body",
+    "payload.requestId 가 X-Request-Id 헤더보다 우선해야 합니다.",
+)
+
+
 # ── 실패 본문의 모양 ─────────────────────────────────────────────────────────
 # 예전에는 갈래마다 본문이 달라(501·503·404·401·422 가 전부 다른 모양) 백엔드가 하나의
 # 파서로 읽을 수 없었다. 네 필드가 모든 갈래에서 나오는지 본다 — docs/failure-modes.md.
@@ -121,9 +140,9 @@ def check_failure_shape(response, expected_code: str, where: str) -> None:
     check("detail" not in payload, f"{where}: 내부 진단(detail)은 본문에 나가면 안 됩니다.")
 
 
-check_failure_shape(client.post("/api/bid-summary", json={}), "NOT_PORTED", "501 미구현")
+check_failure_shape(client.post("/api/legal/review-clauses", json={}), "NOT_PORTED", "501 미구현")
 check(
-    client.post("/api/bid-summary", json={}).json()["retryable"] is False,
+    client.post("/api/legal/review-clauses", json={}).json()["retryable"] is False,
     "미구현은 다시 불러도 결과가 같습니다 — retryable 이 참이면 워커의 재시도 예산을 태웁니다.",
 )
 
