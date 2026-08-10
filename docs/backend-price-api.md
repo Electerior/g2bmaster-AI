@@ -135,8 +135,8 @@ LLM 이 본문을 읽는 단계가 통째로 사라진다.
 
 | 필드 | 타입 | 설명 |
 |---|---|---|
-| `source` | string | `"danawa"` \| `"itmaya"` \| `"index"`(로컬 색인) |
-| `sourceId` | string | 사이트 내부 식별자 (다나와 `pcode`, ITMAYA `idx`) |
+| `source` | string | `"danawa"` \| `"enuri"` \| `"itmaya"` \| `"index"`(로컬 색인) — **2026-08: `enuri` 추가** |
+| `sourceId` | string | 사이트 내부 식별자 (다나와 `pcode`, 에누리 `modelno`, ITMAYA `category\|product\|row`) |
 | `url` | string | 사람이 열어서 확인 가능한 상품 페이지 |
 | `name` | string | 판매처가 표기한 상품명. **`itemName` 과 다를 수 있다** — 검증 대상이다 |
 | `priceKrw` | int | 원화 정수 |
@@ -166,10 +166,19 @@ LLM 이 본문을 읽는 단계가 통째로 사라진다.
 | `relaxation.notes` | string[] | 경로 변경 기록 (예: `"카테고리를 못 찾아 통합검색으로 대체"`) |
 | `relaxation.textFallback` | string[] | 정식 필터 대신 상품명 문자열로 걸러낸 조건 |
 | `quoteCount` | int | 검색이 돌려준 총 후보 수 (검증 전) |
-| `misses` | object[] | 확인 실패한 가격원 `{site, reason}` |
+| `count` | int | `quoteCount` 와 같은 값. Contract A 표준 이름으로 함께 내보낸다(둘 다 유효) |
+| `misses` | object[] | 확인 실패한 가격원 `{site, reason}` — **다중소스 이후 실제로 채워진다** |
 
 `status = "no-source"` 는 **정상 응답이다.** 인력·용역처럼 아직 가격원이 없는 품목에서 나온다.
 장애가 아니므로 재시도하지 말 것.
+
+**다중소스 애그리게이션 (2026-08).** `resolve` 는 이제 다나와·에누리·아이티마야를 동시에 조회해
+`quotes[]` 로 합친다(`(source, sourceId)` 로 중복 제거, 소스 공정 라운드로빈으로 최대 30개). 한 소스가
+실패해도 다른 소스가 성공하면 `degraded=true` 이고 `degradedReasons[]=[{source, code, message}]` 와
+`searchInfo.misses[]` 가 채워진다 — **전부 실패해야** `PRICE_SOURCE_BROKEN`(502, 재시도 가능)이다.
+`itmaya` 후보는 정형 카탈로그라 `basis="stale"`·`stale=true`·`collectedAt`=xlsx 수정시각(KST)으로 온다.
+경계는 그대로: AI 는 후보만 주고 선택·검증은 백엔드, AI 는 `result=null` 을 만들지 않는다.
+소스 구성은 `PRICE_SOURCES`(파일 &gt; 환경변수 &gt; 기본 `danawa,enuri,itmaya`)로 켜고 끈다.
 
 ### 3.3 이전 응답과의 차이 — DTO 수정 지점
 

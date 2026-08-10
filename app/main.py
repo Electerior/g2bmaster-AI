@@ -25,6 +25,9 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from .config import PORT, SERVICE_SECRET, get_ai_config, llm_headers, mask_config
 from .embedding import EmbeddingUnavailable, embed_texts
 from .errors import AiFailure, resolve_request_id, to_body
+from .price import resolve as resolve_price, resolve_by_url as resolve_price_by_url
+from .estimate import estimate_unit_cost
+from .prebuilt import find_prebuilt_comparables
 from .llm.client import available_models, host, llm_status
 from .llm.worker_pool import get_llm_worker_pool
 from .prompts import ITEM_SUMMARY_PROMPT_VERSION, PROMPT_VERSIONS
@@ -205,14 +208,38 @@ async def pledge_revision(request: Request, payload: dict):
 
 @app.post("/api/price/resolve")
 async def price_resolve(request: Request, payload: dict):
-    not_ported(
-        request,
-        payload,
-        "/api/price/resolve",
-        "원본 price-web.js 이식 예정. studyweb 검색 연동과 LLM 가격 추출이 함께 필요하다.",
-    )
+    """품목명 → 가격 후보(다나와·에누리·아이티마야 동시 조회). 검증·선택은 백엔드 소유(§4).
+
+    한 소스가 실패하고 다른 소스가 성공하면 degraded:true + degradedReasons 로 보고한다.
+    켜진 소스는 config.PRICE_SOURCES 로 정한다.
+    """
+    request.state.request_id = resolve_request_id(request, payload)
+    return await resolve_price(payload)
 
 
 @app.post("/api/price/url")
 async def price_url(request: Request, payload: dict):
-    not_ported(request, payload, "/api/price/url", "원본 price-web.js 이식 예정.")
+    """상품 URL 하나 → 가격. 다나와 pcode·에누리 modelno 만 화이트리스트, 그 밖은 UNSUPPORTED_SOURCE(§4.5)."""
+    request.state.request_id = resolve_request_id(request, payload)
+    return await resolve_price_by_url(payload)
+
+
+@app.post("/api/estimate-unit-cost")
+async def estimate_cost(request: Request, payload: dict):
+    """규격서 텍스트 → 부품 추출(LLM) → 부품별 가격(다나와) → 원가 추정.
+
+    deal-analysis 의 estimatedUnitCost 갈래(백엔드가 호출). 계약: decisions.md D-P1.
+    못 찾으면 에러가 아니라 {matched:false, reason} 200 이다 — 규격서에 부품이 없을 수 있다.
+    """
+    request.state.request_id = resolve_request_id(request, payload)
+    return await estimate_unit_cost(payload)
+
+
+@app.post("/api/prebuilt-comparables")
+async def prebuilt_comparables(request: Request, payload: dict):
+    """번들이 완제품인지 부품 조달인지 판정하고, 완제품이면 유사 완제품(다나와)을 찾는다.
+
+    부품 단가 추정과 반대 방향이다 — 완제품 PC 만 남긴다. 계약: docs/api-contract §F.
+    """
+    request.state.request_id = resolve_request_id(request, payload)
+    return await find_prebuilt_comparables(payload)

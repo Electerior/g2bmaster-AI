@@ -17,13 +17,18 @@ load_dotenv()
 FIELDS = [
     "llmBase", "llmApiKey", "llmModel", "llmTemperature", "llmTopP",
     "llmMaxTokens", "llmContextWindow", "searchProvider", "searchUrl",
-    "searchKey", "searchPlatforms", "pricePrompt",
+    "searchKey", "searchPlatforms", "pricePrompt", "priceSources",
 ]
 KEY_FIELDS = {"llmApiKey", "searchKey"}
 
 # 가격 검색 우선 플랫폼 기본값. 원본 주석 그대로: 컴퓨존은 가격을 JS 로 그려
 # studyweb 이 "none priced" 로 흘리므로 단독 지정 금지 — URL 수동 경로로 커버한다.
 DEFAULT_PLATFORMS = "다나와, 에누리, 컴퓨존, 쿠팡, 11번가, 네이버쇼핑, 숨고, 크몽, 알바몬, 알바천국, 사람인"
+
+# 멀티소스 가격 리졸버(price.resolve)가 동시에 칠 소스. 세 소스 모두 직접 조회형이라
+# 기본값에 넣는다: danawa(부품·노트북), enuri(가격비교), itmaya(GPU서버 가격표, stale).
+# DEFAULT_PLATFORMS 와 별개다 — 이쪽은 실제로 파서가 붙어 있는 소스만 나열한다.
+DEFAULT_PRICE_SOURCES = "danawa,enuri,itmaya"
 
 
 def config_dir() -> Path:
@@ -48,6 +53,7 @@ def env_defaults() -> dict:
         "searchKey": os.getenv("STUDYWEB_API_KEY") or "",
         "searchPlatforms": os.getenv("SEARCH_PLATFORMS") or DEFAULT_PLATFORMS,
         "pricePrompt": os.getenv("PRICE_PROMPT") or "",
+        "priceSources": os.getenv("PRICE_SOURCES") or DEFAULT_PRICE_SOURCES,
     }
 
 
@@ -106,6 +112,7 @@ def mask_config(cfg: dict) -> dict:
         "searchUrl": cfg.get("searchUrl"),
         "searchPlatforms": cfg.get("searchPlatforms") or "",
         "pricePrompt": cfg.get("pricePrompt") or "",
+        "priceSources": cfg.get("priceSources") or "",
         "llmApiKey": mask(cfg.get("llmApiKey")),
         "searchKey": mask(cfg.get("searchKey")),
         "llmApiKeySet": bool(cfg.get("llmApiKey")),
@@ -121,8 +128,38 @@ HOST = os.getenv("HOST") or "127.0.0.1"
 # 호출자 인증. 설정하면 Authorization: Bearer 또는 X-Internal-Secret 을 요구한다.
 SERVICE_SECRET = os.getenv("AI_SERVICE_SECRET") or os.getenv("INTERNAL_SECRET") or ""
 
+# 백엔드가 기대하는 g2b.ai.timeout-ms 기본값(초). 아래 데드라인의 상한이다.
+BACKEND_TIMEOUT_SECONDS = 120.0
+
+# LLM 호출 하나의 데드라인. `CLAUDE.md §2` 규칙 7 이 요구하는 순서는
+#
+#     AI 자체 데드라인  <  g2b.ai.timeout-ms(120초)  <  백엔드 리스(300초)
+#
+# 이 순서가 뒤집히면 백엔드는 120초에 포기하는데 우리는 계속 생성하고 있고, 리스가 만료된
+# 뒤 다른 워커가 같은 작업을 다시 집는다 — 같은 공고를 두 번 추론해 LLM 비용이 두 배로 난다.
+# 한때 이 값이 300초로 박혀 있어 정확히 그 상태였다.
+#
+# 양쪽을 함께 늘릴 때는 백엔드의 AI_TIMEOUT_MS 와 ANALYSIS_LEASE_MS 도 같이 올려야 한다.
+LLM_TIMEOUT_SECONDS = float(os.getenv("LLM_TIMEOUT_SECONDS") or 100)
+
 
 def llm_headers() -> dict:
     """외부 OpenAI 호환 API 용 인증 헤더. 로컬 LM Studio 는 키가 없다."""
     key = get_ai_config().get("llmApiKey")
     return {"Authorization": f"Bearer {key}"} if key else {}
+
+
+def _parse_sources(raw: str) -> list[str]:
+    return [s.strip().lower() for s in str(raw or "").split(",") if s.strip()]
+
+
+def price_sources() -> list[str]:
+    """멀티소스 가격 리졸버가 켤 소스 이름들 — 파일 > 환경변수 > 기본값(config 우선순위).
+
+    price.resolve 가 이 목록으로 SOURCES 레지스트리를 거른다. 값이 비면 기본값으로 되돌린다.
+    """
+    return _parse_sources(get_ai_config().get("priceSources")) or _parse_sources(DEFAULT_PRICE_SOURCES)
+
+
+#: 편의 상수 — 환경변수/기본값에서 파생. 파일 오버라이드까지 반영하려면 price_sources() 를 쓴다.
+PRICE_SOURCES = _parse_sources(os.getenv("PRICE_SOURCES") or DEFAULT_PRICE_SOURCES)

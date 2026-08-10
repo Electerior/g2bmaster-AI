@@ -3,6 +3,9 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+# 매니페스트(package.json)도 없는 잔여 트리가 81M 쌓여 있었다. 재현도 관리도
+# 안 되는 것을 커밋하지 않도록 규칙을 둔다.
+node_modules/
 data/
 *.log
 .DS_Store
@@ -10,3 +13,7 @@ data/
 # 접속 정보·공급자 비밀값. .env.example 만 커밋한다.
 .env
 .env.local
+
+# 분석 산출물. 입력 워크북(test/*.xlsx)은 커밋하지만 실행 결과는 커밋하지 않는다 —
+# 실행할 때마다 바뀌고, 실공고 데이터가 들어 있다. 측정값은 docs/opportunity-eval.md 에 남긴다.
+test/out/

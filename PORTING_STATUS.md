@@ -17,13 +17,13 @@
 | `GET /api/ai/capacity` | ✅ 완료 |
 | `GET /api/llm/models` | ✅ 완료 |
 | `POST /api/embed` | ✅ 완료 (ML 스택 미설치 시 503 `EMBEDDING_UNAVAILABLE`) |
-| `POST /api/item-summary` | 🟡 기본 구현 — AI 비활성 시 `aiDisabled=true` 반환, LLM 분석 로직 미착수 (백엔드 첨부 파싱 대기) |
-| `POST /api/bid-summary` | 🟡 기본 구현 — AI 비활성 시 `aiDisabled=true` 반환, LLM 분석 로직 미착수 |
+| `POST /api/item-summary` | ❌ 501 `NOT_PORTED` (백엔드 첨부 파싱 대기) |
+| `POST /api/bid-summary` | ❌ 501 `NOT_PORTED` |
 | `POST /api/legal/review-clauses` | ❌ 501 `NOT_PORTED` |
 | `POST /api/legal/outreach-draft` | ❌ 501 `NOT_PORTED` |
 | `POST /api/pledge/revision-workflow` | ❌ 501 `NOT_PORTED` |
-| `POST /api/price/resolve` | ❌ 501 `NOT_PORTED` |
-| `POST /api/price/url` | ❌ 501 `NOT_PORTED` |
+| `POST /api/price/resolve` | ✅ 완료 — 다나와 실시간 조회로 `quotes[]` (실동작 확인) |
+| `POST /api/price/url` | ✅ 완료 — 다나와 상품 URL 화이트리스트(§4.5a) |
 
 **미구현은 200 이 아니라 501 로 응답한다.** `AiClient.itemSummary` 는 `aiFallback` 응답을
 성공으로 치지 않는데(ai-boundary.md §6.3), 미구현을 폴백처럼 200 으로 위장하면 그 결과가
@@ -90,17 +90,26 @@ smoke_llm: SKIP — LLM 400: Failed to load model "qwen/qwen3.6-35b-a3b". Error:
 
 ## ❌ 미착수
 
-### `POST /api/item-summary` — LLM 분석 로직 미착수
+### `POST /api/item-summary` · `POST /api/bid-summary` — LLM 분석 로직 미착수
 
-기본 핸들러(`app/handlers/item_summary_handler.py`)는 갖춰졌다 — AI 비활성 시
-`aiDisabled=true` 로 응답하고, payload 정규화·기 response 구조·source 추론을 한다.
-심층 LLM 분석은 아직 구현되지 않았다.
+두 핸들러(`app/handlers/*_handler.py`)는 `501 NOT_PORTED` 를 올리는 자리표시자다.
+프롬프트와 LLM 호출을 옮기면 그 자리에 들어간다.
 
-### `POST /api/bid-summary` — LLM 분석 로직 미착수
-
-기본 핸들러(`app/handlers/bid_summary_handler.py`)는 기능한다 — payload 정규화,
-response 구조 조립, AI 비활성 시 `aiDisabled=true` 플래그 반환.
-영업 요약을 위한 프롬프트와 LLM 호출은 아직 옮기지 않았다.
+> **한때 이 둘은 200 을 돌려주고 있었다.** payload 에 이름만 있으면
+> `"…요약이 완료되었습니다"` 라는 지어낸 문장을 `aiFallback=false` 로 실어 보냈다.
+> `AiClient` 는 `aiDisabled`/`aiFallback` 만 걸러내므로 그것을 **성공으로 판정**하고,
+> `AnalysisJobRunner` 가 `analysis_history` 에 적재한 뒤 작업을 완료 처리한다 —
+> 재사용 키(입력해시 + 프롬프트버전)가 같으므로 그 행은 영원히 재분석되지 않는다.
+> 이 문서 위쪽에 적어 둔 바로 그 사고다.
+>
+> 도달 조건이 `get_ai_config().get("enabled", False)` 였는데 **설정에 `enabled` 키 자체가
+> 없어서**(`FIELDS` 에도 `env_defaults()` 에도 없다) 늘 거짓이었다 — 즉 두 표면은 실제로는
+> 항상 `aiDisabled=true` 를 냈고, 가짜 성공 분기는 그 키를 추가하는 순간 터질 지뢰였다.
+> `AI 활성 여부는 백엔드 소유`(`g2b.ai.enabled`)이고 백엔드는 꺼져 있으면 호출조차 하지
+> 않으므로, 이 서비스에 그 개념을 두지 않는 쪽으로 정리했다.
+>
+> `scripts/test_http_contract.py` 가 이제 이 둘에 대해 **본문이 비어 있는지**를 확인한다.
+> 실제 분석을 이식할 때 그 블록을 200 검증으로 바꾼다.
 
 ### 나머지 5개
 

@@ -14,6 +14,12 @@
 ITEM_SUMMARY_PROMPT_VERSION = "item-summary-2026-08-04-v4"
 BID_SUMMARY_PROMPT_VERSION = "bid-summary-2026-08-07-v1"
 
+#: 사업기회 분류(`app/opportunity.py`). **아직 엔드포인트가 아니다** — 그래서 아래
+#: PROMPT_VERSIONS 에 넣지 않는다. 그 맵은 백엔드가 재사용 키를 만드는 데 쓰는
+#: '엔드포인트별' 표라, 엔드포인트가 아닌 것을 끼워 넣으면 없는 표면이 있는 것처럼 보인다.
+#: HTTP 로 열게 되면 그때 옮긴다.
+OPPORTUNITY_PROMPT_VERSION = "opportunity-2026-08-07-v2"
+
 #: 엔드포인트별 프롬프트 버전. 단일 문자열은 `bid-summary` 가 들어오는 순간 깨지고,
 #: 업무구분(물품·용역·공사·외자)별로 프롬프트가 갈리면 더 깨진다 — 키는 결국
 #: `엔드포인트:문서종류` 가 된다(`decisions.md F-3`, `plan.md §3`).

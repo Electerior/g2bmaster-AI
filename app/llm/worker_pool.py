@@ -12,6 +12,7 @@ asyncio.Condition 으로 옮겼다 — 대기자를 깨우는 방식만 다르�
 from __future__ import annotations
 
 import asyncio
+import os
 import re
 import time
 from datetime import datetime, timezone
@@ -24,10 +25,19 @@ _SPEC_RE = re.compile(r"^(https?://[^@]+?)(?:@(\d+))?$", re.IGNORECASE)
 
 # 원본 isRetryableLlmError 와 같은 판정.
 _RETRYABLE_STATUS = {408, 409, 429}
+
+# 연결 자체가 실패한 것 — 서버가 요청을 아직 못 받았다. 다른 워커로 재시도해도 **중복 생성이
+# 없다**(생성이 시작되지 않았으므로). 항상 재시도 대상.
 _RETRYABLE_NETWORK = (
-    httpx.ConnectError, httpx.ConnectTimeout, httpx.ReadTimeout,
+    httpx.ConnectError, httpx.ConnectTimeout,
     httpx.WriteTimeout, httpx.PoolTimeout, httpx.RemoteProtocolError,
 )
+
+# 요청은 보냈고 응답을 기다리다 끊긴 것. LM Studio 는 클라이언트가 끊겨도 **생성을 계속할 수
+# 있다.** 이때 다른 카드로 재시도하면 같은 프롬프트가 두 장에서 돈다(비용 2배). 그래서
+# 읽기 타임아웃의 재시도 여부는 설정(retry_on_read_timeout)으로 가른다. 기본은 재시도 안 함 —
+# 백엔드 작업 큐가 이미 재시도를 갖고 있고(CLAUDE.md §2 규칙 8), AI 안의 중복이 더 나쁘다.
+_READ_TIMEOUT = (httpx.ReadTimeout,)
 
 
 def parse_worker_spec(value: str | None, fallback_base: str) -> list[dict]:
@@ -51,18 +61,22 @@ def parse_worker_spec(value: str | None, fallback_base: str) -> list[dict]:
     return workers
 
 
-def is_retryable_llm_error(error: BaseException) -> bool:
+def is_retryable_llm_error(error: BaseException, retry_on_read_timeout: bool = True) -> bool:
     response = getattr(error, "response", None)
     status = getattr(response, "status_code", 0) or 0
     if status:
         return status in _RETRYABLE_STATUS or status >= 500
+    if isinstance(error, _READ_TIMEOUT):
+        return retry_on_read_timeout   # 중복 생성 위험 — 설정으로 가른다
     return isinstance(error, _RETRYABLE_NETWORK)
 
 
 class LlmWorkerPool:
-    def __init__(self, workers: list[dict], cooldown_ms: int = DEFAULT_COOLDOWN_MS):
+    def __init__(self, workers: list[dict], cooldown_ms: int = DEFAULT_COOLDOWN_MS,
+                 retry_on_read_timeout: bool = False):
         if not workers:
             raise ValueError("LLM 워커가 하나 이상 필요합니다.")
+        self.retry_on_read_timeout = retry_on_read_timeout
         self.workers = [
             {
                 **worker,
@@ -122,7 +136,7 @@ class LlmWorkerPool:
                 worker["failed"] += 1
                 worker["consecutiveFailures"] += 1
                 worker["lastError"] = str(getattr(error, "message", None) or error)[:300]
-                if is_retryable_llm_error(error):
+                if is_retryable_llm_error(error, self.retry_on_read_timeout):
                     worker["healthy"] = False
                     worker["cooldownUntil"] = time.time() * 1000 + self.cooldown_ms
             else:
@@ -144,7 +158,7 @@ class LlmWorkerPool:
             except BaseException as error:  # noqa: BLE001 — 실패 기록 후 그대로 올린다
                 await self._release(worker, error)
                 remaining = any(candidate["id"] not in attempted for candidate in self.workers)
-                if not remaining or not is_retryable_llm_error(error):
+                if not remaining or not is_retryable_llm_error(error, self.retry_on_read_timeout):
                     raise
             else:
                 await self._release(worker)
@@ -221,12 +235,36 @@ _singleton: LlmWorkerPool | None = None
 _singleton_key = ""
 
 
-def get_llm_worker_pool(fallback_base: str) -> LlmWorkerPool:
-    import os
+def _env_int(name: str, default: int) -> int:
+    try:
+        return int(os.getenv(name) or default)
+    except ValueError:
+        return default
 
+
+def _env_bool(name: str, default: bool) -> bool:
+    raw = os.getenv(name)
+    if raw is None or raw == "":
+        return default
+    return raw.strip().lower() in ("1", "true", "yes", "on")
+
+
+def get_llm_worker_pool(fallback_base: str) -> LlmWorkerPool:
+    """설정을 반영한 싱글톤 워커 풀. env 가 바뀌면 새로 만든다(테스트·재설정용).
+
+    - ``LLM_WORKERS``            : 엔드포인트 목록 ``base@capacity`` (4090 4장이면 넷)
+    - ``LLM_WORKER_COOLDOWN_MS`` : 재시도 가능 실패 후 그 카드를 쉬게 하는 시간(기본 30초)
+    - ``LLM_RETRY_ON_TIMEOUT``   : 읽기 타임아웃을 다른 카드로 재시도할지(기본 false — 중복 생성 방지)
+    """
     global _singleton, _singleton_key
-    key = f"{os.getenv('LLM_WORKERS') or ''}|{fallback_base}"
+    cooldown = _env_int("LLM_WORKER_COOLDOWN_MS", DEFAULT_COOLDOWN_MS)
+    retry_timeout = _env_bool("LLM_RETRY_ON_TIMEOUT", False)
+    key = f"{os.getenv('LLM_WORKERS') or ''}|{fallback_base}|{cooldown}|{retry_timeout}"
     if _singleton is None or _singleton_key != key:
-        _singleton = LlmWorkerPool(parse_worker_spec(os.getenv("LLM_WORKERS"), fallback_base))
+        _singleton = LlmWorkerPool(
+            parse_worker_spec(os.getenv("LLM_WORKERS"), fallback_base),
+            cooldown_ms=cooldown,
+            retry_on_read_timeout=retry_timeout,
+        )
         _singleton_key = key
     return _singleton
