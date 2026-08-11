@@ -88,6 +88,24 @@ async def main() -> None:
     await asyncio.gather(*(pool.run(slow) for _ in range(6)))
     check(used.count("llm-1") > used.count("llm-2"), "용량이 큰 워커가 더 많은 작업을 받아야 합니다.")
 
+    # 배치를 gather 로 던지면 네 대(4090×4)에 실제로 동시에 흩뿌려진다.
+    # 이것이 안 되면 GPU 가 네 대여도 매 순간 한 대만 일한다.
+    pool = LlmWorkerPool(parse_worker_spec("http://g0@1,http://g1@1,http://g2@1,http://g3@1", "x"))
+    concurrent = {"now": 0, "peak": 0}
+    used_ids: set[str] = set()
+
+    async def batch_job(worker):
+        used_ids.add(worker["id"])
+        concurrent["now"] += 1
+        concurrent["peak"] = max(concurrent["peak"], concurrent["now"])
+        await asyncio.sleep(0.02)   # 네 대가 겹쳐 도는 창을 만든다
+        concurrent["now"] -= 1
+        return worker["id"]
+
+    await asyncio.gather(*(pool.run(batch_job) for _ in range(12)))
+    check(len(used_ids) == 4, f"네 워커가 모두 쓰여야 합니다(쓰인 워커: {sorted(used_ids)}).")
+    check(concurrent["peak"] == 4, f"네 대가 동시에 돌아야 합니다(최대 동시: {concurrent['peak']}).")
+
     # 동시 실행이 용량을 넘지 않는다.
     pool = LlmWorkerPool(parse_worker_spec("http://a@2", "x"))
     peak = {"value": 0, "now": 0}

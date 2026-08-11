@@ -46,6 +46,11 @@ FAILURES: dict[str, FailureSpec] = {
     "LLM_UNAVAILABLE": FailureSpec(503, True, "AI 분석 서버에 연결할 수 없어 분석을 완료하지 못했습니다."),
     "LLM_TIMEOUT": FailureSpec(504, True, "AI 분석이 제한 시간 내에 끝나지 않았습니다."),
     "LLM_MALFORMED": FailureSpec(502, True, "AI 응답을 해석하지 못했습니다."),
+    # 가격 조회(backend-price-api.md §5). "검색은 됐는데 0건"과 "파서가 깨져 0건"은
+    # 완전히 다른 사건이다 — 후자는 사이트 개편 날 모든 품목이 동시에 조용히 비는 장애다.
+    "PRICE_SOURCE_BROKEN": FailureSpec(502, True, "가격 정보를 가져오지 못했습니다."),
+    # /api/price/url 에 지원하지 않는 도메인의 URL. 재시도해도 결과가 같다(4xx=영구).
+    "UNSUPPORTED_SOURCE": FailureSpec(400, False, "지원하지 않는 가격 조회 주소입니다."),
     "INTERNAL": FailureSpec(500, True, "분석 처리 중 오류가 발생했습니다."),
 }
 

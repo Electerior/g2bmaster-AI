@@ -5,7 +5,7 @@
 "곧 됩니다"는 쓰지 않고, 되는 것과 안 되는 것만 적는다.
 
 기준 원본: `g2bmastersopen@d2fa9ada` (2026-08-05, `server.js` 5363줄 / `lib/` 52개 모듈).
-마지막 갱신: 2026-08-06
+마지막 갱신: 2026-08-07
 
 ---
 
@@ -17,13 +17,13 @@
 | `GET /api/ai/capacity` | ✅ 완료 |
 | `GET /api/llm/models` | ✅ 완료 |
 | `POST /api/embed` | ✅ 완료 (ML 스택 미설치 시 503 `EMBEDDING_UNAVAILABLE`) |
-| `POST /api/item-summary` | ❌ 501 `NOT_PORTED` — 백엔드 첨부 파싱 대기 |
+| `POST /api/item-summary` | ❌ 501 `NOT_PORTED` (백엔드 첨부 파싱 대기) |
 | `POST /api/bid-summary` | ❌ 501 `NOT_PORTED` |
 | `POST /api/legal/review-clauses` | ❌ 501 `NOT_PORTED` |
 | `POST /api/legal/outreach-draft` | ❌ 501 `NOT_PORTED` |
 | `POST /api/pledge/revision-workflow` | ❌ 501 `NOT_PORTED` |
-| `POST /api/price/resolve` | ❌ 501 `NOT_PORTED` |
-| `POST /api/price/url` | ❌ 501 `NOT_PORTED` |
+| `POST /api/price/resolve` | ✅ 완료 — 다나와 실시간 조회로 `quotes[]` (실동작 확인) |
+| `POST /api/price/url` | ✅ 완료 — 다나와 상품 URL 화이트리스트(§4.5a) |
 
 **미구현은 200 이 아니라 501 로 응답한다.** `AiClient.itemSummary` 는 `aiFallback` 응답을
 성공으로 치지 않는데(ai-boundary.md §6.3), 미구현을 폴백처럼 200 으로 위장하면 그 결과가
@@ -90,24 +90,31 @@ smoke_llm: SKIP — LLM 400: Failed to load model "qwen/qwen3.6-35b-a3b". Error:
 
 ## ❌ 미착수
 
-### `POST /api/item-summary` — 백엔드에 막혀 있다
+### `POST /api/item-summary` · `POST /api/bid-summary` — LLM 분석 로직 미착수
 
-심층 분석은 **첨부 원문(Markdown)과 문서 신호**를 입력으로 받는다. 그 입력을 만드는
-백엔드의 첨부 파싱(HWP·PDF·ZIP)이 아직 이식되지 않았다
-(`g2bmaster-backend/docs/porting-status.md`: "첨부 파싱 ❌ 미착수").
+두 핸들러(`app/handlers/*_handler.py`)는 `501 NOT_PORTED` 를 올리는 자리표시자다.
+프롬프트와 LLM 호출을 옮기면 그 자리에 들어간다.
 
-계약된 입력이 존재하지 않는 상태에서 구현하면 실제와 다른 입력을 가정하게 된다.
-백엔드 첨부 파싱이 들어온 뒤에 착수한다.
+> **한때 이 둘은 200 을 돌려주고 있었다.** payload 에 이름만 있으면
+> `"…요약이 완료되었습니다"` 라는 지어낸 문장을 `aiFallback=false` 로 실어 보냈다.
+> `AiClient` 는 `aiDisabled`/`aiFallback` 만 걸러내므로 그것을 **성공으로 판정**하고,
+> `AnalysisJobRunner` 가 `analysis_history` 에 적재한 뒤 작업을 완료 처리한다 —
+> 재사용 키(입력해시 + 프롬프트버전)가 같으므로 그 행은 영원히 재분석되지 않는다.
+> 이 문서 위쪽에 적어 둔 바로 그 사고다.
+>
+> 도달 조건이 `get_ai_config().get("enabled", False)` 였는데 **설정에 `enabled` 키 자체가
+> 없어서**(`FIELDS` 에도 `env_defaults()` 에도 없다) 늘 거짓이었다 — 즉 두 표면은 실제로는
+> 항상 `aiDisabled=true` 를 냈고, 가짜 성공 분기는 그 키를 추가하는 순간 터질 지뢰였다.
+> `AI 활성 여부는 백엔드 소유`(`g2b.ai.enabled`)이고 백엔드는 꺼져 있으면 호출조차 하지
+> 않으므로, 이 서비스에 그 개념을 두지 않는 쪽으로 정리했다.
+>
+> `scripts/test_http_contract.py` 가 이제 이 둘에 대해 **본문이 비어 있는지**를 확인한다.
+> 실제 분석을 이식할 때 그 블록을 200 검증으로 바꾼다.
 
-관련해서 확인해 둘 것 — ai-boundary.md §4 는 `procurement-analysis.js` 를 반으로 가른다.
-`analyzeProcurementMarkdown`(LLM 호출)은 이쪽, **근거 인용 검증**(`evidence.quote` 가 원문에
-문자 그대로 있는지)은 백엔드다. 현재 백엔드에 그 검증이 아직 없다.
-
-### 나머지 6개
+### 나머지 5개
 
 | 엔드포인트 | 옮겨올 원본 | 규모 |
 |---|---|---|
-| `bid-summary` | `lib/bid-summary.js` | 210줄 |
 | `legal/review-clauses` | `lib/legal-review.js` + `lib/law-mcp.js` | 520줄 |
 | `legal/outreach-draft` | `lib/legal-review.js` | (위와 공유) |
 | `pledge/revision-workflow` | `lib/pledge-workflow.js` + `lib/pledge-revision.js` | 255줄 |

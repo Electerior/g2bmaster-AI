@@ -7,6 +7,7 @@ LM Studio 면 `/api/v0/models` 로 로드된 모델을 추적(TTL 10초)하고,
 
 from __future__ import annotations
 
+import asyncio
 import os
 import re
 import time
@@ -15,7 +16,7 @@ from pathlib import Path
 
 import httpx
 
-from ..config import get_ai_config, llm_headers
+from ..config import LLM_TIMEOUT_SECONDS, get_ai_config, llm_headers
 from .worker_pool import get_llm_worker_pool
 
 TTL_SECONDS = 10.0
@@ -149,7 +150,8 @@ async def lms_chat(request: dict) -> dict:
                 "enable_thinking": False,
             },
         }
-        async with httpx.AsyncClient(timeout=300.0) as client:
+        # 데드라인은 백엔드 타임아웃보다 짧아야 한다 — 이유는 config.LLM_TIMEOUT_SECONDS 주석에.
+        async with httpx.AsyncClient(timeout=LLM_TIMEOUT_SECONDS) as client:
             response = await client.post(f"{worker['base']}/v1/chat/completions", json=body, headers=headers)
             if response.is_error:
                 # 원본 주석이 지적한 함정: LM Studio 가 돌려주는 400(컨텍스트 초과, 모델 미로드)이
@@ -165,6 +167,52 @@ async def lms_chat(request: dict) -> dict:
     return await get_llm_worker_pool(host()).run(call)
 
 
+def batch_concurrency() -> int:
+    """배치 작업이 한 번에 흘려보낼 요청 수.
+
+    기본은 건강한 워커의 총 용량 — 4090 4장(@1)이면 4다. 그보다 크게 잡아도 워커 풀이
+    용량에서 막으므로 처리량은 안 늘고 대기자만 쌓인다. ``LLM_BATCH_CONCURRENCY`` 로 덮는다.
+    """
+    override = os.getenv("LLM_BATCH_CONCURRENCY")
+    if override:
+        try:
+            value = int(override)
+            if value > 0:
+                return value
+        except ValueError:
+            pass
+    return max(1, get_llm_worker_pool(host()).total_capacity)
+
+
+async def lms_chat_batch(requests, concurrency: int = 0):
+    """여러 채팅 요청을 **동시에** 던진다 — GPU 여러 대를 실제로 함께 굴리는 자리다.
+
+    워커 풀(`run`)은 요청 하나를 여유 있는 워커 하나에 붙일 뿐이다. 요청을 순차로
+    (`for req: await lms_chat(req)`) 돌리면 4대가 있어도 매 순간 한 대만 일한다 —
+    이걸 `gather` 로 한꺼번에 던져야 풀이 여유율 기준으로 네 대에 흩뿌린다.
+
+    동시성은 기본적으로 **건강한 워커의 총 용량**으로 제한한다. 그보다 많이 던져도
+    풀의 `_acquire` 가 알아서 대기시키지만, 수백 개를 한꺼번에 열면 대기자·소켓만 쌓이고
+    처리량은 용량에서 막힌다. 용량만큼만 흘려보내는 편이 깔끔하다.
+
+    한 요청이 실패해도 나머지는 살린다 — 결과 목록의 그 자리에 예외 객체가 들어온다
+    (`return_exceptions=True`). 호출부가 성공만 걸러 쓴다.
+
+    :returns: 입력과 **같은 순서**의 결과. 각 항목은 응답 dict 또는 Exception.
+    """
+    items = list(requests)
+    if not items:
+        return []
+    limit = concurrency if concurrency > 0 else batch_concurrency()
+    semaphore = asyncio.Semaphore(limit)
+
+    async def one(request: dict):
+        async with semaphore:
+            return await lms_chat(request)
+
+    return await asyncio.gather(*(one(request) for request in items), return_exceptions=True)
+
+
 def server_reason(response: httpx.Response) -> str:
     """OpenAI 호환 오류 본문에서 사람이 읽을 사유를 뽑는다."""
     try:
@@ -177,3 +225,7 @@ def server_reason(response: httpx.Response) -> str:
     if isinstance(error, str):
         return error[:300]
     return str(data)[:300]
+
+
+# Alias for backward compatibility with handlers that import llm_chat
+llm_chat = lms_chat
