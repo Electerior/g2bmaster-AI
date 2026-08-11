@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import uuid
 
 from fastapi import FastAPI, Request
@@ -23,7 +24,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from .config import PORT, SERVICE_SECRET, get_ai_config, llm_headers, mask_config
-from .embedding import EmbeddingUnavailable, embed_texts
+from .embedding import EmbeddingUnavailable, embed_texts, status as embedding_status
 from .errors import AiFailure, resolve_request_id, to_body
 from .price import resolve as resolve_price, resolve_by_url as resolve_price_by_url
 from .estimate import estimate_unit_cost
@@ -106,11 +107,32 @@ async def service_secret_guard(request: Request, call_next):
     return await call_next(request)
 
 
+@app.on_event("startup")
+async def _warm_embedding_model() -> None:
+    """임베딩 가중치를 미리 읽어 둔다.
+
+    예열하지 않으면 첫 `/api/embed` 가 모델 적재(실측 약 4초)를 혼자 뒤집어쓴다.
+    백그라운드로 돌리는 이유는 기동을 막지 않기 위해서다 — 그동안에도 헬스체크는
+    응답해야 하고, ML 스택이 설치돼 있지 않은 배포에서도 서비스는 떠야 한다.
+    """
+    if os.getenv("EMBEDDING_WARMUP", "1") != "1":
+        logger.info("임베딩 예열 건너뜀 (EMBEDDING_WARMUP=0)")
+        return
+    try:
+        from module_a.model_registry import warmup_async
+
+        warmup_async()
+    except ImportError:
+        logger.info("임베딩 스택이 없어 예열을 건너뜁니다 — /api/embed 는 503 입니다")
+
+
 # ── 상태 ─────────────────────────────────────────────────────────────────────
 @app.get("/health")
 @app.get("/healthz")
 async def health():
-    return {"ok": True, "status": "ok", "service": "g2bmaster-ai"}
+    # 임베딩 상태를 함께 싣는다. 프로세스가 살아 있는 것과 임베딩이 쓸 수 있는 것은
+    # 다른 질문이라, 모델을 못 읽어도 ok 는 true 다 — 나머지 표면은 정상으로 돈다.
+    return {"ok": True, "status": "ok", "service": "g2bmaster-ai", "embedding": embedding_status()}
 
 
 @app.get("/api/ai/config")

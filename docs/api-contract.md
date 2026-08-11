@@ -143,12 +143,46 @@ Java 에서는 `@RequireAppAuth` 애너테이션 + `AppAuthInterceptor`,
 > 서약서 경로는 **문서 태그가 확인되기 전에는 첨부를 내려받지 않는다**
 > (`{status:'tag_missing'}` 로 400). 불필요한 다운로드와 LLM 호출을 막는 가드다.
 
-### J. 하드웨어 스펙 (6) — Python 모듈 서버 프록시, 전부 앱 키
+### J. 하드웨어 스펙 — Python 모듈 서버 프록시, 전부 앱 키
 
-`POST /api/search/titles`, `POST /api/extract/specs`, `GET /api/specs/cpu`,
-`GET /api/specs/gpu`, `POST /api/specs/fetch-notices`, `POST /api/specs/search-documents`
+`POST /api/extract/specs`, `GET /api/specs/cpu`, `GET /api/specs/gpu`,
+`POST /api/specs/fetch-notices`, `POST /api/specs/search-documents`,
+`POST /api/embed/document`, `POST /api/search/document`
 
 연결 실패 시 **502** `{error: 'Module server unavailable: …'}`.
+모델을 못 읽었을 때는 **503** — "잠시 없음"이라 호출부가 재시도할 수 있다.
+
+> **폐지**: `POST /api/search/titles` · `POST /api/rank/titles`.
+> 제목 의미검색은 신호가 너무 얇았다 — 공고 제목에는 정작 필요한 사양이 한 글자도
+> 없고 그건 첨부 본문에만 있다. 유사도는 이제 **파일 내용**에 대해서만 건다.
+>
+> `POST /api/embed/document` 는 문서를 청크로 잘라 벡터와 **원문 좌표**를 함께 낸다.
+> 호출부가 따로 자르면 각 청크가 원문 어디였는지를 잃고, 그러면 검색 결과를 근거로
+> 인용할 수 없다. `POST /api/search/document` 는 문서 하나 안에서 질의와 가까운
+> 대목을 찾는다 — 색인은 그 요청 안에서만 살고 상주하지 않는다(요청끼리 섞이면
+> 오류 없이 결과만 조용히 달라진다).
+
+> `POST /api/extract/specs` 는 **방향이 둘**이다(`mode`). 둘은 입력도 출력도 다르다.
+>
+> | mode | 입력 | 출력 | 쓰임 |
+> |---|---|---|---|
+> | `datasheet` (기본) | 제조사 스펙 문서. `spec_type` **필수**(없으면 400) | `{cpu, gpu, is_sufficient_data}` | 스펙 사전 구축 |
+> | `requirement` | 조달 규격서 원문 | `{items[], is_sufficient_data}` | 규격서 요구사항 판독 |
+>
+> `requirement` 의 `items[]` 는 **값이 아니라 조건**을 싣는다 —
+> `constraints[{attr, op, value, unit, raw}]`, `op ∈ {gte, lte, eq, approx}`.
+> `attr` 은 `hardware_schema.ATTR_UNITS` 의 어휘로 고정되고, 데이터시트 방향이
+> `canonical_attrs()` 로 내는 이름과 같다. **두 방향이 같은 자를 쓰기 때문에
+> 백엔드의 대조가 추론이 아니라 산수가 된다.**
+>
+> `name` 은 규격서에 제품명이 적혀 있을 때만 채워지고, 그 사실을 `named` 가 말한다
+> (설계 ①/② 를 가르는 스위치). 사양만 있으면 `name=null` 이다 —
+> **여기서 모델명을 지어내면 뒤 단계 탐색이 거짓 이름을 사실로 굳힌다.**
+>
+> `evidence` 는 규격서 원문 한 줄 그대로이고, `evidence_span{quote, offset, length, found}`
+> 은 **모듈 서버가 채운다**(LLM 에게 좌표를 세게 하면 그럴듯한 숫자를 지어낸다).
+> `found=false` 는 원문에 없는 문장이라는 뜻이며, **버리지 않고 그대로 올린다** —
+> 지어냈다는 사실 자체가 백엔드가 판정할 재료다.
 
 ### K. 시스템·운영 (16)
 
