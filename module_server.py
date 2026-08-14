@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-FastAPI server for Module A (Semantic Title Search) and Module B (LLM Spec Extraction).
-Runs on localhost:8001 and proxies from the main Node.js server.
+FastAPI server for Module A (문서 내용 임베딩·유사도 검색) and Module B (LLM Spec Extraction).
+Runs on localhost:8001. 백엔드가 §J 하드웨어 스펙 표면을 이쪽으로 프록시한다.
+
+제목 의미검색(`/api/search/titles`·`/api/rank/titles`)은 폐지했다. 제목은 신호가
+너무 얇았다 — 공고 제목에는 정작 필요한 사양이 한 글자도 없고 그건 첨부 본문에만 있다.
+이제 Module A 는 **파일 내용**만 다룬다(`module_a/document_index.py`).
 """
 
 import os
@@ -18,7 +22,8 @@ from fastapi import FastAPI, HTTPException, Request, Depends
 from pydantic import BaseModel, Field, validator
 import uvicorn
 
-from module_a.data_loader import SearcherManager
+from module_a import model_registry
+from module_a.document_index import DocumentIndex
 from module_b.llm_extractor import create_extractor
 from module_b.data_loader import load_cpu_specs, load_gpu_specs
 from module_b.hardware_schema import HardwareExtraction
@@ -36,50 +41,41 @@ app_dependencies = [Depends(verify_internal_secret)]
 app = FastAPI(title="Module A & B API", version="1.0.0", dependencies=app_dependencies)
 
 
-_search_manager: Optional[SearcherManager] = None
+@app.on_event("startup")
+async def _warm_embedding_model() -> None:
+    """임베딩 가중치를 미리 읽어 둔다.
 
-
-def get_search_manager() -> SearcherManager:
-    global _search_manager
-    if _search_manager is None:
-        cpu_csv = ROOT / "cpu_specs_complete_new.csv"
-        gpu_csv = ROOT / "gpu_specs_sanitized.csv"
-        _search_manager = SearcherManager(cpu_csv, gpu_csv)
-    return _search_manager
+    예열하지 않으면 첫 요청이 모델 적재(실측 약 4초)를 혼자 뒤집어쓴다. 백그라운드로
+    돌리는 이유는 기동을 막지 않기 위해서다 — 헬스체크가 그동안 응답해야 한다.
+    """
+    model_registry.warmup_async()
 
 
 # === Request/Response Models ===
 
-class SearchRequest(BaseModel):
-    query: str
-    type: Literal["cpu", "gpu", "both"] = "both"
-    top_k: int = Field(default=5, ge=1, le=50)
-    # hybrid = dense + BM25 정규화 점수 융합(기본). 나머지는 비교·진단용.
-    mode: Literal["hybrid", "dense", "sparse"] = "hybrid"
-
-
-class SearchResult(BaseModel):
-    title: str
-    score: float
-
-
-class SearchResponse(BaseModel):
-    results: List[SearchResult]
-    query: str
-    type: str
-
-
 class ExtractRequest(BaseModel):
-    spec_type: Literal["cpu", "gpu"]
+    """두 방향을 한 표면에서 받는다.
+
+    - `mode="datasheet"` — 제조사 스펙 문서 → 제품 하나의 값. `spec_type` 필수.
+    - `mode="requirement"` — 조달 규격서 → 요구 품목과 조건. `spec_type` 무시.
+    """
+
+    mode: Literal["datasheet", "requirement"] = "datasheet"
+    spec_type: Optional[Literal["cpu", "gpu"]] = None
     chunks: List[str] = Field(min_length=1)
     model: Optional[str] = None
     backend: Literal["ollama", "lms", "custom"] = "lms"
     base_url: Optional[str] = None
+    #: 문서에 여러 제품이 있을 때 뽑을 제품명. datasheet 방향에서만 쓴다.
+    target: Optional[str] = None
 
 
 class ExtractResponse(BaseModel):
+    mode: Literal["datasheet", "requirement"] = "datasheet"
     cpu: Optional[dict] = None
     gpu: Optional[dict] = None
+    #: requirement 방향의 결과. datasheet 방향이면 None 이다.
+    items: Optional[List[dict]] = None
     is_sufficient_data: bool
 
 
@@ -209,10 +205,12 @@ async def fetch_spec_document(bid_ntce_no: str, bid_ntce_sq_no: str = "") -> str
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "modules": ["module_a", "module_b"]}
+    # 프로세스가 살아 있는 것과 임베딩이 쓸 수 있는 것은 다른 질문이다.
+    # 모델을 못 읽어도 status 는 ok 다 — 나머지 표면은 정상으로 돈다.
+    return {"status": "ok", "modules": ["module_a", "module_b"], "embedding": model_registry.status()}
 
 
-# === Module A: Semantic Title Search ===
+# === Module A: 문서 내용 임베딩·유사도 검색 ===
 
 class EmbedRequest(BaseModel):
     texts: List[str]
@@ -228,87 +226,114 @@ async def embed_texts(req: EmbedRequest):
     if not req.texts:
         return {"model": "", "dim": 0, "vectors": []}
     try:
-        from module_a.title_semantic_searcher import TitleSemanticSearcher
-        s = TitleSemanticSearcher()
-        vecs = s.model.encode(req.texts, show_progress_bar=False, normalize_embeddings=True)
+        vecs = model_registry.encode(req.texts)
         return {
-            "model": s.model_name,
+            "model": model_registry.DEFAULT_MODEL,
             "dim": int(vecs.shape[1]),
             "vectors": [[float(x) for x in v] for v in vecs],
         }
+    except model_registry.ModelUnavailable as error:
+        # 모델이 없다는 것과 인코딩이 깨졌다는 것은 다른 사건이다. 503 이라야
+        # 호출부가 "잠시 없음"으로 읽고 재시도할 수 있다.
+        raise HTTPException(status_code=503, detail=str(error))
     except Exception:
         raise HTTPException(status_code=500, detail="embed failed")
 
 
-class RankRequest(BaseModel):
-    query: str
-    titles: List[str]
-    top_k: int = Field(default=50, ge=1, le=500)
-    mode: Literal["hybrid", "dense", "sparse"] = "hybrid"
+class ChunkRequest(BaseModel):
+    """파일 내용을 청크로 잘라 벡터까지 만든다.
 
-
-@app.post("/api/rank/titles")
-async def rank_titles(req: RankRequest):
-    """임의의 제목 목록을 질의와의 유사도로 정렬한다.
-
-    /api/search/titles 는 CSV 로 미리 만든 색인을 쓰지만, 공고 검색은 매번 다른
-    결과 집합을 다루므로 그때그때 색인을 세운다. 임베딩 인코딩이 비용의 대부분이라
-    목록이 길면 느리다 — 호출부에서 상한을 둔다.
+    자르기와 인코딩을 한 번에 하는 이유는 **좌표** 때문이다. 호출부가 따로 자르면
+    각 청크가 원문 어디였는지를 잃고, 그러면 검색 결과를 근거로 인용할 수 없다.
     """
-    if not req.titles:
-        return {"results": []}
+
+    text: str
+    document_id: str = ""
+    chunk_chars: int = Field(default=700, ge=100, le=4000)
+    overlap_chars: int = Field(default=120, ge=0, le=1000)
+
+
+@app.post("/api/embed/document")
+async def embed_document(req: ChunkRequest):
     try:
-        from module_a.title_semantic_searcher import TitleSemanticSearcher
-        searcher = TitleSemanticSearcher()
-        searcher.build_index(req.titles)
-        hits = searcher.search(req.query, top_k=min(req.top_k, len(req.titles)), mode=req.mode)
-        # 원본 인덱스를 함께 돌려준다 — 호출부는 제목이 아니라 공고 객체를 재정렬해야 한다.
-        pos = {}
-        for i, t in enumerate(req.titles):
-            pos.setdefault(t.strip(), i)
-        return {"results": [
-            {"index": pos.get(title, -1), "title": title, "score": float(score)}
-            for title, score in hits
-        ]}
-    except Exception:
-        raise HTTPException(status_code=500, detail="rank failed")
-
-
-@app.post("/api/search/titles", response_model=SearchResponse)
-async def search_titles(req: SearchRequest):
-    try:
-        manager = get_search_manager()
-        if req.type == "cpu":
-            searcher = manager.cpu_searcher
-        elif req.type == "gpu":
-            searcher = manager.gpu_searcher
-        else:
-            searcher = manager.combined_searcher
-
-        results = searcher.search(req.query, req.top_k, mode=req.mode)
-        return SearchResponse(
-            results=[SearchResult(title=t, score=s) for t, s in results],
-            query=req.query,
-            type=req.type
+        index = DocumentIndex()
+        index.add_document(
+            req.text,
+            document_id=req.document_id,
+            chunk_chars=req.chunk_chars,
+            overlap_chars=req.overlap_chars,
         )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Internal server error")
+        vectors = index._vectors
+        return {
+            "model": model_registry.DEFAULT_MODEL,
+            "dim": index.dim,
+            "chunks": [
+                {**chunk.as_dict(), "vector": [float(x) for x in vectors[i]]}
+                for i, chunk in enumerate(index.chunks)
+            ],
+        }
+    except model_registry.ModelUnavailable as error:
+        raise HTTPException(status_code=503, detail=str(error))
+    except Exception:
+        raise HTTPException(status_code=500, detail="embed document failed")
+
+
+class DocumentSearchRequest(BaseModel):
+    query: str
+    text: str
+    document_id: str = ""
+    top_k: int = Field(default=5, ge=1, le=50)
+    min_score: float = Field(default=0.0, ge=-1.0, le=1.0)
+
+
+@app.post("/api/search/document")
+async def search_document(req: DocumentSearchRequest):
+    """문서 하나 안에서 질의와 가장 가까운 대목을 찾는다.
+
+    색인은 이 요청 안에서만 산다 — 상주시키면 다른 요청이 넣은 문서가 섞여 나온다.
+    """
+    try:
+        index = DocumentIndex()
+        index.add_document(req.text, document_id=req.document_id)
+        hits = index.search(req.query, top_k=req.top_k, min_score=req.min_score)
+        return {"query": req.query, "chunks": len(index), "results": [h.as_dict() for h in hits]}
+    except model_registry.ModelUnavailable as error:
+        raise HTTPException(status_code=503, detail=str(error))
+    except Exception:
+        raise HTTPException(status_code=500, detail="search document failed")
 
 
 # === Module B: LLM Spec Extraction ===
 
 @app.post("/api/extract/specs", response_model=ExtractResponse)
 async def extract_specs(req: ExtractRequest):
+    # datasheet 방향은 어느 스키마로 제약할지 알아야 한다. 없으면 400 이 맞다 —
+    # 임의로 "cpu" 를 골라 주면 GPU 문서에서 빈 결과가 나오고, 그게 "스펙 없음"으로 읽힌다.
+    if req.mode == "datasheet" and req.spec_type is None:
+        raise HTTPException(status_code=400, detail="spec_type is required when mode=datasheet")
+
     try:
         extractor = create_extractor(req.backend, req.base_url)
         model_name = req.model or "gemma-4-e2b-it-qat"
-        result = extractor.extract(req.spec_type, req.chunks, model_name)
 
+        if req.mode == "requirement":
+            requirement = extractor.extract_requirements(req.chunks, model_name)
+            items = [item.model_dump() for item in requirement.items]
+            return ExtractResponse(
+                mode="requirement",
+                items=items,
+                is_sufficient_data=bool(items),
+            )
+
+        result = extractor.extract(req.spec_type, req.chunks, model_name, target=req.target)
         return ExtractResponse(
+            mode="datasheet",
             cpu=result.cpu.model_dump() if result.cpu else None,
             gpu=result.gpu.model_dump() if result.gpu else None,
             is_sufficient_data=result.is_sufficient_data
         )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
 
@@ -394,9 +419,6 @@ async def search_spec_documents(req: SpecDocumentSearchRequest):
         spec_results = []
         specs_found = 0
 
-        manager = get_search_manager()
-        combined_searcher = manager.combined_searcher
-
         batch_size = 10
         for i in range(0, min(len(items), 50), batch_size):
             batch = items[i:i+batch_size]
@@ -410,14 +432,12 @@ async def search_spec_documents(req: SpecDocumentSearchRequest):
                 if spec_text and len(spec_text) > 50:
                     specs_found += 1
                     try:
-                        chunks = [spec_text[j:j+500] for j in range(0, len(spec_text), 400)]
-                        max_score = 0
-                        for chunk in chunks[:5]:
-                            if len(chunk) > 20:
-                                query_emb = combined_searcher.model.encode([req.query], normalize_embeddings=True)
-                                chunk_emb = combined_searcher.model.encode([chunk], normalize_embeddings=True)
-                                score = float((query_emb @ chunk_emb.T).flatten()[0])
-                                max_score = max(max_score, score)
+                        # 예전에는 청크마다 **질의를 다시 인코딩**했다(청크 5개면 5번).
+                        # 질의는 하나뿐이니 한 번이면 된다 — DocumentIndex 가 그렇게 한다.
+                        index = DocumentIndex()
+                        index.add_document(spec_text, document_id=bid_ntce_no)
+                        hits = index.search(req.query, top_k=1)
+                        max_score = hits[0].score if hits else 0.0
 
                         if max_score >= req.min_score:
                             spec_results.append(SpecDocumentResult(

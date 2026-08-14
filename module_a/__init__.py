@@ -1,29 +1,42 @@
-"""Module A: Fast Semantic Title Searcher.
+"""Module A: 파일 **내용**에 대한 임베딩과 유사도 검색.
 
-Uses sentence-transformers (paraphrase-multilingual-MiniLM-L12-v2) for
-millisecond-scale semantic search over hardware titles.
+제목 의미검색은 폐지했다(`TitleSemanticSearcher`·`data_loader`). 공고 제목에는 정작
+필요한 사양이 한 글자도 없고, 그건 첨부 본문에만 있다 — 제목으로 재던 유사도는
+신호가 너무 얇았다.
+
+구성:
+  - `model_registry` — 가중치를 프로세스에 상주시킨다. **여기만 공유된다.**
+  - `document_index` — 문서를 청크로 잘라 벡터를 만들고 검색한다. **쓰고 버린다.**
+
+이 분리가 핵심이다. 가중치는 순수 함수라 공유해도 섞일 것이 없지만, 인덱스는
+누가 무엇을 넣었는지가 결과를 바꾼다. 인덱스를 상주시키면 다른 요청이 넣은 문서가
+검색 결과에 섞여 나오고, 오류 없이 결과만 달라지므로 알아채기 어렵다.
 """
 
 from __future__ import annotations
 
-from .data_loader import (
-    SearcherManager,
-    create_combined_searcher,
-    create_cpu_searcher,
-    create_gpu_searcher,
-    load_cpu_titles,
-    load_gpu_titles,
-    load_titles_from_csv,
+from .document_index import Chunk, DocumentIndex, Hit, similarity, split_text
+from .model_registry import (
+    DEFAULT_MODEL,
+    ModelUnavailable,
+    encode,
+    get_model,
+    status,
+    warmup,
+    warmup_async,
 )
-from .title_semantic_searcher import TitleSemanticSearcher
 
 __all__ = [
-    "TitleSemanticSearcher",
-    "SearcherManager",
-    "create_combined_searcher",
-    "create_cpu_searcher",
-    "create_gpu_searcher",
-    "load_titles_from_csv",
-    "load_cpu_titles",
-    "load_gpu_titles",
+    "Chunk",
+    "DocumentIndex",
+    "Hit",
+    "similarity",
+    "split_text",
+    "DEFAULT_MODEL",
+    "ModelUnavailable",
+    "encode",
+    "get_model",
+    "status",
+    "warmup",
+    "warmup_async",
 ]

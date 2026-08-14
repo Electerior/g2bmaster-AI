@@ -9,3 +9,4 @@ httpx>=0.27
 # 임베딩(/api/embed)과 module_a/module_b 는 무거운 ML 스택을 쓴다.
 # 없어도 서비스는 뜨고 해당 경로만 503 으로 정직하게 응답한다.
 # 필요할 때 아래를 설치한다 (requirements-ml.txt).
+openpyxl>=3.1   # ITMAYA 가격표 색인(estimate.py)
