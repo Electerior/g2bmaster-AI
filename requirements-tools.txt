@@ -3,3 +3,7 @@
 # 오프라인 분석 도구용. 서비스 기동에는 필요 없다 —
 # scripts/analyze_opportunities.py 가 워크북(xlsx)을 읽고 쓸 때만 쓴다.
 openpyxl>=3.1
+
+# 다나와 차단 시 브라우저 폴백(app/browser_fetch.py). 선택 설치:
+#   .venv/bin/playwright install chromium
+playwright>=1.60

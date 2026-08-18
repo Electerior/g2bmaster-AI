@@ -23,6 +23,9 @@ from typing import Any
 
 import httpx
 
+from . import wiki as _wiki
+from . import hardware_kb as _kb
+from . import product_index as _pi
 from .config import get_ai_config
 from .errors import AiFailure
 
@@ -49,9 +52,19 @@ def _searx_base() -> str:
     return str(cfg.get("searchUrl") or "").rstrip("/")
 
 
-def enabled() -> bool:
+def _searxng_enabled() -> bool:
     """SearXNG 를 탐색기로 쓰도록 설정돼 있는가."""
     return str(get_ai_config().get("searchProvider") or "").lower() == "searxng" and bool(_searx_base())
+
+
+def enabled() -> bool:
+    """탐색 체인(로컬 KB → Wikipedia → SearXNG)에 켜진 소스가 하나라도 있는가.
+
+    로컬 KB(코퍼스 파일)와 Wikipedia(공개 API)는 설정 없이 켜진다. SearXNG 가
+    꺼져 있거나 차단돼도 둘이 GPU·CPU 사양을 잡으므로 탐색 자체는 살아 있다 —
+    estimate.py 가 이 값을 보고 탐색 단계를 통째로 건너뛰는 일이 없게 한다.
+    """
+    return _kb.enabled() or _wiki.enabled() or _searxng_enabled()
 
 
 async def _search(query: str, deadline_s: float = _TIMEOUT_S) -> tuple[list[dict[str, Any]], list[str]]:
@@ -117,30 +130,28 @@ def _shop_links(results: list[dict[str, Any]]) -> list[dict[str, str]]:
     return out
 
 
-async def discover_model(spec_text: str, category: str = "",
+async def _searxng_model(spec_text: str, category: str = "",
                          deadline_s: float = _TIMEOUT_S) -> dict[str, Any]:
-    """사양 문자열로 제품을 탐색한다.
+    """SearXNG 검색 경로. **체인의 마지막 소스** — 직접 부르지 않고 `discover_model` 이 부른다.
 
-    반환은 **후보뿐**이다 — 가격도, 확정 모델도 만들지 않는다.
-    선택은 상위(그리고 최종적으로 백엔드)의 몫이다.
-
-        {"query": ..., "model": "RTX PRO 6000 Blackwell" | None,
-         "candidates": [{"title", "url", "model"}],
-         "shopLinks": [{"source", "sourceId", "url", "title"}],
-         "status": "found" | "not-found" | "no-source"}
+    반환은 `discover_model` 과 같은 모양이다. 차단(suspended)과 진짜 못 찾음은
+    반드시 구분한다 — 차단을 "없음"으로 읽으면 위키가 놓친 부품이 조용히 unpriced 로
+    떨어진다(`searchUnavailable` 플래그가 화면 경고의 근거다).
     """
     query = re.sub(r"\s+", " ", str(spec_text or "")).strip()[:200]
     if not query:
-        return {"query": "", "model": None, "candidates": [], "shopLinks": [], "status": "not-found"}
-    if not enabled():
-        return {"query": query, "model": None, "candidates": [], "shopLinks": [], "status": "no-source"}
+        return {"query": "", "model": None, "candidates": [], "shopLinks": [],
+                "status": "not-found", "source": "searxng"}
+    if not _searxng_enabled():
+        return {"query": query, "model": None, "candidates": [], "shopLinks": [],
+                "status": "no-source", "source": "searxng"}
 
     results, suspended = await _search(f"{query} {category}".strip(), deadline_s)
     if not results:
         # 엔진이 정지해 빈 결과가 온 것과 정말 못 찾은 것은 완전히 다른 사건이다.
         return {"query": query, "model": None, "candidates": [], "shopLinks": [],
                 "status": "search-unavailable" if suspended else "not-found",
-                "suspendedEngines": suspended}
+                "suspendedEngines": suspended, "source": "searxng"}
 
     # 여러 결과가 함께 지목하는 모델명일수록 신뢰도가 높다 — 제목 간 합의로 고른다.
     votes: dict[str, int] = {}
@@ -165,4 +176,83 @@ async def discover_model(spec_text: str, category: str = "",
         "candidates": candidates[:8],
         "shopLinks": _shop_links(results),
         "status": "found" if model else "not-found",
+        "source": "searxng",
     }
+
+
+def _enrich(result: dict[str, Any], category: str) -> dict[str, Any]:
+    """발견된 모델명을 다나와 상품 인덱스의 정확한 pcode 로 보강한다.
+
+    KB·Wikipedia 는 모델명("RTX 5080")만 알고 다나와 상품 페이지는 모른다. 인덱스가
+    있으면 그 모델명으로 상품을 찾아 화이트리스트 링크(danawa pcode)를 shopLinks 에
+    얹는다 — estimate 가 검색 없이 pcode 로 등재가를 지목할 수 있게 한다.
+    인덱스가 없거나 못 찾아도 치명적이지 않다 — 결과는 그대로 흘러간다.
+    """
+    model = result.get("model")
+    if not model or not _pi.enabled():
+        return result
+    try:
+        links = _pi.lookup(str(model), category)
+    except Exception:  # noqa: BLE001 — 인덱스 보강 실패는 발견 실패가 아니다
+        return result
+    if not links:
+        return result
+    known = {l.get("sourceId") for l in links}
+    merged = links + [l for l in (result.get("shopLinks") or []) if l.get("sourceId") not in known]
+    return {**result, "shopLinks": merged}
+
+
+async def discover_model(spec_text: str, category: str = "",
+                         deadline_s: float = _TIMEOUT_S) -> dict[str, Any]:
+    """사양 문자열로 제품을 탐색한다 — **소스 우선순위 체인**.
+
+    체인: 로컬 KB(1차, 차단 불가·오프라인) → Wikipedia(2차, 공개 API) →
+    SearXNG(3차, 긴꼬리 보조). 한 소스가 차단돼도 다음 소스가 이어받는다 —
+    SearXNG 의 suspension 은 "실패"가 아니라 "이번엔 건너뜀"일 뿐이다.
+
+    반환은 **후보뿐**이다 — 가격도, 확정 모델도 만들지 않는다.
+    선택은 상위(그리고 최종적으로 백엔드)의 몫이다.
+
+        {"query": ..., "model": "RTX PRO 6000 Blackwell" | None,
+         "candidates": [{"title", "url", "model"}],
+         "shopLinks": [{"source", "sourceId", "url", "title"}],
+         "status": "found" | "not-found" | "no-source" | "search-unavailable",
+         "source": "hardware-kb" | "wikipedia" | "searxng"}
+    """
+    query = re.sub(r"\s+", " ", str(spec_text or "")).strip()[:200]
+    if not query:
+        return {"query": "", "model": None, "candidates": [], "shopLinks": [],
+                "status": "not-found", "source": "chain"}
+    if not enabled():
+        return {"query": query, "model": None, "candidates": [], "shopLinks": [],
+                "status": "no-source", "source": "chain"}
+
+    # 1) 로컬 하드웨어 KB(RAG) — 네트워크 없음. GPU·CPU 는 대부분 여기서 끝난다.
+    if _kb.enabled():
+        try:
+            found = await _kb.identify(query, category, deadline_s)
+        except AiFailure:
+            found = None
+        if found and found.get("status") == "found":
+            return _enrich(found, category)
+
+    # 2) Wikipedia — 공개 API. KB 를 못 만든 신모델·부족한 사양표를 채운다.
+    if _wiki.enabled():
+        try:
+            found = await _wiki.discover_model(query, category, deadline_s)
+        except AiFailure:
+            found = None
+        if found and found.get("status") == "found":
+            return _enrich(found, category)
+
+    # 3) SearXNG — 일반 웹. 위 둘이 없는 부품(장수 브랜드·쇼핑몰 링크)을 노린다.
+    if _searxng_enabled():
+        try:
+            found = await _searxng_model(query, category, deadline_s)
+        except AiFailure:
+            found = {"status": "not-found", "suspendedEngines": [], "source": "searxng"}
+        if found.get("status") in ("found", "search-unavailable"):
+            return found
+
+    return {"query": query, "model": None, "candidates": [], "shopLinks": [],
+            "status": "not-found", "source": "chain"}

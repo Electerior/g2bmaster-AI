@@ -66,6 +66,11 @@ _SPEC_TOKEN = re.compile(r"(\d+(?:\.\d+)?)\s*(GB|TB|MB|GHZ|MHZ|W)\b", re.I)
 _SPEC_EXACT = re.compile(r"^(\d+(?:\.\d+)?)(GB|TB|MB|GHZ|MHZ|W)$")
 _SPEC_TOLERANCE = 0.06   # 1TB 를 1024/1000 둘 다 쓴다 — 2.4% 차이를 다른 제품으로 보면 안 된다
 
+#: 묶음 표기 — "768GB 12X64GB"·"256GB 4X64GB"·"64GB (2x32GB)". 가격이 **여러 개분**이다.
+#: 단품 견적으로 쓰면 원가가 개수만큼 부풀려진다(실측: 64GB RDIMM 에 12개 묶음이
+#: 단품처럼 들어와 총원가가 10배 근처로 치솟았다). 개수≥2 면 그 차원에서 거부한다.
+_BUNDLE = re.compile(r"(\d+)\s*[xX×]\s*(\d+(?:\.\d+)?)\s*(GB|TB|MB)", re.I)
+
 
 def _same_magnitude(a: float, b: float) -> bool:
     return abs(a - b) <= max(a, b) * _SPEC_TOLERANCE
@@ -81,6 +86,12 @@ def _conflicting_spec(raw_title: str, specs: list[str]) -> str:
         want.setdefault(dim, []).append((float(m.group(1)) * factor, f"{m.group(1)}{m.group(2)}"))
     if not want:
         return ""
+    # 묶음(개수×용량) — 가격이 한 개분이 아니므로 어떤 차원에서든 바로 거부한다.
+    for m in _BUNDLE.finditer(str(raw_title)):
+        count = int(m.group(1))
+        dim, _factor = _SPEC_DIMENSIONS[m.group(3).upper()]
+        if count >= 2 and dim in want:
+            return f"{m.group(0)} 묶음"
     seen: dict[str, list[float]] = {}
     for m in _SPEC_TOKEN.finditer(str(raw_title).upper()):
         dim, factor = _SPEC_DIMENSIONS[m.group(2).upper()]
@@ -92,6 +103,13 @@ def _conflicting_spec(raw_title: str, specs: list[str]) -> str:
             continue   # 제목이 그 차원 미표기 → 보류
         if not any(_same_magnitude(w[0], f) for w in wanted for f in found):
             return wanted[0][1]
+        # 원하는 값이 있으면서 **더 큰 값도 함께** 있으면 묶음·총액 표기다 —
+        # "512GB (8X64GB)" 의 X 표기를 놓친 변형("512GB DDR5 64GB")도 여기서 걸린다.
+        # 가격이 여러 개분이므로 단품 견적으로 쓰면 원가가 개수만큼 부풀려진다.
+        ceiling = max(w[0] for w in wanted) * (1 + _SPEC_TOLERANCE)
+        oversized = [f for f in found if f > ceiling]
+        if oversized:
+            return "묶음 용량"
     return ""
 
 
@@ -113,6 +131,10 @@ def derive_product_identity(query: str = "") -> dict:
     model = _MODEL.search(text)
     specs = list(dict.fromkeys(re.sub(r"\s+", "", m.group(0)).upper() for m in _SPECS.finditer(text)))
     generic = None if (model or ko or en) else _GENERIC.search(text)
+    # 길이 4 미만 조각("1U"·"x4"·"5in")은 모델이 아니라 단위·수식 잔재다 — 모델로 승격시키면
+    # 모든 견적이 "그 토큰 없음"으로 탈락한다(실측: SSD "2.5in" → 모델 "5IN" → 전멸).
+    if generic is not None and len(generic.group(0)) < 4:
+        generic = None
     model_str = (
         ko.group(1).upper() if ko
         else en.group(1).upper() if en
@@ -173,6 +195,19 @@ if __name__ == "__main__":
     assert not quote_matches_identity({"title": "MSI 지포스 RTX 5080", "price": 1500000, "url": "https://x"}, gpu)["ok"], "다른 모델 제외"
     # 용량 미표기는 보류(통과)
     assert quote_matches_identity({"title": "MSI 지포스 RTX 5090 슈프림", "price": 7000000, "url": "https://x"}, gpu)["ok"]
+    # 묶음(개수×용량)은 단품 견적으로 받지 않는다 — 총원가 10배 사고의 원인(실측)
+    ram = derive_product_identity("DDR5-5600 64GB RDIMM")
+    assert not quote_matches_identity(
+        {"title": "[해외] 768GB 12X64GB DDR5 5600MHz RDIMM", "price": 62271330, "url": "https://x"}, ram)["ok"], "12개 묶음 제외"
+    assert not quote_matches_identity(
+        {"title": "[해외] 256GB 4X64GB DDR5 5600MHz RDIMM", "price": 18961250, "url": "https://x"}, ram)["ok"], "4개 묶음 제외"
+    assert not quote_matches_identity(
+        {"title": "네믹스 램 512GB DDR5 5600MHz 64GB RDIMM", "price": 64154210, "url": "https://x"}, ram)["ok"], "총용량 표기 묶음 제외(X 표기 없는 변형)"
+    assert quote_matches_identity(
+        {"title": "[해외] 64GB 1X64GB DDR5 5600MHz ECC RDIMM", "price": 4749730, "url": "https://x"}, ram)["ok"], "1X64GB 는 단품"
+    # 여러 용량 옵션을 한 제목에 적은 상품은 유지(옵션 나열은 묶음이 아니다)
+    assert quote_matches_identity(
+        {"title": "삼성 DDR5 16G 32G 64G 5600 RDIMM", "price": 439000, "url": "https://x"}, ram)["ok"], "옵션 나열은 통과"
     # 쿨러포함 안내가 CPU 를 액세서리로 만들면 안 된다
     cpu = derive_product_identity("라이젠 9800X3D")
     assert quote_matches_identity({"title": "AMD 라이젠7 9800X3D (정품박스 쿨러포함)", "price": 600000, "url": "https://x"}, cpu)["ok"]

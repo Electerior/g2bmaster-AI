@@ -27,7 +27,7 @@ import html as html_lib
 import re
 from urllib.parse import parse_qs, quote, urlparse  # noqa: F401 (quote: 하위호환 재노출)
 
-from . import config, enuri, itmaya
+from . import browser_fetch, config, enuri, itmaya
 from .errors import FAILURES, AiFailure
 from .pricecommon import (
     MAX_MERGED_QUOTES,
@@ -92,9 +92,16 @@ def _parse_products(html: str) -> list[dict]:
 
 
 async def search_danawa(item_name: str, deadline_ms: int | None = None) -> list[dict]:
-    """다나와 검색 후보. 품목명은 가공하지 않고 원문 그대로 보낸다(문서 §8)."""
+    """다나와 검색 후보. 품목명은 가공하지 않고 원문 그대로 보낸다(문서 §8).
+
+    차단이 감지되면 브라우저 폴백으로 한 번 재시도한다 — 평시엔 httpx, 막혔을 때만
+    무거운 경로를 쓴다. 폴백까지 실패하면 PRICE_SOURCE_BROKEN(재시도 가능)으로 분류된다.
+    """
     deadline = deadline_seconds({"deadlineMs": deadline_ms}, _DEADLINE_CAP)
     html = await fetch(DANAWA_SEARCH, {"query": item_name}, deadline)
+    if browser_fetch.looks_blocked(html):
+        html = await browser_fetch.fetch_html(DANAWA_SEARCH, {"query": item_name},
+                                              deadline_s=max(deadline, 10.0))
     try:
         return _parse_products(html)
     except AiFailure:
@@ -231,6 +238,15 @@ async def resolve(payload: dict, *, sources: list[tuple[str, object]] | None = N
 
 
 # ── URL 지목 조회 ────────────────────────────────────────────────────────────
+async def quotes_by_pcode(pcode: str, deadline_ms: int | None = None) -> list[dict]:
+    """지목한 다나와 상품의 등재가 견적 — 상품 인덱스(product_index)의 pcode 직결용.
+
+    검색 대신 상품을 지목하므로 노이즈가 없다. 상세 페이지는 가격을 JS 로 그려서
+    읽지 못하므로, 상품명(og:title)으로 검색해 pcode 로 정확히 매칭한다(아래 구현).
+    """
+    return await _danawa_by_pcode(pcode, deadline_ms)
+
+
 async def _danawa_by_pcode(pcode: str, deadline_ms: int | None) -> list[dict]:
     """상세 페이지는 가격을 JS 로 그려 정적 파싱이 안 된다. 대신 상품명(og:title)을 읽어
     그 이름으로 검색하면 최저가가 검색 결과의 블록 구조로 나온다 — pcode 로 매칭한다."""

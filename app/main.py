@@ -126,6 +126,14 @@ async def _warm_embedding_model() -> None:
         logger.info("임베딩 스택이 없어 예열을 건너뜁니다 — /api/embed 는 503 입니다")
 
 
+@app.on_event("shutdown")
+async def _close_browser_fallback() -> None:
+    """차단 폴백으로 띄웠던 헤드리스 브라우저를 닫는다(있으면)."""
+    from . import browser_fetch
+
+    await browser_fetch.close()
+
+
 # ── 상태 ─────────────────────────────────────────────────────────────────────
 @app.get("/health")
 @app.get("/healthz")

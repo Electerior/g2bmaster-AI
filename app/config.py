@@ -25,10 +25,10 @@ KEY_FIELDS = {"llmApiKey", "searchKey"}
 # studyweb 이 "none priced" 로 흘리므로 단독 지정 금지 — URL 수동 경로로 커버한다.
 DEFAULT_PLATFORMS = "다나와, 에누리, 컴퓨존, 쿠팡, 11번가, 네이버쇼핑, 숨고, 크몽, 알바몬, 알바천국, 사람인"
 
-# 멀티소스 가격 리졸버(price.resolve)가 동시에 칠 소스. 세 소스 모두 직접 조회형이라
-# 기본값에 넣는다: danawa(부품·노트북), enuri(가격비교), itmaya(GPU서버 가격표, stale).
+# 멀티소스 가격 리졸버(price.resolve)가 동시에 칠 소스. 직접 조회형 소스만 나열한다.
+# itmaya 는 제거됐다(2026-08-14) — stale GPU서버 가격표 행이 웹 견적을 오염시켰다.
 # DEFAULT_PLATFORMS 와 별개다 — 이쪽은 실제로 파서가 붙어 있는 소스만 나열한다.
-DEFAULT_PRICE_SOURCES = "danawa,enuri,itmaya"
+DEFAULT_PRICE_SOURCES = "danawa,enuri"
 
 
 def config_dir() -> Path:

@@ -1,62 +1,27 @@
-"""규격서 → 부품 단가 추정. **ITMAYA 색인(원본) + 다나와 웹검색 하이브리드.**
+"""규격서 → 부품 단가 추정. 웹 수집 단일 경로(LLM 부품 추출 → 탐색 → 다나와·에누리).
 
-원본 `price-estimator.js` 를 이식하고 웹검색을 폴백으로 붙였다.
+ITMAYA GPU서버 가격표 색인 경로는 제거됐다(2026-08-14) — stale 옵션 행이 규격서와
+다른 용량(64GB vs 128GB)으로 dedup 키를 선점해 웹의 정확한 견적을 잘라먹는 문제 때문.
+카탈로그 밖 품목은 물론 GPU 서버 규격서도 전부 웹 수집으로 넓힌다.
 
-  1) **ITMAYA GPU서버 가격표 색인** (`data/ITMAYA_GPU서버_가격표.xlsx` '전체옵션' 시트)
-     — GPU 서버 규격서면 System·Processor·GPU·Memory·Storage 슬롯을 규칙 매칭해 합산한다.
-     완제품 베이스(System)를 인식하고, GPU 장수를 파싱해 곱한다. 원본과 같은 로직이다.
-  2) **다나와 웹검색 폴백** (`app.price`) — 색인이 못 잡는 것(비-GPU서버, 색인에 없는 부품)은
-     규격서에서 LLM 으로 부품을 뽑아 다나와에서 실시간 조회한다.
-
-원본이 LLM 을 안 쓴 이유는 ITMAYA 카탈로그가 정형이라 규칙으로 충분했기 때문이다. 그 정확도를
-살리되, 카탈로그 밖 품목은 웹으로 넓힌다 — 두 접근의 장점을 합친다.
-
-응답 규격은 프론트 계약 `EstimatedUnitCost`(union). `breakdown[].source` 로 색인/웹을 구분한다.
+응답 규격은 프론트 계약 `EstimatedUnitCost`(union). `breakdown[].source` 로 소스를 구분한다.
 """
 
 from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
 
 from . import discover
+from . import product_index
 from .errors import AiFailure
-from .itmaya import load_index as _load_index, _num  # noqa: F401 (_num: 색인 로더와 함께 이전)
 from .llm.client import lms_chat, loaded_model
 from .part_resolver import derive_product_identity, quote_matches_identity
 from .prebuilt import classify_prebuilt_bundle, find_prebuilt_comparables
 from .price import resolve as resolve_price
-
-# ── ITMAYA 색인 상수 (원본 price-estimator.js) ───────────────────────────────
-# _load_index()/_num() 은 app/itmaya.py 로 옮겼다(멀티소스 리졸버와 공유). 여기선 import 만 한다.
-
-#: System 제품별 GPU 슬롯 수 — 베이스 폴백에서 GPU 장수를 수용하는 가장 싼 System 을 고를 때.
-SYSTEM_SLOTS = {
-    "ESC4000-E11": 4, "531A-I": 2, "741GE-TNRT": 4, "ESC4000A-E12": 4,
-    "ESC8000-E12": 8, "ESC8000A-E13": 8, "421GE-TNRT": 10, "821GE-TNHR": 8,
-}
-CORE = ["System", "Processor", "GPU", "Memory", "Storage"]
-OPTIONAL = ["RAID", "NIC", "Support (OS 설치)"]
-
-# GPU 서버 신호가 없으면 ITMAYA 카탈로그 대상이 아니다(노트북·사무기기·일반 워크스테이션 오탐 차단).
-#
-# **바뀐 점(2026-08):** 예전엔 "워크스테이션/workstation" 단독으로 이 카탈로그가 켜져서, 실제 사고가
-# 났다 — "암호 알고리즘 구현용 워크스테이션·노트북·전력 파형 측정용 보드" 같은 일반 물품이 GPU
-# 서버로 오인돼 ESC/System 섀시가 GPU·Storage 칸에 엉뚱하게 채워졌다. ITMAYA GPU 서버는 정의상
-# **가속 GPU 를 단다** — 그래서 실제 가속기 모델(H100/H200/A100/L40/RTX 40·50/RTX PRO…)이나
-# 명시적 "GPU 서버/가속 서버/GPU 워크스테이션" 문구가 있을 때만 켠다. 맨 워크스테이션은 제외.
-_GPU_SERVER = re.compile(
-    r"tesla|\bh100\b|\bh200\b|\ba100\b|\ba30\b|\ba40\b|\ba10\b|\bl40s?\b|\bl4\b|"
-    r"rtx\s?40\d0|rtx\s?50\d0|rtx\s?pro\s?\d{3,4}|quadro|gpgpu|gpu\s*서버|가속\s*서버|딥\s*러닝|"
-    r"deep\s*learning|추론\s*서버|ai\s*(?:학습|추론|서버)|gpu\s*(?:워크스테이션|workstation)",
-    re.IGNORECASE,
-)
-_NON_SERVER = re.compile(
-    r"노트북|랩탑|laptop|태블릿|tablet|일체형|올인원|all-?in-?one|모니터|프린터|복합기|스캐너",
-    re.IGNORECASE,
-)
-_SERVER_CTX = re.compile(r"서버|server|랙마운트|랙\s*마운트|rack\s*mount|데이터\s*센터|워크스테이션", re.IGNORECASE)
+from .price import quotes_by_pcode
 
 _TOKEN_SPLIT = re.compile(r"[^a-z0-9가-힣]+")
 
@@ -68,103 +33,9 @@ def _tokens(s: str) -> list[str]:
     return [t for t in _TOKEN_SPLIT.split(text) if len(t) >= 2]
 
 
-def _score_name(qset: set[str], name: str) -> int:
-    score = 0
-    for tk in set(_tokens(name)):
-        if tk in qset:
-            score += 2 if tk[0].isdigit() else 1   # 숫자 토큰(용량·모델) 가중
-    return score
-
-
-def _best_in_category(index: dict, category: str, qset: set[str], min_score: int) -> dict | None:
-    best, best_score = None, 0
-    for opt in index["byCategory"].get(category, []):
-        sc = _score_name(qset, opt["name"])
-        if sc > best_score:
-            best_score, best = sc, opt
-    return {**best, "score": best_score} if best and best_score >= min_score else None
-
-
-def _parse_gpu_count(text: str) -> int | None:
-    s = str(text or "")
-    for pat in (r"(\d{1,2})\s*(?:gpu|장|way|-way|ea|개|slot)",
-                r"gpu\s*[:x]?\s*(\d{1,2})",
-                r"(\d{1,2})\s*[×x]\s*(?:gpu|rtx|nvidia)"):
-        m = re.search(pat, s, re.IGNORECASE)
-        if m:
-            n = int(m.group(1))
-            if 1 <= n <= 16:
-                return n
-    return None
-
-
-def _fallback_base(index: dict, gpu_count: int) -> dict | None:
-    if not gpu_count:
-        return None
-    systems = [s for s in index["byCategory"].get("System", []) if SYSTEM_SLOTS.get(s["product"], 0) >= gpu_count]
-    systems.sort(key=lambda s: s["low"])
-    return {**systems[0], "score": 0, "inferred": True} if systems else None
-
-
-def _is_gpu_server_text(text: str) -> bool:
-    if _NON_SERVER.search(text) and not _SERVER_CTX.search(text):
-        return False
-    return bool(_GPU_SERVER.search(text))
-
-
-def _estimate_from_itmaya(text: str) -> dict:
-    """원본 estimateUnitCost 이식 — ITMAYA 색인으로 GPU 서버 단가를 합산한다."""
-    index = _load_index()
-    if not index:
-        return {"matched": False, "reason": "price-table-unavailable"}
-    if not _is_gpu_server_text(text):
-        return {"matched": False, "reason": "not-gpu-server"}
-    qset = set(_tokens(text))
-    if not qset:
-        return {"matched": False, "reason": "empty-input"}
-
-    parsed_gpu = _parse_gpu_count(text)
-    gpu_count = parsed_gpu or 1
-    breakdown, low, high, has_base = [], 0, 0, False
-
-    for cat in CORE:
-        m = _best_in_category(index, cat, qset, 1 if cat == "System" else 2)
-        if not m and cat == "System" and parsed_gpu:
-            m = _fallback_base(index, parsed_gpu)
-        if not m:
-            continue
-        qty = gpu_count if cat == "GPU" else 1
-        low += m["low"] * qty
-        high += m["high"] * qty
-        if cat == "System":
-            has_base = True
-        breakdown.append({"category": cat, "option": m["name"], "product": m["product"],
-                          "qty": qty, "low": m["low"], "high": m["high"],
-                          "inferred": bool(m.get("inferred")),
-                          "role": "base" if cat == "System" else "part", "source": "itmaya"})
-
-    if not any(b["category"] in ("System", "GPU") for b in breakdown):
-        return {"matched": False, "reason": "not-gpu-server", "gpuCount": parsed_gpu}
-
-    for cat in OPTIONAL:
-        m = _best_in_category(index, cat, qset, 3)   # 옵션은 확실히 언급된 것만
-        if not m:
-            continue
-        low += m["low"]
-        high += m["high"]
-        breakdown.append({"category": cat, "option": m["name"], "product": m["product"],
-                          "qty": 1, "low": m["low"], "high": m["high"], "inferred": False,
-                          "role": "part", "source": "itmaya"})
-
-    if not breakdown:
-        return {"matched": False, "reason": "no-match", "gpuCount": gpu_count}
-    return {"matched": True, "low": low, "high": high, "mid": round((low + high) / 2),
-            "gpuCount": gpu_count, "hasBase": has_base, "breakdown": breakdown, "currency": "KRW"}
-
-
-# ── 웹 폴백 (LLM 부품추출 + 다나와) ──────────────────────────────────────────
+# ── 웹 수집 (LLM 부품추출 + 다나와·에누리) ───────────────────────────────────
 PART_CATEGORIES = ("CPU", "GPU", "RAM", "SSD", "HDD", "메인보드", "파워", "케이스", "쿨러", "네트워크")
-_NOISE = re.compile(r"중고|리퍼|refurb|벌크|bulk|병행수입|해외구매", re.IGNORECASE)
+_NOISE = re.compile(r"중고|리퍼|refurb|벌크|bulk|병행수입|해외구매|해외배송|해외직구", re.IGNORECASE)
 _CATEGORY_HINT = {"RAM": "메모리", "SSD": "SSD", "HDD": "하드디스크", "메인보드": "메인보드", "파워": "파워서플라이"}
 
 PART_PROMPT = """너는 조달 규격서에서 하드웨어 부품 구성을 뽑는 분석가다.
@@ -245,40 +116,489 @@ async def _resolve_spec_only(part: dict) -> dict:
                           "shopLinks": found.get("shopLinks", [])[:3]}}
 
 
+def _quote_llm_enabled() -> bool:
+    """후보 선택 LLM 심사를 켤지. `QUOTE_LLM=0` 이면 항상 꺼짐."""
+    return os.getenv("QUOTE_LLM", "1") != "0"
+
+
+def _quote_llm_min_spread() -> float:
+    """강한 신원에서도 최고/최저 가격비가 이 값 이상이면 LLM 심사를 부른다.
+    약한 신원(모델 없는 사양)은 비율과 무관하게 항상 심사한다."""
+    try:
+        value = float(os.getenv("QUOTE_LLM_MIN_SPREAD", "1.5"))
+    except ValueError:
+        return 1.5
+    return max(1.0, value)
+
+
+async def _llm_pick_quotes(part: dict, quotes: list[dict], max_candidates: int = 20) -> list[dict] | None:
+    """후보 몇십 개 중 요청 부품과 같은 물건을 LLM 이 한 번에 고른다.
+
+    규칙(part_resolver)이 1차로 걸러낸 후보를 번호 붙여 나열하고, LLM 은 "같은
+    물건인 번호들"을 배열로 답한다. 목록 밖 번호·파싱 실패·빈 배열은 **None** —
+    호출부는 규칙 결과를 그대로 쓴다(LLM 은 중재자일 뿐 가격을 만들지 않는다).
+
+    실패는 조용하다 — LLM 이 죽었어도 원가 추정은 규칙만으로 계속돈다.
+    """
+    if not _quote_llm_enabled() or len(quotes) < 2:
+        return None
+    try:
+        from .llm.client import loaded_model, lms_chat
+
+        model = await loaded_model()
+        if not model:
+            return None
+    except (ImportError, AiFailure):
+        return None
+    candidates = quotes[:max_candidates]
+    lines = []
+    for i, q in enumerate(candidates, start=1):
+        price = f"{q.get('priceKrw'):,}" if isinstance(q.get("priceKrw"), int) else "?"
+        lines.append(f"{i}. [{q.get('source')}] {q.get('name')} — {price}원")
+    evidence = str(part.get("evidence") or "")[:400]
+    prompt = (
+        f"요청 부품: {part.get('name')} (분류: {part.get('category')})\n"
+        f"규격서 근거: {evidence or '(없음)'}\n\n"
+        "후보 견적:\n" + "\n".join(lines) + "\n\n"
+        "위 후보 중 요청 부품의 요구(분류·용량·규격)를 **충족하는** 견적의 번호를 모두 배열로 답하라. "
+        "다른 종류의 물건(다른 부품·완제품·묶음·다른 용량)은 빼라. "
+        "요청이 모델을 특정하지 않으면 요구를 충족하는 다른 모델도 포함한다. "
+        "하나도 충족하지 못하면 빈 배열. 배열 외에는 아무 말도 하지 말라."
+    )
+    try:
+        response = await lms_chat({
+            "model": model,
+            "messages": [
+                {"role": "system", "content":
+                 "너는 하드웨어 견적 심사관이다. 주어진 후보 중 요청 부품의 요구를 충족하는 견적의 "
+                 "번호만 JSON 배열로 답한다. 판단이 서지 않으면 충족하지 못하는 것으로 보고 뺀다."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0, "max_tokens": 300,
+        })
+        raw = str(response["choices"][0]["message"]["content"] or "").strip()
+    except (KeyError, IndexError, TypeError, AiFailure):
+        return None
+    start, end = raw.find("["), raw.rfind("]")
+    if start < 0 or end <= start:
+        return None
+    try:
+        picked = [int(x) for x in json.loads(raw[start:end + 1])]
+    except (ValueError, TypeError):
+        return None
+    if os.getenv("QUOTE_DEBUG") == "1":
+        print(f"[quote-llm] {part.get('name','')[:40]} → {picked}", flush=True)
+    # [] 도 판정이다 — "같은 물건이 없다"와 "판정 실패(None)"를 반드시 구분한다.
+    # 빈 판정을 None 으로 흘리면 완화 경로가 잡음을 다시 채운다(실측 사고).
+    return [candidates[i - 1] for i in picked if 1 <= i <= len(candidates)]
+
+
+async def _llm_price_estimate(part: dict) -> dict | None:
+    """가격을 못 찾은 부품의 시장가를 LLM 이 추정한다 — 가격 없는 행을 남기지 않는다.
+
+    쇼핑몰 검색(다나와·에누리)이 결정적으로 실패했을 때 마지막 폴백. 추정이므로
+    항상 inferred(참고값)로 돌아가고, 확정 원가 합산(백엔드)에는 섞이지 않는다.
+    추정이 엉망이면(비정상 범위·파싱 실패) None — 그때만 unpriced 로 남는다.
+    """
+    if not _quote_llm_enabled():
+        return None
+    prompt = (f"분류: {part['category']}\n"
+              f"부품: {part['name']}\n"
+              f"규격서 근거: {part.get('evidence') or '(없음)'}")
+    try:
+        model = await loaded_model()
+        response = await lms_chat({
+            "model": model,
+            "messages": [
+                {"role": "system", "content":
+                 "너는 국내 하드웨어 유통 시세에 밝은 조달 견적사다. 쇼핑몰 검색으로 가격을 "
+                 "찾지 못한 부품의 단품 시세를 추정해라. 신품·정품 기준(중고·벌크·병행수입 제외), "
+                 "국내 등록가(다나와·에누리) 수준이다. "
+                 '{"similar": 시세 기준으로 삼은 대표 유통 제품 하나의 정확한 모델명, "low": 최저가, "high": 최고가} — '
+                 "원 단위 정수. similar 는 여러 개 나열하지 말고 대표 제품 하나만. "
+                 "요구의 코어 수·스레드 수·용량을 충족하는 제품을 similar 로 지목해라(부족한 제품 금지). "
+                 "요구가 서버용(Xeon·EPYC·스레드리퍼)이 아니면 데스크톱용 제품을 similar 로 지목해라. "
+                 "JSON 객체 하나로만 답해라. 추정이 불가능하면 low 와 high 를 0으로 답해라."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0, "max_tokens": 300,
+        })
+        raw = str(response["choices"][0]["message"]["content"] or "").strip()
+    except (KeyError, IndexError, TypeError, AiFailure):
+        return None
+    start, end = raw.find("{"), raw.rfind("}")
+    if start < 0 or end <= start:
+        return None
+    try:
+        guess = json.loads(raw[start:end + 1])
+        low, high = int(guess["low"]), int(guess["high"])
+        similar = str(guess.get("similar") or "").strip()[:120]
+    except (ValueError, TypeError, KeyError):
+        return None
+    if low < 1000 or high < low or high > 1_000_000_000 or high > low * 100:
+        return None
+    if os.getenv("QUOTE_DEBUG") == "1":
+        print(f"[quote-llm] 추정 {part.get('name','')[:40]} → {similar[:40]} {low:,}~{high:,}", flush=True)
+    return {"low": low, "high": high, "similar": similar or "시장가 추정(LLM)"}
+
+
+# 대체(유사 제품) 허용 범위 — "요구와 다른 모델"·"다른 용량"은 가장 비슷한 제품으로 채운다.
+# 완제품·중고·묶음(개수×용량)·잘못된 견적은 대체 대상에서도 뺀다.
+_SUB_BAD_REASON = re.compile(r"excluded-kind|묶음|invalid-|missing-title")
+
+
+def _substitute_note(reason: str) -> str:
+    if reason.startswith("identity-token-missing"):
+        return "요구 모델과 다른 제품 중 가장 비슷한 제품"
+    if reason.startswith("spec-mismatch"):
+        return "요구 용량과 다른 제품 중 가장 비슷한 제품"
+    return "가장 비슷한 제품으로 대체"
+
+
+def _token_overlap(query: str, name: str) -> int:
+    qset = set(_tokens(query))
+    if not qset:
+        return 0
+    score = 0
+    for tk in set(_tokens(name)):
+        if tk in qset:
+            score += 2 if tk[0].isdigit() else 1
+    return score
+
+
+# 서버/워크스테이션 CPU — 데스크톱 요구에 이걸 붙이면 안 된다.
+# 실측: "AMD AM5 12코어 24스레드 4.4GHz"(라이젠 9 급 요구)에 EPYC 4584PX(서버용 AM5)가
+# 유사 상품으로 제안됐다 — 같은 소켓이라도 등급이 다르고, 함께 매칭된 소비자 X870E
+# 보드에 장착조차 불가능하다. 요구와 후보의 서버/데스크톱 등급이 다르면 후보에서 뺀다.
+_SERVER_CPU = re.compile(r"\b(EPYC|XEON|제온|스레드리퍼|THREADRIPPER)\b", re.IGNORECASE)
+
+
+def _cpu_class_conflict(part: dict, title: str) -> bool:
+    if str(part.get("category") or "").strip() != "CPU":
+        return False
+    want_server = bool(_SERVER_CPU.search(str(part.get("name") or "")))
+    return want_server != bool(_SERVER_CPU.search(title))
+
+
+# 카테고리별 제목 가드 — USB 메모리를 RAM 대체로 붙이는 류의 잡음을 후보 단계에서 뺀다.
+# 주의: \bUSB\b 는 "USB메모리" 에 안 걸린다 — B 와 '메' 사이에 유니코드 단어 경계가 없다(실측).
+_CATEGORY_TITLE_GUARD = {
+    "RAM": re.compile(r"USB|OTG|메모리카드|SD카드|카드형", re.IGNORECASE),
+}
+
+
+def _category_guard(part: dict, title: str) -> bool:
+    pattern = _CATEGORY_TITLE_GUARD.get(str(part.get("category") or "").strip())
+    return bool(pattern and pattern.search(title))
+
+
+async def _similar_substitute(part: dict, quotes: list[dict], rejects: list[tuple[dict, str]]) -> dict | None:
+    """가격을 못 찾은 부품을 '최대한 비슷한 실제 제품'으로 채운다.
+
+    요구(규격서 이름)와 무엇으로 대체했는지(product·matchReason)를 함께 돌려준다.
+    후보: (1) 방금 받은 검색 견적 중 규격이 조금 다른 것, (2) 로컬 다나와 색인의
+    가장 비슷한 상품(pcode 로 등재가 조회). 완제품·중고·묶음은 여기서도 제외한다.
+    """
+    candidates: list[dict] = []
+
+    def add(quote: dict, score: int, reason: str) -> None:
+        if not isinstance(quote.get("priceKrw"), int) or quote["priceKrw"] <= 0:
+            return
+        name = str(quote.get("name") or "")
+        if _NOISE.search(name) or _cpu_class_conflict(part, name) or _category_guard(part, name):
+            return
+        candidates.append({"quote": quote, "score": score, "reason": reason})
+
+    for quote, reason in rejects:
+        if _SUB_BAD_REASON.search(reason):
+            continue
+        add(quote, _token_overlap(part["name"], str(quote.get("name") or "")), reason)
+
+    index_hit = product_index.best_match(part["name"], part["category"], min_score=1)
+    if index_hit:
+        try:
+            for quote in await quotes_by_pcode(index_hit["pcode"], deadline_ms=8000):
+                add(quote, _token_overlap(part["name"], index_hit["name"]), "색인 유사 상품")
+        except AiFailure:
+            pass
+
+    if not candidates:
+        return None
+    # 비슷한 정도가 같으면 싼 쪽 — "최대한 비슷한" 제품 중 등재가가 낮아야 원가가 과하게 잡히지 않는다.
+    candidates.sort(key=lambda c: (-c["score"], c["quote"]["priceKrw"]))
+    best = candidates[0]
+    return {"quote": best["quote"], "matchReason": _substitute_note(best["reason"])}
+
+
+async def _llm_substitute_ok(part: dict, candidate_name: str, candidate_price: int) -> dict | None:
+    """대체 후보가 요구를 실제로 충족하는지 LLM에게 묻는다 — 충족하면 원가에 포함한다.
+
+    규칙(part_resolver)이 정확 일치가 아니라는 이유로 뺀 후보 중에도 요구를 충족하는
+    제품이 있다(실측: "LGA1700" 토큰이 제목에 없다고 완전히 맞는 메인보드가 탈락).
+    LLM이 "충족"이라 하면 inferred 를 꺼서 백엔드 확정 원가에 들어가게 한다.
+    **명시적으로 미충족(false)일 때만** 참고값으로 남긴다 — 실제 상품을 찾았는데
+    판정 실패(None)로 빼면 "상품은 찾았는데 왜 제외해"가 재발한다.
+
+    반환은 {"ok": bool, "cores": int|None} — cores 는 후보의 코어 수로, LLM의 ok 판정과
+    별도로 호출 쪽이 요구 코어 수와 결정적으로 비교한다(실측: 12코어 요구에 9700X 8코어가
+    ok 로 통과했다 — 코어 수 비교는 규칙이 맡는 게 낫다).
+    """
+    if not _quote_llm_enabled():
+        return None
+    prompt = (f"요구 부품: {part['name']}\n"
+              f"규격서 근거: {part.get('evidence') or '(없음)'}\n"
+              f"대체 후보: {candidate_name}\n"
+              f"등재가: {candidate_price:,}원")
+    try:
+        model = await loaded_model()
+        response = await lms_chat({
+            "model": model,
+            "messages": [
+                {"role": "system", "content":
+                 "너는 하드웨어 견적 심사관이다. 요구 부품의 규격과 대체 후보 제품을 보고, 후보가 "
+                 '요구 규격을 충족하거나 동등 이상이면 {"ok": true, "cores": 후보 코어 수}, '
+                 "명백히 미달이면 false 로 답해라. 애매하면 true 다 — 찾은 실제 상품을 애매하다는 "
+                 "이유로 빼면 안 된다. cores 는 후보 CPU 의 코어 수 정수(CPU 가 아니면 0)다. "
+                 "JSON 객체 하나로만 답해라."},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0, "max_tokens": 100,
+        })
+        raw = str(response["choices"][0]["message"]["content"] or "").strip()
+    except (KeyError, IndexError, TypeError, AiFailure):
+        return None
+    verdict: dict = {"ok": None, "cores": None}
+    start, end = raw.find("{"), raw.rfind("}")
+    if start >= 0 and end > start:
+        try:
+            guess = json.loads(raw[start:end + 1])
+            ok_raw = str(guess.get("ok") or "").strip().lower()
+            verdict["ok"] = True if ok_raw == "true" else (False if ok_raw == "false" else None)
+            try:
+                verdict["cores"] = int(guess.get("cores") or 0)
+            except (TypeError, ValueError):
+                verdict["cores"] = None
+        except ValueError:
+            pass
+    if verdict["ok"] is None:
+        low = raw.lower()
+        if "true" in low:
+            verdict["ok"] = True
+        elif "false" in low:
+            verdict["ok"] = False
+    if verdict["ok"] is None:
+        return None
+    return verdict
+
+
+def _required_cores(part: dict) -> int | None:
+    """요구 문구의 코어 수 — "12코어"·"12 Core" 꼴. 없으면 None."""
+    m = re.search(r"(\d{1,3})\s*코어|(\d{1,3})\s*core", str(part.get("name") or ""), re.IGNORECASE)
+    return int(m.group(1) or m.group(2)) if m else None
+
+
+def _substitute_approved(part: dict, verdict: dict | None) -> bool:
+    """대체 채택 여부 — LLM 판정이 없으면 채택(실상품 우선), 명시적 false 면 기각.
+
+    코어 수는 LLM 판정과 별도로 결정적으로 비교한다: LLM이 ok 라고 해도 후보 코어 수가
+    요구보다 적으면 기각한다(실측: 12코어 요구에 라이젠 7 9700X 8코어가 ok 로 통과).
+    """
+    if verdict is None:
+        return True
+    if verdict["ok"] is False:
+        return False
+    required = _required_cores(part)
+    if required is not None and verdict["cores"] is not None and verdict["cores"] > 0:
+        return verdict["cores"] >= required
+    return True
+
+
 async def _price_part(part: dict) -> dict:
     hint = _CATEGORY_HINT.get(part["category"], "")
-    query = f"{part['name']} {hint}".strip() if hint and hint not in part["name"] else part["name"]
-    result = await resolve_price({"itemName": query, "deadlineMs": 8000})
-
-    # 사양 대조(part_resolver) — 완제품 PC·중고·렌탈·액세서리, 그리고 요청과 다른 용량을 버린다.
-    # 이게 없으면 "DDR5 512GB" 검색에 데스크탑 완제품이 최저가로 앉는다(원본이 고친 문제).
     identity = derive_product_identity(part["name"])
+    # 약한 신원(모델 없는 순수 사양)은 긴 사양 문구를 검색어로 쓰면 오히려 안 걸린다 —
+    # 핵심 스펙("7.68TB") + 카테고리 힌트만 남긴다(실측: "7.68TB 2.5in ..." → 1건,
+    # "7.68TB NVMe" → 24건). 모델이 뚜렷하면 원래 이름 그대로 쓴다.
+    if identity["strong"]:
+        query = f"{part['name']} {hint}".strip() if hint and hint not in part["name"] else part["name"]
+    else:
+        core = " ".join(identity.get("specs") or []) or part["name"]
+        query = f"{core} {hint}".strip() if hint and hint not in core else core
+
+    # pcode 직결 — 탐색이 다나와 상품 링크(pcode)를 찾아줬으면 검색 대신 상품을 지목한다.
+    # 검색 결과 노이즈(완제품·중고) 없이 등재가가 나와서 part_resolver 통과율이 올라간다.
+    # pcode 조회가 실패하면 원래 검색 경로로 떨어진다(치명적이지 않다).
+    links = (part.get("discovery") or {}).get("shopLinks") or []
+    pcode = next((str(link.get("sourceId") or "") for link in links
+                  if link.get("source") == "danawa" and str(link.get("sourceId") or "").isdigit()), "")
+    quotes: list[dict] = []
+    if pcode:
+        try:
+            quotes = await quotes_by_pcode(pcode, deadline_ms=8000)
+        except AiFailure:
+            quotes = []
+    if not quotes:
+        result = await resolve_price({"itemName": query, "deadlineMs": 8000})
+        quotes = result.get("quotes") or []
+    if not quotes:
+        # 긴 사양 문구는 쇼핑몰 검색창에서 통째로 안 걸린다(실측: "인텔 LGA1700 소켓 ..." 0건).
+        # 핵심 스펙으로 한 번 더 친다 — 이 견적들은 대체 후보·LLM 심사의 재료가 된다.
+        core = " ".join(identity.get("specs") or []) or part["name"]
+        retry_query = f"{core} {hint}".strip() if hint and hint not in core else core
+        if retry_query != query:
+            result = await resolve_price({"itemName": retry_query, "deadlineMs": 8000})
+            quotes = result.get("quotes") or []
+
+    # ITMAYA 제거(2026-08-14) — 리졸버가 색인 행을 흘려도 추정에는 안 쓴다.
+    quotes = [q for q in quotes if str(q.get("source") or "") != "itmaya"]
+
+    # 사양 대조(part_resolver) — 안전장치만 남긴다: 완제품 PC·중고·렌탈·액세서리,
+    # 다른 용량, 묶음(개수×용량). "같은 물건인가"의 미세한 판단은 아래 LLM 심사가 맡는다.
     verified = []
-    for q in result.get("quotes") or []:
+    rejects: list[tuple[dict, str]] = []
+    for q in quotes:
         if not isinstance(q.get("priceKrw"), int) or q["priceKrw"] <= 0:
             continue
-        verdict = quote_matches_identity({"title": q.get("name"), "price": q["priceKrw"], "url": q.get("url")}, identity)
+        title = str(q.get("name") or "")
+        # 등급 가드 — 데스크톱 요구에 서버 CPU, RAM 요구에 USB 메모리 등은 검증 전에 뺀다.
+        if _cpu_class_conflict(part, title) or _category_guard(part, title):
+            continue
+        verdict = quote_matches_identity({"title": title, "price": q["priceKrw"], "url": q.get("url")}, identity)
+        if os.getenv("QUOTE_DEBUG") == "1":
+            print(f"[quote-debug] {part['name'][:40]} | {q.get('source')} {q.get('priceKrw')} | {verdict['ok']} {verdict['reason']} | {title[:70]}", flush=True)
         if verdict["ok"]:
             verified.append(q)
+        else:
+            rejects.append((q, verdict["reason"]))
 
-    # 모델을 특정 못 하는 순수 사양(strong=False)은 대조가 느슨하다 — 그땐 노이즈(중고 등)만 걸러
-    # 참고값으로 쓰되 inferred 로 표시한다. 모델이 뚜렷하면(strong) 검증 통과분만 신뢰한다.
-    if not verified and not identity["strong"]:
-        verified = [q for q in (result.get("quotes") or [])
+    row_inferred = not identity["strong"]
+
+    # LLM 심사 — **기본 판단 경로**. 약한 신원(모델 없는 사양)은 항상, 강한 신원도
+    # 가격 범위가 벌어져 있으면(묶음·노이즈 의심) 후보 중 "같은 물건"을 고르게 한다.
+    # 규칙 통과를 못 한 약한 신원은 중고·완제품만 제외한 원본을 LLM에게 맡긴다.
+    # LLM 이 고르면 참고값이 아니라 판정값이다 — inferred 를 끈다.
+    llm_pool = verified
+    if not llm_pool and not identity["strong"]:
+        llm_pool = [q for q in quotes
+                    if isinstance(q.get("priceKrw"), int) and q["priceKrw"] > 0
+                    and not _NOISE.search(q.get("name") or "")
+                    and not _cpu_class_conflict(part, str(q.get("name") or ""))
+                    and not _category_guard(part, str(q.get("name") or ""))]
+    llm_decided = False
+    if _quote_llm_enabled() and len(llm_pool) >= 2:
+        lo = min(q["priceKrw"] for q in llm_pool)
+        hi = max(q["priceKrw"] for q in llm_pool)
+        if (not identity["strong"]) or (lo > 0 and hi / lo >= _quote_llm_min_spread()):
+            picked = await _llm_pick_quotes(part, llm_pool)
+            if picked is not None:
+                # None(판정 실패)만 규칙 결과를 유지한다. [] 는 "같은 물건 없음" 판정 —
+                # 그때는 완화 경로로 잡음을 되살리지 않는다.
+                llm_decided = True
+                verified = picked
+                row_inferred = False
+
+    # LLM 이 꺼져 있거나(QUOTE_LLM=0) 판정에 실패했을 때만 — 약한 신원은 종전대로 완화 경로(참고값).
+    if not verified and not identity["strong"] and not llm_decided:
+        verified = [q for q in quotes
                     if isinstance(q.get("priceKrw"), int) and q["priceKrw"] > 0 and not _NOISE.search(q.get("name") or "")]
 
     if not verified:
-        # 가격을 못 찾은 행은 어떤 소스가 이겼는지 알 수 없다 — source=None(가격도 None).
+        # 다나와가 못 찾아도 가격 없는 행은 남기지 않는다.
+        # 1) 규격이 조금 다른 실제 제품(대체) — 무엇을 요구했고 무엇으로 바꿨는지 함께 남긴다.
+        #    LLM이 "요구 충족"이라 하면 참고값이 아니라 원가에 들어간다(inferred=False).
+        substitute = await _similar_substitute(part, quotes, rejects)
+        if substitute:
+            q = substitute["quote"]
+            verdict = await _llm_substitute_ok(part, str(q.get("name") or ""), q["priceKrw"])
+            # 명시적 미충족(false)·코어 수 부족만 참고값으로 뺀다 — 그 외엔 원가에 넣는다.
+            approved = _substitute_approved(part, verdict)
+            return {"category": part["category"], "option": part["name"],
+                    "product": q["name"], "requirement": part["name"],
+                    "qty": part["qty"], "low": q["priceKrw"], "high": q["priceKrw"],
+                    "inferred": not approved, "role": "part",
+                    "source": q.get("source", "danawa"),
+                    "substitute": True,
+                    "matchReason": substitute["matchReason"] if approved
+                        else substitute["matchReason"] + " — 요구 미충족 판정으로 참고값",
+                    "url": q.get("url"),
+                    "named": bool(part.get("named")), "evidence": part.get("evidence", ""),
+                    "discoveredFrom": part.get("discoveredFrom"), "discovery": part.get("discovery"),
+                    "searchUnavailable": bool(part.get("searchUnavailable"))}
+        # 2) 그래도 없으면 LLM 시장가 추정 — 어떤 유사 제품을 기준으로 삼았는지 같이 받는다.
+        estimate = await _llm_price_estimate(part)
+        if estimate:
+            # LLM이 지목한 유사 제품명으로 실제 검색을 한 번 더 친다 — 추정 숫자보다 등재가가 낫다.
+            similar_name = str(estimate.get("similar") or "").strip()
+            if similar_name and similar_name != "시장가 추정(LLM)":
+                # 여러 모델을 나열해 오면 첫 제품만 쓴다 — "A / B / C" 를 한 검색어로 치면
+                # 우산 같은 잡음이 최저가 자리에 앉는다(실측).
+                candidate_model = similar_name.split("/")[0].strip()
+                sim_identity = derive_product_identity(candidate_model)
+                try:
+                    retry = await resolve_price({"itemName": candidate_model, "deadlineMs": 8000})
+                except AiFailure:
+                    retry = None
+                # 지목된 모델과 실제로 맞는 견적만 — 완제품·중고·묶음 등 안전장치는 그대로.
+                verified_sim = [q for q in (retry.get("quotes") if retry else []) or []
+                                if isinstance(q.get("priceKrw"), int) and q["priceKrw"] > 0
+                                and str(q.get("source") or "") != "itmaya"
+                                and not _NOISE.search(q.get("name") or "")
+                                and not _cpu_class_conflict(part, str(q.get("name") or ""))
+                                and not _category_guard(part, str(q.get("name") or ""))
+                                and quote_matches_identity(
+                                    {"title": q.get("name"), "price": q["priceKrw"], "url": q.get("url")},
+                                    sim_identity)["ok"]]
+                if verified_sim:
+                    # 저가 순으로 최대 3개 후보를 LLM에게 확인해 요구를 충족하는 것을 고른다.
+                    # 지목 LLM이 코어 수가 부족한 제품을 잘못 지목하는 일이 있다(실측: 12코어 요구에 7700X).
+                    candidates = sorted(verified_sim, key=lambda x: x["priceKrw"])[:3]
+                    for q in candidates:
+                        verdict = await _llm_substitute_ok(part, str(q.get("name") or ""), q["priceKrw"])
+                        if _substitute_approved(part, verdict):
+                            return {"category": part["category"], "option": part["name"],
+                                    "product": q["name"], "requirement": part["name"],
+                                    "qty": part["qty"], "low": q["priceKrw"], "high": q["priceKrw"],
+                                    "inferred": False, "role": "part",
+                                    "source": q.get("source", "danawa"),
+                                    "substitute": True,
+                                    "matchReason": "등재가 미발견 — LLM이 지목한 유사 제품으로 검색",
+                                    "url": q.get("url"),
+                                    "named": bool(part.get("named")), "evidence": part.get("evidence", ""),
+                                    "discoveredFrom": part.get("discoveredFrom"), "discovery": part.get("discovery"),
+                                    "searchUnavailable": bool(part.get("searchUnavailable"))}
+                    # 전부 미충족 — 가장 싼 것을 참고값으로만 남긴다(확정 원가 제외).
+                    q = candidates[0]
+                    return {"category": part["category"], "option": part["name"],
+                            "product": q["name"], "requirement": part["name"],
+                            "qty": part["qty"], "low": q["priceKrw"], "high": q["priceKrw"],
+                            "inferred": True, "role": "part",
+                            "source": q.get("source", "danawa"),
+                            "substitute": True,
+                            "matchReason": "등재가 미발견 — 유사 제품 요구 미충족으로 참고값",
+                            "url": q.get("url"),
+                            "named": bool(part.get("named")), "evidence": part.get("evidence", ""),
+                            "discoveredFrom": part.get("discoveredFrom"), "discovery": part.get("discovery"),
+                            "searchUnavailable": bool(part.get("searchUnavailable"))}
+            # 여기까지 왔으면 실제 상품이 아니다 — 추정값을 참고값으로만 남긴다(확정 원가 제외).
+            return {"category": part["category"], "option": part["name"],
+                    "product": estimate["similar"], "requirement": part["name"],
+                    "qty": part["qty"], "low": estimate["low"], "high": estimate["high"],
+                    "inferred": True, "role": "part", "source": "llm-estimate",
+                    "substitute": True, "matchReason": "등재가 미발견 — 유사 제품 기반 LLM 시장가 추정",
+                    "named": bool(part.get("named")), "evidence": part.get("evidence", ""),
+                    "discoveredFrom": part.get("discoveredFrom"), "discovery": part.get("discovery"),
+                    "searchUnavailable": bool(part.get("searchUnavailable"))}
+        # 그래도 가격을 못 찾은 행은 어떤 소스가 이겼는지 알 수 없다 — source=None(가격도 None).
         return {"category": part["category"], "option": part["name"], "product": None,
                 "qty": part["qty"], "low": None, "high": None, "inferred": True,
                 "role": "part", "source": None}
     prices = sorted(q["priceKrw"] for q in verified)
     cheapest = min(verified, key=lambda q: q["priceKrw"])
     # 최저가를 낸 소스를 그대로 실어 _merge_estimates 의 priceSource 가 정확하게 나오게 한다
-    # (멀티소스 리졸버는 danawa·enuri·itmaya 어디서든 후보를 줄 수 있다).
+    # (멀티소스 리졸버는 danawa·enuri 어디서든 후보를 줄 수 있다 — itmaya 는 위에서 걸러냈다).
     return {"category": part["category"], "option": part["name"], "product": cheapest["name"],
             "qty": part["qty"], "low": prices[0], "high": prices[-1],
-            "inferred": not identity["strong"], "role": "part",
+            "inferred": row_inferred, "role": "part",
             "source": cheapest.get("source", "danawa"),
             # 백엔드가 규격서 원문과 대조할 재료. 우리는 판정하지 않는다.
             "named": bool(part.get("named")), "evidence": part.get("evidence", ""),
@@ -325,29 +645,7 @@ async def _estimate_from_web(spec_text: str, item_name: str = "") -> dict:
     }
 
 
-# ── 병합 (베어본 + 부품) ─────────────────────────────────────────────────────
-# 카테고리 이름이 색인(Processor/Memory/Storage)과 웹(CPU/RAM/SSD/HDD)에서 다르다.
-# 같은 부품을 두 번 세지 않으려면 하나의 축으로 모아 비교해야 한다.
-_CANON_CAT = {
-    "processor": "cpu", "cpu": "cpu",
-    "gpu": "gpu", "vga": "gpu", "그래픽카드": "gpu",
-    "memory": "ram", "ram": "ram", "메모리": "ram",
-    "storage": "storage", "ssd": "storage", "hdd": "storage", "저장장치": "storage",
-    "system": "base",
-}
-
-
-def _canon_cat(cat: str) -> str:
-    return _CANON_CAT.get(str(cat or "").strip().lower(), str(cat or "").strip().lower())
-
-
-def _dedup_key(row: dict) -> tuple[str, str]:
-    """(정규 카테고리, 모델) — 같은 부품을 색인·웹 양쪽에서 중복 계상하지 않기 위한 키."""
-    cat = _canon_cat(row.get("category"))
-    name = str(row.get("option") or row.get("product") or "")
-    ident = derive_product_identity(name)
-    model = (ident.get("model") or "").lower() or re.sub(r"[^a-z0-9가-힣]+", "", name.lower())
-    return cat, model
+# ── 정규화 (웹 단일 경로) ────────────────────────────────────────────────────
 
 
 def _sum_priced(rows: list[dict]) -> tuple[int, int]:
@@ -357,46 +655,30 @@ def _sum_priced(rows: list[dict]) -> tuple[int, int]:
     return low, high
 
 
-def _merge_estimates(itmaya: dict, web: dict) -> dict:
-    """베어본(색인)과 부품(웹)을 하나의 breakdown 으로 합친다.
+def _merge_estimates(web: dict) -> dict:
+    """웹 부품 수집 결과를 응답 규격으로 정규화한다.
 
-    규칙: 부품을 종합적으로 수집(웹 LLM)하고, 그 부품을 담는 베어본(색인 System)이 잡히면
-    베어본을 함께 나열한다. 같은 부품이 양쪽에 있으면 색인(정형·결정적)을 신뢰해 하나만 남긴다.
+    ITMAYA 색인 경로는 제거됐다(2026-08-14) — stale 옵션 행(예: 64GB)이 dedup 키를
+    선점해 웹의 정확한 견적(128GB)을 잘라먹던 문제 때문에 색인·웹 병합을 걷어냈다.
     """
-    itmaya_rows = list(itmaya.get("breakdown") or []) if itmaya.get("matched") else []
     web_rows = list(web.get("breakdown") or []) if web.get("matched") else []
-    if not itmaya_rows and not web_rows:
-        # 둘 다 실패 — 더 구체적인 사유(웹)를 우선하되 gpuCount 는 살린다.
-        reason = web.get("reason") or itmaya.get("reason") or "부품을 식별하지 못했습니다."
+    if not web_rows:
+        reason = web.get("reason") or "부품을 식별하지 못했습니다."
         out = {"matched": False, "reason": reason}
-        if itmaya.get("gpuCount") or web.get("gpuCount"):
-            out["gpuCount"] = itmaya.get("gpuCount") or web.get("gpuCount")
+        if web.get("gpuCount"):
+            out["gpuCount"] = web["gpuCount"]
         return out
 
-    # 색인 우선(베어본·정형 부품) → 웹으로 색인이 못 담은 부품을 채운다.
-    merged: list[dict] = []
-    seen: set[tuple[str, str]] = set()
-    for row in itmaya_rows + web_rows:
-        key = _dedup_key(row)
-        if key in seen:
-            continue
-        seen.add(key)
-        merged.append(row)
-
-    # 베어본이 맨 위로 오게 정렬(base → part). 나머지 순서는 유지.
-    merged.sort(key=lambda r: 0 if r.get("role") == "base" else 1)
-
-    low, high = _sum_priced(merged)
-    has_base = any(r.get("role") == "base" for r in merged)
-    gpu_count = sum(r["qty"] for r in merged if _canon_cat(r.get("category")) == "gpu")
+    low, high = _sum_priced(web_rows)
     # 가격을 낸 행의 소스만 센다 — 가격 없는 행(source=None)은 priceSource 를 흐리면 안 된다.
-    sources = {r.get("source") for r in merged if r.get("source")}
+    sources = {r.get("source") for r in web_rows if r.get("source")}
     price_source = "hybrid" if len(sources) > 1 else (next(iter(sources), None) or "danawa")
 
     out = {
         "matched": True, "low": low, "high": high, "mid": (low + high) // 2,
-        "gpuCount": gpu_count, "hasBase": has_base, "breakdown": merged,
-        "allPriced": all(r.get("low") is not None for r in merged),
+        "gpuCount": sum(r["qty"] for r in web_rows if str(r.get("category") or "").strip() == "GPU"),
+        "hasBase": False, "breakdown": list(web_rows),
+        "allPriced": all(r.get("low") is not None for r in web_rows),
         "currency": "KRW", "priceSource": price_source,
     }
     if isinstance(web.get("prebuilt"), dict):
@@ -405,64 +687,29 @@ def _merge_estimates(itmaya: dict, web: dict) -> dict:
 
 
 async def estimate_unit_cost(payload: dict) -> dict:
-    """규격서 텍스트 → 원가 추정.
-
-    **부품을 항상 종합 수집(웹 LLM+다나와)하고, 담는 베어본(ITMAYA 색인)이 잡히면 함께 나열한다.**
-    예전엔 색인이 맞으면 즉시 반환해 베어본만 나오고 부품이 누락됐다 — 그 either/or 를 없앴다.
-    """
+    """규격서 텍스트 → 원가 추정. 웹 수집 단일 경로(ITMAYA 색인 제거 — 2026-08-14)."""
     spec_text = str(payload.get("specText") or "").strip()
     if not spec_text:
         return {"matched": False, "reason": "규격서 텍스트가 없습니다."}
 
-    # 베어본 색인(동기·결정적)과 부품 수집(웹)을 함께 돌려 합친다.
-    itmaya = _estimate_from_itmaya(spec_text)
     web = await _estimate_from_web(spec_text)
-    return _merge_estimates(itmaya, web)
+    return _merge_estimates(web)
 
 
 if __name__ == "__main__":
-    idx = _load_index()
-    assert idx and "System" in idx["byCategory"], "ITMAYA 색인 로드 실패"
-    # GPU 서버 규격서 → ITMAYA 경로
-    r = _estimate_from_itmaya("GPU 서버, NVIDIA H200 8장, ESC8000-E12, DDR5 512GB")
-    print("ITMAYA:", r.get("matched"), r.get("mid"), "gpuCount", r.get("gpuCount"))
-    assert _parse_gpu_count("H200 8장") == 8
-    assert not _is_gpu_server_text("사무용 노트북 30대")
-    # 회귀(2026-08): 맨 '워크스테이션' 만으론 GPU 서버 아님 — 암호 워크스테이션·노트북·보드 오탐 차단
-    assert not _is_gpu_server_text("암호 알고리즘 구현용 워크스테이션, 노트북 및 전력 파형 측정용 보드 구매")
-    assert not _is_gpu_server_text("워크스테이션 2대, 노트북 3대")
-    # 진짜 가속기가 있으면 여전히 켜진다
-    assert _is_gpu_server_text("GPU 워크스테이션 H100 4장")
-    assert _is_gpu_server_text("딥러닝 서버 RTX PRO 6000 x8")
-    # 오탐이던 물품은 ITMAYA 경로를 아예 타지 않는다(웹 부품추출로 감)
-    assert not _estimate_from_itmaya("암호 알고리즘 워크스테이션, 노트북, 전력 파형 측정 보드").get("matched")
-
-    # ── 병합: 베어본(색인) + 부품(웹) 함께 나열, 중복 없음 ──────────────────────
-    itmaya = {"matched": True, "breakdown": [
-        {"category": "System", "option": "ESC8000-E12", "product": "ESC8000-E12", "qty": 1,
-         "low": 10_000_000, "high": 10_000_000, "role": "base", "source": "itmaya"},
-        {"category": "GPU", "option": "NVIDIA H200 141GB", "product": "H200", "qty": 8,
-         "low": 5_000_000, "high": 5_000_000, "role": "part", "source": "itmaya"},
-    ]}
+    # 정규화(웹 단일 경로) 스모크 — LLM 없이 순수 함수만 검증한다.
     web = {"matched": True, "breakdown": [
-        {"category": "GPU", "option": "NVIDIA H200 141GB", "product": "다나와 H200", "qty": 8,
-         "low": 4_900_000, "high": 5_100_000, "role": "part", "source": "danawa"},   # 색인과 중복
+        {"category": "GPU", "option": "NVIDIA H200 141GB", "product": "H200", "qty": 8,
+         "low": 5_000_000, "high": 5_100_000, "role": "part", "source": "danawa"},
         {"category": "SSD", "option": "삼성 990 PRO 4TB", "product": "990 PRO", "qty": 2,
-         "low": 500_000, "high": 600_000, "role": "part", "source": "danawa"},        # 색인이 못 담은 부품
+         "low": 500_000, "high": 600_000, "role": "part", "source": "danawa"},
     ], "prebuilt": {"isPrebuilt": False}}
-    m = _merge_estimates(itmaya, web)
-    assert m["matched"] and m["hasBase"], m
-    assert m["breakdown"][0]["role"] == "base", "베어본이 맨 위"
-    assert len([x for x in m["breakdown"] if _canon_cat(x["category"]) == "gpu"]) == 1, "GPU 중복 제거"
-    assert any(_canon_cat(x["category"]) == "storage" for x in m["breakdown"]), "웹 부품(SSD) 합류"
-    assert m["gpuCount"] == 8 and m["priceSource"] == "hybrid", m
-    assert m["low"] == 10_000_000 + 5_000_000 * 8 + 500_000 * 2, m["low"]
+    m = _merge_estimates(web)
+    assert m["matched"] and not m["hasBase"], m
+    assert m["gpuCount"] == 8 and m["priceSource"] == "danawa", m
+    assert m["low"] == 5_000_000 * 8 + 500_000 * 2, m["low"]
     assert "prebuilt" in m
-    # 베어본 없이 웹 부품만 있을 때도 동작
-    only_web = _merge_estimates({"matched": False, "reason": "not-gpu-server"}, web)
-    assert only_web["matched"] and not only_web["hasBase"], only_web
-    # 둘 다 실패
-    both_fail = _merge_estimates({"matched": False, "reason": "not-gpu-server"},
-                                 {"matched": False, "reason": "부품 없음"})
-    assert not both_fail["matched"] and both_fail["reason"] == "부품 없음", both_fail
+    # 웹 실패도 그대로 전달된다
+    fail = _merge_estimates({"matched": False, "reason": "부품 없음"})
+    assert not fail["matched"] and fail["reason"] == "부품 없음", fail
     print("app/estimate.py: OK")

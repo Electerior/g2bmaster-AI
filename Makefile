@@ -1,7 +1,7 @@
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
 
-.PHONY: venv install install-ml dev start module-server check pool contract errors extractor embedding smoke clean
+.PHONY: venv install install-ml dev start module-server check pool contract errors extractor embedding discovery smoke kb pindex clean
 
 venv:
 	python3 -m venv .venv
@@ -25,10 +25,22 @@ start:
 module-server:
 	$(PY) module_server.py
 
-check: pool errors contract extractor embedding
+check: pool errors contract extractor embedding discovery
 
 pool:
 	$(PY) scripts/test_worker_pool.py
+
+# 사양→모델 탐색 체인(KB·Wikipedia·SearXNG)의 순수 함수. 네트워크 없이 돈다.
+discovery:
+	$(PY) scripts/test_discovery.py
+
+# 하드웨어 지식베이스(RAG 코퍼스) 재구축 — 위키 수집 + ITMAYA 색인 병합.
+kb:
+	$(PY) scripts/build_hardware_kb.py
+
+# 다나와 상품 로컬 인덱스(Phase 3) 재구축 — polite rate 로 카테고리 목록을 긁는다.
+pindex:
+	$(PY) scripts/build_product_index.py
 
 # module_b 스키마·근거 좌표·프롬프트 규칙. LLM 없이 돈다.
 extractor:
