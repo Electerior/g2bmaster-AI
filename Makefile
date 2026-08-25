@@ -62,6 +62,11 @@ bidpipe-gen:
 bidpipe-extract:
 	$(PY) bidpipe/.agents/scripts/extract_specs.py $(SPEC) $(KB)
 
+# 이전 충실성 회귀: 동일 batch JSON을 소스 vs bidpipe 코드로 각각 생성 → 셀+exit 전수 대조.
+# 소스 워크스페이스(~/Documents/Elect*)가 없으면 SKIP — 다른 머신에서도 make check 가 깨지지 않는다.
+bidpipe-fidelity:
+	$(PY) bidpipe/tests/test_migration_fidelity.py
+
 contract:
 	$(PY) scripts/test_http_contract.py
 
