@@ -1,0 +1,36 @@
+{
+  "case": "kisti_9100pro_8tb",
+  "bid": "R26BK01692010",
+  "title": "KISTI — 삼성전자 9100 PRO 히트싱크 M.2 NVMe 8TB SSD 2개 구매",
+  "ground_truth_source": "20260824_R26BK01692010_KISTI_9100PRO_8TB_2개.xlsx (최종 워크북, 물품행 2행)",
+  "required_items": [
+    {
+      "name_kws": ["9100 PRO", "8TB"],
+      "qty_min": 2,
+      "sel": "O",
+      "desc": "삼성전자 9100 PRO 8TB SSD x2 (선택 O)"
+    }
+  ],
+  "forbidden": [
+    {
+      "name_kws": ["9800"],
+      "reason": "모델 불일치 — 사양서는 9100 PRO (9800 PRO는 다른 세대)"
+    },
+    {
+      "name_kws": ["4TB"],
+      "reason": "용량 불일치 — 사양서는 8TB"
+    }
+  ],
+  "must_mention": [
+    {
+      "kws": ["정식 유통"],
+      "reason": "추가요구사항: '정식 유통하는 제품으로 제공' — 판정 근거에 필수"
+    }
+  ],
+  "should_mention": [
+    {
+      "kws": ["NVMe 2.0", "Gen5", "PCIe"],
+      "reason": "프로토콜 Gen5 x4 확인"
+    }
+  ]
+}

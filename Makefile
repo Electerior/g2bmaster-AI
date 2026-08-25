@@ -67,6 +67,11 @@ bidpipe-extract:
 bidpipe-fidelity:
 	$(PY) bidpipe/tests/test_migration_fidelity.py
 
+# 규격해석 품질 회귀: 고정 fixture(3케이스)를 LLM에 해석시켜 최종 워크북 정답과 대조.
+# LLM 미도달이면 SKIP. CASE=<이름> 로 하나만.
+bidpipe-fixture:
+	$(PY) bidpipe/tests/fixture_quality.py $(CASE)
+
 contract:
 	$(PY) scripts/test_http_contract.py
 

@@ -1,0 +1,38 @@
+{
+  "case": "jh_gpu_server",
+  "bid": "R26BK01694976",
+  "title": "JH솔루션(남부발전 AI DT) — GPU 가속서버 구매 (긴급)",
+  "ground_truth_source": "20260825_R26BK01694976_JH솔루션_남부발전AIDT_GPU서버.xlsx (최종 워크북, 선택 O 8행)",
+  "required_items": [
+    {"name_kws": ["서버", "섀시", "베어본"], "any_of": true, "qty_min": 1, "sel": "O",
+     "desc": "서버 섀시/베어본 (19인치 랙, 핫스왑 PSU 1+1, 원격관리 포함) — 정답의 ESC8000까지 요구하면 안 됨"},
+    {"name_kws": ["Xeon", "6507P"], "qty_min": 2, "sel": "O",
+     "desc": "CPU Intel Xeon 6 6507P x2 (qty 필드 2 또는 품명 '×2' 표기)"},
+    {"name_kws": ["DDR5", "64GB"], "qty_min": 1, "sel": "O",
+     "desc": "메모리 DDR5 ECC RDIMM 64GB 이상 (64GB x2 또는 128GB)"},
+    {"name_kws": ["RTX PRO 6000", "96GB"], "qty_min": 1, "sel": "O",
+     "desc": "GPU RTX PRO 6000 Blackwell 96GB x1"},
+    {"name_kws": ["960GB", "SSD"], "qty_min": 4, "sel": "O",
+     "desc": "엔터프라이즈 SSD 960GB x4 (RAID 10) — qty 4 또는 품명 '×4'"},
+    {"name_kws": ["RAID"], "qty_min": 1, "sel": "O",
+     "desc": "하드웨어 RAID 컨트롤러 (RAID 10, 캐시보호)"},
+    {"name_kws": ["1GbE", "4포트", "NIC", "이더넷"], "any_of": true, "qty_min": 2, "sel": "O",
+     "desc": "1GbE 4포트 NIC x2 (총 8포트) — qty 2 또는 품명 '×2'"},
+    {"name_kws": ["Rocky Linux", "OS", "운영체제"], "any_of": true, "qty_min": 1, "sel": "O",
+     "desc": "OS Rocky Linux 10.2 (0원, 공식 배포본)"}
+  ],
+  "forbidden": [
+    {"name_kws": ["Workstation Edition"], "reason": "GPU는 Server Edition(Passive) 요구 — Workstation(액티브)은 선택(O) 불가, 대안 행만 허용"},
+    {"name_kws": ["RTX 4090"], "reason": "모델 불일치 (스펙: RTX PRO 6000 Blackwell 96GB)"},
+    {"name_kws": ["RTX 5090"], "reason": "모델 불일치 (스펙: RTX PRO 6000 Blackwell 96GB)"}
+  ],
+  "must_mention": [
+    {"kws": ["Passive", "서버용", "Server Edition"], "reason": "GPU는 서버용 Passive 방식 명시 — Workstation/Server 구분은 이 공고의 핵심 예외"},
+    {"kws": ["PSU", "전원", "1+1"], "reason": "핫스왑 PSU 1+1 이중화 구성 명시"}
+  ],
+  "should_mention": [
+    {"kws": ["RAID 10", "raid10"], "reason": "RAID 10 구성"},
+    {"kws": ["3년", "보증"], "reason": "3년 무상보증"},
+    {"kws": ["원격관리", "BMC"], "reason": "원격관리(BMC) 포함"}
+  ]
+}
