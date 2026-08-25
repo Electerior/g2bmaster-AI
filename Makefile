@@ -42,6 +42,26 @@ embedding:
 errors:
 	$(PY) scripts/test_errors.py
 
+# ── bidpipe (조달 공고 마진 분석 파이프라인, 2026-08-25 Electerior 로부터 이전) ──
+# 결정론적 코어: LLM 불필요. AGENTS.md 15규칙 + 8스킬 + 가격 DB 를 bidpipe/ 에 둔다.
+
+# 가격 DB 조회로 경로 재배선·데이터 무결성 검증 (367+ 상품)
+bidpipe-check:
+	BIDPIPE_ROOT=$(CURDIR)/bidpipe $(PY) bidpipe/.agents/scripts/price_lookup.py --help
+	@BIDPIPE_ROOT=$(CURDIR)/bidpipe $(PY) -c "import sys; sys.path.insert(0,'bidpipe/.agents/scripts'); import price_schema as ps; print('price DB ok:', len(ps.load_products()), 'products')"
+
+# 기존 산출물 품질 감사 (audit_prices.py) — bidpipe/out/<날짜> 폴더 대상
+bidpipe-audit:
+	$(PY) bidpipe/.agents/scripts/audit_prices.py $(OUT)
+
+# 워크북 생성 (입력: /tmp/batch*.json) — 산출물은 bidpipe/out/<오늘> 로
+bidpipe-gen:
+	GEN_OUTDIR=$(CURDIR)/bidpipe/out/$(shell date +%Y%m%d) $(PY) bidpipe/.agents/scripts/gen_analysis.py $(IN)
+
+# HWP 첨부 추출 (SPECDIR + [공고번호...])
+bidpipe-extract:
+	$(PY) bidpipe/.agents/scripts/extract_specs.py $(SPEC) $(KB)
+
 contract:
 	$(PY) scripts/test_http_contract.py
 

@@ -1,0 +1,11 @@
+# bidpipe — 조달 공고 마진 분석 파이프라인 (Electerior 에서 이전, 2026-08-25)
+# LLM 불필요한 결정론적 코어: openpyxl/pypdf/xlrd/requests만 필요.
+# 설치: make bidpipe-install   (공용 .venv에 얹어서 설치)
+openpyxl>=3.1
+pypdf>=4.0
+xlrd>=2.0
+requests>=2.31
+# 선택 — sheets_db.py(Google Spreadsheet 미러)만 사용 시:
+# google-api-python-client
+# google-auth
+# 선택 — HWP 변환은 시스템 hwp5html(conda env electerior)에 위임. venv에 pyhwp 없음.
