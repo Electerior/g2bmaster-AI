@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """HTTP 계약 테스트.
 
-백엔드 `integration/ai/AiClient` 가 부르는 11개 경로가 **전부 존재하고**, 아직 이식하지 않은
+백엔드 `integration/ai/AiClient` 가 부르는 경로가 **전부 존재하고**, 아직 이식하지 않은
 경로는 200 이 아니라 501 `NOT_PORTED` 로 응답하는지 확인한다.
+폐기한 경로(가격 4개·item/bid 요약)는 되살아나지 않았는지도 함께 건다.
 
 이 구분이 중요한 이유: `AiClient.itemSummary` 는 `aiFallback` 응답을 성공으로 치지 않는다.
 미구현을 200 으로 위장하면 폴백 결과가 `analysis_history` 에 눌러앉아 영원히 재분석되지
