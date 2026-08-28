@@ -23,7 +23,10 @@ os.environ.pop("INTERNAL_SECRET", None)
 # 개발 PC 에 LM Studio 가 떠 있으면 결과가 달라진다. 계약 검증은 환경에 흔들리면 안 되므로
 # 확실히 닫힌 주소로 고정한다(라이브 확인은 scripts/smoke_llm.py 가 따로 한다).
 os.environ["LMS_BASE"] = "http://127.0.0.1:9"
-os.environ.pop("LLM_WORKERS", None)
+# LLM_WORKERS 는 pop 하면 안 된다 — app/config.py 의 load_dotenv() 가 그 직후 .env 에서
+# 되살려 놓는다(dotenv 는 "이미 있는" 키만 덮지 않는다). 실제로 이 구멍 때문에 계약
+# 테스트가 개발 PC 의 LM Studio 에 붙어 요약을 진짜로 생성한 적이 있다. 닫힌 주소로 덮는다.
+os.environ["LLM_WORKERS"] = "http://127.0.0.1:9@1"
 os.environ["ATTACHMENT_CACHE_DIR"] = os.path.join(str(ROOT), ".pytest_cache", "contract")
 
 import asyncio  # noqa: E402
@@ -33,9 +36,7 @@ from fastapi.testclient import TestClient  # noqa: E402
 from app import config as app_config  # noqa: E402
 from app.errors import AiFailure  # noqa: E402
 from app.main import app  # noqa: E402
-from app.price import resolve as resolve_price  # noqa: E402
-from app.pricecommon import make_quote  # noqa: E402
-from app.prompts import ITEM_SUMMARY_PROMPT_VERSION  # noqa: E402
+from app.prompts import NOTICE_SUMMARY_PROMPT_VERSION  # noqa: E402
 
 failures: list[str] = []
 
@@ -56,12 +57,8 @@ for path in ("/health", "/healthz"):
 version = client.get("/api/ai/prompt-version")
 check(version.status_code == 200, "/api/ai/prompt-version 는 200 이어야 합니다.")
 check(
-    version.json()["promptVersion"] == ITEM_SUMMARY_PROMPT_VERSION,
-    "프롬프트 버전은 원본 값과 같아야 합니다(다르면 기존 분석 캐시가 전부 무효화됩니다).",
-)
-check(
-    version.json()["promptVersion"] == "item-summary-2026-08-04-v4",
-    "프롬프트 버전이 원본 lib/analysis-history.js 의 값과 달라졌습니다 — 기존 캐시가 고아가 됩니다.",
+    version.json()["promptVersion"] == NOTICE_SUMMARY_PROMPT_VERSION,
+    "노출되는 프롬프트 버전이 app/prompts.py 와 갈리면 백엔드가 잘못된 재사용 키를 만듭니다.",
 )
 
 # LM Studio 가 없는 환경이라 워커는 전부 비정상이지만, 응답 모양은 지켜져야 한다.
@@ -91,8 +88,6 @@ if embed.status_code == 503:
 
 # ── 아직 이식하지 않은 경로 ──────────────────────────────────────────────────
 NOT_PORTED_POSTS = [
-    "/api/item-summary",
-    "/api/bid-summary",
     "/api/legal/review-clauses",
     "/api/legal/outreach-draft",
     "/api/pledge/revision-workflow",
@@ -109,97 +104,35 @@ for path in NOT_PORTED_POSTS:
     )
 
 
-# ── 요약 계열이 요약을 지어내지 않는가 ──────────────────────────────────────
+# ── 요약이 LLM 없이 지어내지 않는가 (회귀 가드) ─────────────────────────────
 # 과거 회귀: 두 핸들러가 payload 에 이름만 있으면 "…요약이 완료되었습니다" 라는 지어낸
 # 문장을 aiFallback=false 로 200 에 실어 보냈다. AiClient 는 aiDisabled/aiFallback 만
-# 걸러내므로 그것을 **성공으로 판정**하고, AnalysisJobRunner 가 analysis_history 에
-# 적재한 뒤 작업을 완료 처리한다 — 재사용 키가 같으니 영원히 재분석되지 않는다.
+# 걸러내므로 그것을 성공으로 판정하고, AnalysisJobRunner 가 analysis_history 에 적재한
+# 뒤 작업을 완료 처리한다 — 재사용 키가 같으니 영원히 재분석되지 않는다.
 #
-# 위 NOT_PORTED_POSTS 루프가 501 을 이미 확인하므로 여기서는 '내용이 있는 본문'이
-# 새어 나가지 않는지만 본다. 실제 분석을 이식할 때 이 블록을 200 검증으로 바꾼다.
-for path in ("/api/item-summary", "/api/bid-summary"):
-    body = client.post(path, json={"bidNtceNo": "20260101", "bidNtceNm": "서버 구매", "itemName": "GPU 서버"}).json()
-    check(
-        not body.get("summary"),
-        f"{path} 는 분석을 이식하기 전까지 summary 를 지어내면 안 됩니다(캐시에 눌러앉습니다).",
-    )
-    check(
-        "aiFallback" not in body and "aiDisabled" not in body,
-        f"{path} 미구현 응답을 폴백처럼 위장하면 안 됩니다.",
-    )
-    check(bool(body.get("requestId")), f"{path} 는 requestId 가 있어야 로그 대조가 됩니다.")
-
-# ── 가격 조회 형식 (네트워크 없이 되는 것만) ────────────────────────────────
-# 실제 다나와 조회는 환경에 흔들리므로 여기서 하지 않는다(smoke_price.py 가 따로 한다).
-# 형식 검증만 본다 — 이건 외부 호출 이전 단계라 결정적이다.
-price_bad = client.post("/api/price/resolve", json={})
-check(price_bad.status_code == 400, "itemName 없는 price/resolve 는 400 이어야 합니다.")
-check(price_bad.json().get("code") == "BAD_REQUEST", "itemName 누락은 BAD_REQUEST 입니다.")
-
-price_url_bad = client.post("/api/price/url", json={"url": "https://coupang.com/x?pcode=1"})
-check(price_url_bad.status_code == 400, "다나와가 아닌 URL 은 400 이어야 합니다.")
-check(
-    price_url_bad.json().get("code") == "UNSUPPORTED_SOURCE",
-    "화이트리스트 밖 도메인은 UNSUPPORTED_SOURCE 여야 합니다(재시도 금지).",
+# 이 파일은 LMS_BASE 를 닫힌 포트로 고정해 돌므로 요약은 반드시 분류된 LLM 실패여야
+# 한다. 200 이 나오면 그 자체가 사고다.
+summary_resp = client.post(
+    "/api/notice-summary",
+    json={"bidNtceNo": "20260101", "title": "서버 구매", "agency": "조달청"},
 )
 check(
-    price_url_bad.json().get("retryable") is False,
-    "UNSUPPORTED_SOURCE 는 4xx 영구 실패다 — retryable 이면 워커가 헛돈다.",
+    summary_resp.status_code != 200,
+    "LLM 이 닿지 않는데 /api/notice-summary 가 200 을 냈습니다 — 요약을 지어낸 것입니다.",
 )
-
-# ── 가격 집계 (오프라인, 인메모리 가짜 소스) ─────────────────────────────────
-# 실제 소스는 환경에 흔들리므로 여기서 치지 않는다. resolve(sources=[...]) 에 가짜 소스를
-# 주입해 봉투 키와 세 갈래(모두 빈 / 부분 실패 / 모두 실패)를 결정적으로 확인한다.
-async def _agg_empty(item_name, deadline_ms=None):
-    return []
-
-
-async def _agg_boom(item_name, deadline_ms=None):
-    raise AiFailure("PRICE_SOURCE_BROKEN", detail="offline")
-
-
-async def _agg_one(item_name, deadline_ms=None):
-    return [make_quote(source="danawa", sourceId="1",
-                       url="https://prod.danawa.com/info/?pcode=1", name="RTX 5090", priceKrw=1000)]
-
-
-agg_empty = asyncio.run(resolve_price({"itemName": "x"}, sources=[("danawa", _agg_empty), ("enuri", _agg_empty)]))
+summary_body = summary_resp.json()
 check(
-    set(agg_empty) == {"quotes", "searchInfo", "degraded", "degradedReasons"},
-    "가격 응답 봉투 키는 정확히 {quotes, searchInfo, degraded, degradedReasons} 여야 합니다.",
+    summary_body.get("code") in {"LLM_UNAVAILABLE", "LLM_TIMEOUT", "LLM_MALFORMED"},
+    f"LLM 도달 실패는 LLM_* 로 분류돼야 합니다(받은 코드: {summary_body.get('code')}).",
 )
-check(agg_empty["searchInfo"]["status"] == "not-found", "모든 소스가 빈 검색이면 not-found 여야 합니다.")
-check(agg_empty["degraded"] is False, "실패가 없으면 degraded 는 False 여야 합니다.")
-check(agg_empty["degradedReasons"] == [], "실패가 없으면 degradedReasons 는 비어야 합니다.")
+check(summary_body.get("retryable") is True, "LLM 도달 실패는 재시도 가능해야 합니다.")
+check(not summary_body.get("summary"), "실패 응답에 summary 가 실리면 안 됩니다.")
+check(bool(summary_body.get("requestId")), "requestId 가 있어야 로그 대조가 됩니다.")
 
-agg_partial = asyncio.run(resolve_price({"itemName": "x"}, sources=[("danawa", _agg_one), ("enuri", _agg_boom)]))
-check(agg_partial["searchInfo"]["status"] == "found", "한 소스라도 결과가 있으면 found 여야 합니다.")
-check(agg_partial["degraded"] is True, "한 소스가 실패하고 다른 소스가 성공하면 degraded True 여야 합니다.")
-check(
-    len(agg_partial["degradedReasons"]) == 1 and agg_partial["degradedReasons"][0].get("source") == "enuri",
-    "실패한 소스가 degradedReasons 에 실려야 합니다.",
-)
-check(
-    agg_partial["degradedReasons"][0].get("code") == "PRICE_SOURCE_BROKEN",
-    "degradedReasons 에 실패 코드가 있어야 합니다.",
-)
-
-agg_all_failed = False
-try:
-    asyncio.run(resolve_price({"itemName": "x"}, sources=[("danawa", _agg_boom), ("enuri", _agg_boom)]))
-except AiFailure as agg_error:
-    agg_all_failed = agg_error.code == "PRICE_SOURCE_BROKEN"
-check(agg_all_failed, "0건 + 모든 소스 실패는 PRICE_SOURCE_BROKEN 을 올려야 합니다(200 으로 포장 금지).")
-
-agg_no_source = asyncio.run(resolve_price({"itemName": "x"}, sources=[]))
-check(agg_no_source["searchInfo"]["status"] == "no-source", "켜진 소스가 없으면 no-source 여야 합니다(에러 아님).")
-
-# requestId 우선순위: 본문 > state > 헤더
-check(
-    client.post("/api/bid-summary", json={"requestId": "rid-body"}, headers={"X-Request-Id": "rid-header"}).json()["requestId"]
-    == "rid-body",
-    "payload.requestId 가 X-Request-Id 헤더보다 우선해야 합니다.",
-)
+# 본문이 비면 호출자 문제다 — 재시도해도 같으므로 BAD_REQUEST 여야 한다.
+empty_resp = client.post("/api/notice-summary", json={})
+check(empty_resp.status_code == 400, "title·bidNtceNo 가 모두 없으면 400 이어야 합니다.")
+check(empty_resp.json().get("code") == "BAD_REQUEST", "본문 누락은 BAD_REQUEST 입니다.")
 
 
 # ── 실패 본문의 모양 ─────────────────────────────────────────────────────────
@@ -227,17 +160,17 @@ check(
 check_failure_shape(client.get("/api/does-not-exist"), "BAD_REQUEST", "404 미등록 경로")
 
 # 본문 검증 실패. 예전엔 FastAPI 기본 422 {detail:[...]} 라 code·error 둘 다 없었다.
-bad_body = client.post("/api/bid-summary", content=b"[]", headers={"Content-Type": "application/json"})
+bad_body = client.post("/api/notice-summary", content=b"[]", headers={"Content-Type": "application/json"})
 check(bad_body.status_code == 400, f"본문이 계약과 다르면 400 이어야 합니다(받은 값 {bad_body.status_code}).")
 check_failure_shape(bad_body, "BAD_REQUEST", "본문 검증 실패")
 
 # requestId 는 백엔드가 준 값을 그대로 되돌려 준다. 새로 만들면 로그를 이을 수 없다.
 check(
-    client.post("/api/bid-summary", json={}, headers={"X-Request-Id": "rid-header"}).json()["requestId"] == "rid-header",
+    client.post("/api/notice-summary", json={}, headers={"X-Request-Id": "rid-header"}).json()["requestId"] == "rid-header",
     "X-Request-Id 헤더를 그대로 되돌려 줘야 합니다.",
 )
 check(
-    client.post("/api/bid-summary", json={"requestId": "rid-body"}).json()["requestId"] == "rid-body",
+    client.post("/api/notice-summary", json={"requestId": "rid-body"}).json()["requestId"] == "rid-body",
     "본문의 requestId 가 헤더보다 우선해야 합니다(백엔드가 payload 에 싣는 경로).",
 )
 
@@ -245,8 +178,8 @@ check(
 version_map = version.json().get("versions")
 check(isinstance(version_map, dict), "versions 맵이 있어야 합니다(엔드포인트 × 문서종류로 갈립니다).")
 check(
-    isinstance(version_map, dict) and version_map.get("item-summary") == ITEM_SUMMARY_PROMPT_VERSION,
-    "versions 의 item-summary 는 기존 promptVersion 과 같아야 합니다(캐시 호환).",
+    isinstance(version_map, dict) and version_map.get("notice-summary") == NOTICE_SUMMARY_PROMPT_VERSION,
+    "versions 의 notice-summary 는 단일 promptVersion 과 같아야 합니다(캐시 호환).",
 )
 
 # ── 데드라인 순서 ────────────────────────────────────────────────────────────
@@ -261,13 +194,19 @@ check(
     ),
 )
 
-# 계약의 11개 경로가 하나도 빠지지 않았는지 확인한다.
+# 계약 경로가 하나도 빠지지 않았는지 확인한다.
+# 가격 4경로는 2026-08-26 에 폐기했고, item-summary·bid-summary 는 notice-summary 로 합쳤다.
 CONTRACT = {
-    ("POST", "/api/item-summary"), ("POST", "/api/bid-summary"),
+    ("POST", "/api/notice-summary"),
     ("POST", "/api/legal/review-clauses"), ("POST", "/api/legal/outreach-draft"),
-    ("POST", "/api/pledge/revision-workflow"), ("POST", "/api/price/resolve"),
-    ("POST", "/api/price/url"), ("POST", "/api/embed"),
+    ("POST", "/api/pledge/revision-workflow"), ("POST", "/api/embed"),
     ("GET", "/api/ai/prompt-version"), ("GET", "/api/ai/capacity"), ("GET", "/api/llm/models"),
+}
+# 폐기한 경로가 되살아나지 않았는지도 본다.
+RETIRED = {
+    ("POST", "/api/item-summary"), ("POST", "/api/bid-summary"),
+    ("POST", "/api/price/resolve"), ("POST", "/api/price/url"),
+    ("POST", "/api/estimate-unit-cost"), ("POST", "/api/prebuilt-comparables"),
 }
 registered = {
     (method, route.path)
@@ -276,6 +215,8 @@ registered = {
 }
 missing = CONTRACT - registered
 check(not missing, f"계약에 있는 경로가 등록되지 않았습니다: {sorted(missing)}")
+revived = RETIRED & registered
+check(not revived, f"폐기한 경로가 다시 등록됐습니다: {sorted(revived)}")
 
 # ── 호출자 인증 ──────────────────────────────────────────────────────────────
 app_config.SERVICE_SECRET = "s3cr3t"
