@@ -1,6 +1,6 @@
 """g2bmaster-AI — 추론 계층 HTTP 표면.
 
-백엔드(`integration/ai/AiClient`)가 부르는 11개 경로를 그대로 연다.
+백엔드(`integration/ai/AiClient`)가 부르는 경로를 연다.
 계약 전문: `g2bmaster-backend/docs/ai-boundary.md`.
 
 **아직 옮기지 않은 경로는 501 `NOT_PORTED` 로 정직하게 응답한다.**
@@ -10,6 +10,10 @@
 **실패는 전부 `app/errors.py` 한 곳으로 모인다.** 예전에는 경로마다 본문 모양이 달라
 (`{code,error,reason}` · `{error,path}` · `{error}` · `{detail:[...]}`) 백엔드가
 하나의 파서로 읽을 수 없었다. 라우트는 `AiFailure` � 를 올리기만 하고 조립은 � 핸들러가 한다.
+
+**가격 표면은 폐기했다(2026-08-26).** `/api/price/resolve`·`/api/price/url`·
+`/api/estimate-unit-cost`·`/api/prebuilt-comparables` 와 그 뒤의 스크래퍼·LLM 원가추정
+13개 모듈을 전부 걷어냈다.
 """
 
 from __future__ import annotations
@@ -26,9 +30,6 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from .config import PORT, SERVICE_SECRET, get_ai_config, llm_headers, mask_config
 from .embedding import EmbeddingUnavailable, embed_texts, status as embedding_status
 from .errors import AiFailure, resolve_request_id, to_body
-from .price import resolve as resolve_price, resolve_by_url as resolve_price_by_url
-from .estimate import estimate_unit_cost
-from .prebuilt import find_prebuilt_comparables
 from .llm.client import available_models, host, llm_status
 from .llm.worker_pool import get_llm_worker_pool
 from .prompts import ITEM_SUMMARY_PROMPT_VERSION, PROMPT_VERSIONS
@@ -124,14 +125,6 @@ async def _warm_embedding_model() -> None:
         warmup_async()
     except ImportError:
         logger.info("임베딩 스택이 없어 예열을 건너뜁니다 — /api/embed 는 503 입니다")
-
-
-@app.on_event("shutdown")
-async def _close_browser_fallback() -> None:
-    """차단 폴백으로 띄웠던 헤드리스 브라우저를 닫는다(있으면)."""
-    from . import browser_fetch
-
-    await browser_fetch.close()
 
 
 # ── 상태 ─────────────────────────────────────────────────────────────────────
@@ -234,42 +227,3 @@ async def pledge_revision(request: Request, payload: dict):
         "/api/pledge/revision-workflow",
         "원본 lib/pledge-workflow.js + lib/pledge-revision.js 이식 예정.",
     )
-
-
-@app.post("/api/price/resolve")
-async def price_resolve(request: Request, payload: dict):
-    """품목명 → 가격 후보(다나와·에누리·아이티마야 동시 조회). 검증·선택은 백엔드 소유(§4).
-
-    한 소스가 실패하고 다른 소스가 성공하면 degraded:true + degradedReasons 로 보고한다.
-    켜진 소스는 config.PRICE_SOURCES 로 정한다.
-    """
-    request.state.request_id = resolve_request_id(request, payload)
-    return await resolve_price(payload)
-
-
-@app.post("/api/price/url")
-async def price_url(request: Request, payload: dict):
-    """상품 URL 하나 → 가격. 다나와 pcode·에누리 modelno 만 화이트리스트, 그 밖은 UNSUPPORTED_SOURCE(§4.5)."""
-    request.state.request_id = resolve_request_id(request, payload)
-    return await resolve_price_by_url(payload)
-
-
-@app.post("/api/estimate-unit-cost")
-async def estimate_cost(request: Request, payload: dict):
-    """규격서 텍스트 → 부품 추출(LLM) → 부품별 가격(다나와) → 원가 추정.
-
-    deal-analysis 의 estimatedUnitCost 갈래(백엔드가 호출). 계약: decisions.md D-P1.
-    못 찾으면 에러가 아니라 {matched:false, reason} 200 이다 — 규격서에 부품이 없을 수 있다.
-    """
-    request.state.request_id = resolve_request_id(request, payload)
-    return await estimate_unit_cost(payload)
-
-
-@app.post("/api/prebuilt-comparables")
-async def prebuilt_comparables(request: Request, payload: dict):
-    """번들이 완제품인지 부품 조달인지 판정하고, 완제품이면 유사 완제품(다나와)을 찾는다.
-
-    부품 단가 추정과 반대 방향이다 — 완제품 PC 만 남긴다. 계약: docs/api-contract §F.
-    """
-    request.state.request_id = resolve_request_id(request, payload)
-    return await find_prebuilt_comparables(payload)
