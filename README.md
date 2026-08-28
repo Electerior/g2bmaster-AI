@@ -54,6 +54,18 @@ cd ../g2bmaster-backend && AI_ENABLED=false ./mvnw spring-boot:run
 `make check` 는 LLM 을 **일부러 닫힌 주소로 고정**해서 돈다. 개발 PC 에 LM Studio 가
 떠 있으면 결과가 달라지는데, 계약 검증이 환경에 흔들리면 신호가 아니라 잡음이 된다.
 
+#### 0. 어디서 돌리나
+
+모든 명령은 **이 저장소 루트**에서 돈다.
+
+```bash
+cd <저장소>/g2bmaster-AI
+```
+
+스크립트를 직접 부를 때는 **반드시 `.venv/bin/python`** 을 쓴다. 맨 `python` 은 시스템
+파이썬이라 의존성이 없어 `ModuleNotFoundError: No module named 'dotenv'` 로 죽는다.
+`make` 타깃은 알아서 venv 를 쓰므로 신경 쓸 것이 없다.
+
 #### 1. 준비 (처음 한 번)
 
 ```bash
@@ -67,8 +79,17 @@ cp .env.example .env
 #### 2. 계약 테스트 — LLM 없이, 항상
 
 ```bash
-make check                   # 아래 5개를 순서대로 돈다
+make check
 ```
+
+기대 출력은 `전부 통과` 이고 종료 코드는 0 이다. ML 스택을 안 깔았으면
+`전부 통과 (건너뜀 3건)` 이 나온다 — 이것도 통과다.
+
+```bash
+make check; echo "exit=$?"   # exit=0 이어야 한다
+```
+
+한 갈래만 따로 돌릴 수도 있다.
 
 | 타깃 | 무엇을 보나 |
 |---|---|
@@ -78,33 +99,40 @@ make check                   # 아래 5개를 순서대로 돈다
 | `make extractor` | `module_b` 스키마·근거 좌표·프롬프트 규칙 |
 | `make embedding` | 청크 자르기·상주 구조 (ML 스택 없으면 skip) |
 
-끝에 `전부 통과` 가 나오고 종료 코드가 0 이어야 한다.
-
-```bash
-make check; echo "exit=$?"   # exit=0 이어야 한다
-```
-
 #### 3. 공고 요약을 눈으로 확인 — LLM 필요
 
 **LM Studio 를 먼저 띄운다.**
 
 ```bash
-lms server start             # 포트 1234
-lms ps                       # 모델이 로드돼 있어야 한다. 없으면:
-lms load qwen/qwen3.6-35b-a3b
+lms server start                    # 포트 1234
+lms ps                              # 모델이 보여야 한다. 비어 있으면 아래를 실행
+lms load <모델>                      # 예: lms load qwen/qwen3.6-35b-a3b
 ```
 
+안 띄워도 된다 — 그때는 `SKIP` 하고 종료 코드 0 으로 끝난다(실패가 아니다).
+
 ```bash
-make notice                  # 픽스처 3건(물품·용역·공사)을 요약해 보여 준다
+make notice                  # 픽스처 3건(물품·용역·공사). 1~2분 걸린다
 ```
 
 요약 본문이 그대로 찍히고, 끝에 `docs/summary-eval.md` 에 붙일 표가 나온다.
 
-**실제 공고로 돌리려면** 같은 모양의 JSON 을 만들어 인자로 준다.
+**실제 공고로 돌리기.** 픽스처를 템플릿으로 복사해 내용만 바꾸는 것이 가장 빠르다.
 
 ```bash
-python scripts/smoke_notice_summary.py 내공고.json
+cp test/fixtures/notices/001-물품-서버구매.json ~/내공고.json
+# 편집한 뒤
+.venv/bin/python scripts/smoke_notice_summary.py ~/내공고.json
 ```
+
+여러 건은 그냥 나열한다.
+
+```bash
+.venv/bin/python scripts/smoke_notice_summary.py ~/공고1.json ~/공고2.json
+```
+
+공고 JSON 의 모양은 이렇다. `title` 과 `bidNtceNo` 는 **둘 중 하나만 있어도** 되고,
+둘 다 비면 `400 BAD_REQUEST` 가 난다. `agency`·`amount`·`documents` 는 선택이다.
 
 ```json
 {
@@ -112,15 +140,25 @@ python scripts/smoke_notice_summary.py 내공고.json
   "title": "정보시스템 서버 및 스토리지 장비 구매",
   "agency": "조달청",
   "amount": 120000000,
-  "documents": [{ "name": "규격서.hwp", "text": "1. 사업개요 ..." }]
+  "documents": [{ "name": "규격서.hwp", "text": "규격서 본문 전체" }]
 }
 ```
 
-**뜬 서버로 쏘려면** `--base` 를 준다(포트는 `.env` 의 `PORT`).
+**뜬 서버로 쏘려면** `--base` 를 준다. 포트는 `.env` 의 `PORT` 다 —
+`.env.example` 기본값은 8000 이지만 **`.env` 를 고쳤다면 그 값을 써야 한다.**
 
 ```bash
-make start &                              # 다른 터미널이 편하다
-python scripts/smoke_notice_summary.py --base http://127.0.0.1:8000
+grep ^PORT .env                     # 내 포트를 먼저 확인
+make start &                        # 다른 터미널이 편하다
+.venv/bin/python scripts/smoke_notice_summary.py --base http://127.0.0.1:8000
+```
+
+`--base` 를 주지 않으면 서버 없이 앱을 직접 태운다. 평소에는 이쪽이 편하다.
+
+한 건이 오래 걸리면 `--timeout` 을 늘린다(기본 180초).
+
+```bash
+.venv/bin/python scripts/smoke_notice_summary.py --timeout 600 ~/내공고.json
 ```
 
 `make smoke` 는 요약이 아니라 **LLM 연결 자체**(모델 목록·용량·채팅 1회)를 본다.

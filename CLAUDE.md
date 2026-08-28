@@ -151,10 +151,16 @@ M0 은 이 중 어느 것에도 의존하지 않기 때문에 먼저 낼 수 있
 ```
 설치:        make install       # 임베딩까지 쓰려면 make install-ml
 설정:        cp .env.example .env
-실행:        make start         # http://127.0.0.1:8000
-계약 테스트:  python scripts/test_http_contract.py
-워커 풀:     python scripts/test_worker_pool.py
-LLM 연기:    python scripts/smoke_llm.py    # 실제 모델에 붙는다
+실행:        make start         # 포트는 .env 의 PORT (기본 8000)
+계약 검증:    make check         # pool·errors·contract·extractor·embedding. LLM 불필요
+공고 요약:    make notice        # 픽스처 3건을 실제 LLM 으로. 없으면 SKIP
+LLM 연기:    make smoke         # 모델 목록·용량·채팅 1회
+
+임의 공고로 요약을 돌리려면(맨 `python` 은 시스템 파이썬이라 죽는다):
+
+    .venv/bin/python scripts/smoke_notice_summary.py <공고.json>
+
+사람이 읽을 실행 안내는 `README.md` 「검증 — 직접 돌리는 법」에 있다.
 ```
 
 백엔드가 요구하는 것은 하나뿐이다 — **`AI_BASE_URL`(기본 `http://localhost:8000`)에서
