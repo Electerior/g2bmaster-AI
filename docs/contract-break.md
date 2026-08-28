@@ -74,7 +74,7 @@ AI 추정만 걷는 게 아니다. **가격이라는 축 자체를 제품에서 
 ```json
 {
   "summary": "- 무엇을 사는가: ...\n- 규모·수량: ...",
-  "promptVersion": "notice-summary-2026-08-26-v2",
+  "promptVersion": "notice-summary-2026-08-28-v3",
   "llmModel": "..."
 }
 ```
@@ -148,7 +148,7 @@ AI 추정만 걷는 게 아니다. **가격이라는 축 자체를 제품에서 
 ### 배포 전에 확인할 것
 
 - **프롬프트 버전이 바뀐다.** `AiClient.promptVersion()` 이 돌려주는 값이
-  `item-summary-2026-08-04-v4` → `notice-summary-2026-08-26-v2` 가 된다.
+  `item-summary-2026-08-04-v4` → `notice-summary-2026-08-28-v3` 가 된다.
   `analysis_history.prompt_version` / `analysis_jobs.prompt_version` 재사용 키가 전부
   어긋나 **기존 분석이 자동 무효화**된다. 의도된 동작이지만 대량 재분석이 큐에 몰릴 수 있다.
 - **`margin_rate` 파급.** `V20260814132535` 로 마진율이 **색인의 축**으로 올라가 있다.
