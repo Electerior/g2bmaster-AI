@@ -1,0 +1,32 @@
+{
+  "case": "kitech_ws_9950x",
+  "bid": "R26BK01692786",
+  "title": "생산기술원 — 로봇학습용 워크스테이션 (재입찰)",
+  "ground_truth_source": "20260824_R26BK01692786_생기원_로봇학습용워크스테이션_재입찰.xlsx (최종 워크북, 선택 O 8행)",
+  "required_items": [
+    {"name_kws": ["9950X"], "qty_min": 1, "sel": "O", "desc": "CPU AMD Ryzen 9 9950X x1"},
+    {"name_kws": ["X870E"], "qty_min": 1, "sel": "O", "desc": "메인보드 X870E 칩셋 x1 (스펙에 칩셋만 지정, 모델명은 자유)"},
+    {"name_kws": ["5600", "64GB"], "qty_min": 2, "sel": "O", "desc": "메모리 DDR5-5600 CL46 64GB x2 (128GB 단일 모듈로 묶으면 규격 불일치)"},
+    {"name_kws": ["RTX PRO 6000", "96GB"], "qty_min": 1, "sel": "O", "desc": "GPU RTX PRO 6000 Blackwell 96GB workstation edition x1"},
+    {"name_kws": ["T710"], "qty_min": 1, "sel": "O", "desc": "SSD Micron T710 M.2 NVMe 4TB x1"},
+    {"name_kws": ["케이스", "E-ATX", "Big tower"], "any_of": true, "qty_min": 1, "sel": "O",
+     "desc": "케이스 E-ATX Big tower x1 (스펙에 브랜드 없음 — 정답의 CORSAIR FRAME까지 요구하면 안 됨)"},
+    {"name_kws": ["우분투", "Ubuntu", "24.04"], "any_of": true, "qty_min": 1, "sel": "O",
+     "desc": "OS 우분투 24.04 x1 (한글/영문 표기 자유, 0원 무상)"},
+    {"name_kws": ["파워", "PSU", "전원"], "any_of": true, "qty_min": 1, "sel": "O",
+     "desc": "파워 x1 — 스펙에 미기재이나 조립 필수품 + '누락·생략 시 계약사항 포함 간주' 조항 근거"}
+  ],
+  "forbidden": [
+    {"name_kws": ["5090"], "reason": "GPU 모델 불일치 (스펙: RTX PRO 6000 96GB)"},
+    {"name_kws": ["DDR4"], "reason": "메모리 세대 불일치 (스펙: DDR5-5600)"},
+    {"name_kws": ["Max-Q"], "reason": "Max-Q는 선택(O) 불가 — 스펙은 workstation edition. 대안(완화 시나리오) 행으로만 허용"}
+  ],
+  "must_mention": [
+    {"kws": ["파워", "PSU", "전원"], "reason": "파워가 스펙에 없으나 조립 필수품임을 명시해야 함 (예외 해석 검증)"},
+    {"kws": ["workstation", "워크스테이션"], "reason": "GPU는 workstation edition 명시 (Passive/Active 구분의 핵심)"}
+  ],
+  "should_mention": [
+    {"kws": ["CL46"], "reason": "메모리 타이밍 CL46"},
+    {"kws": ["128GB"], "reason": "메모리 총 128GB"}
+  ]
+}

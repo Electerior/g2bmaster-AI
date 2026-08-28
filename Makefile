@@ -42,6 +42,36 @@ embedding:
 errors:
 	$(PY) scripts/test_errors.py
 
+# ── bidpipe (조달 공고 마진 분석 파이프라인, 2026-08-25 Electerior 로부터 이전) ──
+# 결정론적 코어: LLM 불필요. AGENTS.md 15규칙 + 8스킬 + 가격 DB 를 bidpipe/ 에 둔다.
+
+# 가격 DB 조회로 경로 재배선·데이터 무결성 검증 (367+ 상품)
+bidpipe-check:
+	BIDPIPE_ROOT=$(CURDIR)/bidpipe $(PY) bidpipe/.agents/scripts/price_lookup.py --help
+	@BIDPIPE_ROOT=$(CURDIR)/bidpipe $(PY) -c "import sys; sys.path.insert(0,'bidpipe/.agents/scripts'); import price_schema as ps; print('price DB ok:', len(ps.load_products()), 'products')"
+
+# 기존 산출물 품질 감사 (audit_prices.py) — bidpipe/out/<날짜> 폴더 대상
+bidpipe-audit:
+	$(PY) bidpipe/.agents/scripts/audit_prices.py $(OUT)
+
+# 워크북 생성 (입력: /tmp/batch*.json) — 산출물은 bidpipe/out/<오늘> 로
+bidpipe-gen:
+	GEN_OUTDIR=$(CURDIR)/bidpipe/out/$(shell date +%Y%m%d) $(PY) bidpipe/.agents/scripts/gen_analysis.py $(IN)
+
+# HWP 첨부 추출 (SPECDIR + [공고번호...])
+bidpipe-extract:
+	$(PY) bidpipe/.agents/scripts/extract_specs.py $(SPEC) $(KB)
+
+# 이전 충실성 회귀: 동일 batch JSON을 소스 vs bidpipe 코드로 각각 생성 → 셀+exit 전수 대조.
+# 소스 워크스페이스(~/Documents/Elect*)가 없으면 SKIP — 다른 머신에서도 make check 가 깨지지 않는다.
+bidpipe-fidelity:
+	$(PY) bidpipe/tests/test_migration_fidelity.py
+
+# 규격해석 품질 회귀: 고정 fixture(3케이스)를 LLM에 해석시켜 최종 워크북 정답과 대조.
+# LLM 미도달이면 SKIP. CASE=<이름> 로 하나만.
+bidpipe-fixture:
+	$(PY) bidpipe/tests/fixture_quality.py $(CASE)
+
 contract:
 	$(PY) scripts/test_http_contract.py
 
