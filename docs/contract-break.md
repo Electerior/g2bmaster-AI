@@ -123,10 +123,27 @@ AI 추정만 걷는 게 아니다. **가격이라는 축 자체를 제품에서 
 
 | # | 대상 | 비고 |
 |---|---|---|
-| 5 | `pricing/` 패키지 전체 | `PriceCatalogController`·`PriceCatalogService`·`PriceCatalogRepository`·`PriceCatalogRequests`·`MarketPriceService`·`UnitCostValidator`·`DealAnalysisService`·`DealAnalysisRepository` |
+| 5 | `pricing/` 패키지 **9개 전부** | `PriceCatalogController`·`PriceCatalogService`·`PriceCatalogRepository`·`PriceCatalogRequests`·`MarketPriceService`·`UnitCostValidator`·`DealAnalysisService`·`DealAnalysisRepository`·**`DealCalculator`** |
 | 6 | `market/MarketIntelController.java` | 가격 갈래만 — `/deal-analysis`, `/deal-analysis/backfill`, `/prebuilt-comparables` |
 | 7 | HTTP 경로 | `/api/price-catalog` 및 하위 `/{id}`·`/history`·`/ingest` |
-| 8 | `src/test` | `*Price*`·`*Deal*`·`*Market*` 테스트 정리 |
+| 8 | 테스트 9개 | 아래 표 |
+
+> **`DealCalculator` 는 마지막에 지운다.** `MarketIntelController`·`DealAnalysisService`·
+> `UnitCostValidator` 세 곳이 쓴다. 먼저 지우면 컴파일이 세 군데서 깨진다.
+
+> **`market/MarketIntelService.java` 와 `MarketIntelRequests.java` 는 건드리지 마라.**
+> 가격 참조가 **0건**이다(확인함). `market/` 에서 걷을 것은 컨트롤러의 세 경로뿐이다.
+
+**같이 정리할 테스트** (`src/test/java/com/electerior/g2bmaster/`)
+
+| 파일 | 왜 |
+|---|---|
+| `pricing/PriceCatalogServiceTest` · `PriceCatalogRepositoryTest` | 대상 클래스가 사라진다 |
+| `pricing/DealAnalysisServiceTest` · `DealCalculatorTest` | 〃 |
+| `pricing/MarketPriceServiceTest` · `UnitCostValidatorTest` · `AwardKeywordTest` | 〃 |
+| `market/MarketIntelControllerTest` | 가격 경로 3개를 거는 케이스만 제거 |
+| `config/OpenApiDocumentTest` | 경로 목록 스냅샷이라 경로를 지우면 깨진다 |
+| `index/BidNoticeMarginSqlTest` · `BidNoticeAmountTest` | 마진·금액 축을 건다 — 아래 `margin_rate` 항목과 함께 판단 |
 
 > **6번 주의.** `MarketIntelController` 의 `/bid-opening-results`·`/collusion-analysis`·
 > `/company-history`·`/officer-search` 는 가격이 아니다. **남긴다.**
@@ -174,17 +191,20 @@ AI 추정만 걷는 게 아니다. **가격이라는 축 자체를 제품에서 
 
 | 위치 | 할 일 |
 |---|---|
-| `src/routes/routePaths.ts` · `router.tsx` | 단가DB·딜레이더 경로와 네비 항목 제거 — 경로만 지우고 화면을 남기면 죽은 코드가 된다 |
+| `src/routes/routePaths.ts:17,20,96,98,105` | `dealRadar`·`priceDb` 경로 상수와 네비 항목 3곳 |
+| `src/routes/router.tsx:12,18,57,61-62` | 두 화면의 import 와 `<Route>` 등록 |
+| `src/domain/columns.ts:96,99,115,256,275-276` | **화면 종류 정의 자체.** `'deal-radar'`·`'price-db'` 가 유니온 타입과 `SCREENS` 맵에 박혀 있다. 여기를 안 지우면 라우트를 지워도 타입에 유령이 남는다 |
+| `src/api/analysis.ts:331` | `'deal-radar'` 분기 — 프롬프트를 바꾸고 품목 분해 필드를 붙이는 갈래 |
 | `src/api/analysis.ts:309,389` | `bidSummary()`·`itemSummary()` 를 단일 요약 경로로 통합. 응답 타입을 `{summary, promptVersion, llmModel}` 로 좁힌다 |
 | `src/api/analysis.ts:553` | `prebuiltComparables()` 삭제 |
 | `src/api/analysis.ts:27,60,96,104,111,115,117,170,180` | `unitCost`·`estimatedUnitCost`·`prebuilt`·`priceSource` 타입 삭제 |
 | `src/api/config.ts:28-38` | `MaskedAiConfig` 에서 `searchProvider`·`searchUrl`·`searchPlatforms`·`pricePrompt`·`searchKey`·`searchKeySet` 제거 |
 | `src/api/config.ts:41-48` | `AiConfigResponse.status.search` 제거 |
 | `src/api/config.ts:54-71` | `AiConfigUpdate`·`updateAiConfig()` — 쓰기 경로가 없어졌다 (§3-10) |
-| `src/api/index.ts` | `export * from './price'` 제거 |
+| `src/api/index.ts` | `export * from './price'` **와** `export * from './pricing'` **둘 다** 제거 (7·8번째 줄) |
 | `src/features/notices/drawer/IndexNoticeDrawer.tsx` (+ `.test.tsx:46,174`) | 가격 패널 연결 해제 |
-| `src/features/notices/IndexCell.tsx` · `indexRows.ts` | 가격·마진 컬럼 정리 |
-| `src/domain/columns.ts` · `storage.ts` | 저장된 컬럼 설정에서 가격 컬럼 제거 — 남기면 옛 설정이 살아 있는 사용자 화면이 깨진다 |
+| `src/features/notices/IndexCell.tsx` · `indexRows.ts` | 가격·마진 컬럼 렌더링 정리 |
+| `src/domain/storage.ts` | 저장된 컬럼 설정에서 가격 컬럼 제거 — 남기면 옛 설정이 살아 있는 사용자 화면이 깨진다 |
 | `src/api/analysis.test.ts` · `routes/NoticeSearchScreen.test.tsx` | 가격 픽스처 제거 |
 | `src/features/beta/landing.config.ts` · `components/ProductMock.tsx` | 가격 기능을 광고하는 문구가 있으면 함께 내린다 |
 
