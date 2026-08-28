@@ -1,15 +1,20 @@
 """g2bmaster-AI — 추론 계층 HTTP 표면.
 
-백엔드(`integration/ai/AiClient`)가 부르는 11개 경로를 그대로 연다.
+백엔드(`integration/ai/AiClient`)가 부르는 경로를 연다.
 계약 전문: `g2bmaster-backend/docs/ai-boundary.md`.
 
 **아직 옮기지 않은 경로는 501 `NOT_PORTED` 로 정직하게 응답한다.**
-"�곧 됩니다"를 200 으로 위장하면 폴백 결과가 캐시에 � 눌러앉아 영원히 재분석되지 않는다
+"곧 됩니다"를 200 으로 위장하면 폴백 결과가 캐시에 눌러앉아 영원히 재분석되지 않는다
 (ai-boundary.md §6.3). 무엇이 되고 무엇이 안 되는지는 `PORTING_STATUS.md` 에 적는다.
 
 **실패는 전부 `app/errors.py` 한 곳으로 모인다.** 예전에는 경로마다 본문 모양이 달라
 (`{code,error,reason}` · `{error,path}` · `{error}` · `{detail:[...]}`) 백엔드가
-하나의 파서로 읽을 수 없었다. 라우트는 `AiFailure` � 를 올리기만 하고 조립은 � 핸들러가 한다.
+하나의 파서로 읽을 수 없었다. 라우트는 `AiFailure` 를 올리기만 하고 조립은 핸들러가 한다.
+
+**가격 표면은 폐기했다(2026-08-26).** `/api/price/resolve`·`/api/price/url`·
+`/api/estimate-unit-cost`·`/api/prebuilt-comparables` 와 그 뒤의 스크래퍼·LLM 원가추정
+13개 모듈을 전부 걷어냈다. 대신 `/api/notice-summary` 하나가 `item-summary` 와
+`bid-summary` 를 대체한다.
 """
 
 from __future__ import annotations
@@ -26,28 +31,24 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from .config import PORT, SERVICE_SECRET, get_ai_config, llm_headers, mask_config
 from .embedding import EmbeddingUnavailable, embed_texts, status as embedding_status
 from .errors import AiFailure, resolve_request_id, to_body
-from .price import resolve as resolve_price, resolve_by_url as resolve_price_by_url
-from .estimate import estimate_unit_cost
-from .prebuilt import find_prebuilt_comparables
 from .llm.client import available_models, host, llm_status
 from .llm.worker_pool import get_llm_worker_pool
-from .prompts import ITEM_SUMMARY_PROMPT_VERSION, PROMPT_VERSIONS
-from .handlers.item_summary_handler import handle_item_summary
-from .handlers.bid_summary_handler import handle_bid_summary
+from .prompts import NOTICE_SUMMARY_PROMPT_VERSION, PROMPT_VERSIONS
+from .handlers.notice_summary_handler import handle_notice_summary
 
 logger = logging.getLogger("g2bmaster-ai")
 
 app = FastAPI(
     title="G2B Masters AI",
-    description="나라장터 입찰정보의 추론 계층 — LLM 분석·임베딩·법령 검토·가격 � 웹검색",
-    version="0.1.0",
+    description="나라장터 입찰정보의 추론 계층 — 공고 요약·임베딩",
+    version="0.2.0",
 )
 
 OPEN_PATHS = {"/health", "/healthz", "/docs", "/openapi.json", "/redoc"}
 
 
 def not_ported(request: Request, payload: object, path: str, reason: str, blocked_by: str = "") -> None:
-    """아직 이식하지 않은 경로. 요청 ID � 를 본문에서 건져 두고 분류된 실패를 올린다."""
+    """아직 이식하지 않은 경로. 요청 ID 를 본문에서 건져 두고 분류된 실패를 올린다."""
     request.state.request_id = resolve_request_id(request, payload)
     raise AiFailure("NOT_PORTED", detail=path, reason=reason, blockedBy=blocked_by)
 
@@ -70,7 +71,7 @@ async def ai_failure_handler(request: Request, exc: AiFailure) -> JSONResponse:
 
 @app.exception_handler(RequestValidationError)
 async def validation_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
-    """FastAPI 기본 422 `{detail:[...]}` � 를 덮는다.
+    """FastAPI 기본 422 `{detail:[...]}` 를 덮는다.
 
     이걸 안 걸면 본문 오타가 `code` 도 `retryable` 도 없는 모양으로 나가고 백엔드는 분류에
     실패한다. 호출자 쪽 문제라 재시도해도 결과가 같다 — `retryable=false` 여야 한다.
@@ -80,7 +81,7 @@ async def validation_handler(request: Request, exc: RequestValidationError) -> J
 
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_handler(request: Request, exc: StarletteHTTPException) -> JSONResponse:
-    """우리가 소유하지 않는 경로(404) 등. 4xx � 는 호출자 문제이므로 재시도 대상이 아니다."""
+    """우리가 소유하지 않는 경로(404) 등. 4xx 는 호출자 문제이므로 재시도 대상이 아니다."""
     code = "BAD_REQUEST" if exc.status_code < 500 else "INTERNAL"
     return _fail(request, AiFailure(code, detail=f"{request.method} {request.url.path}"))
 
@@ -94,7 +95,7 @@ async def unhandled_handler(request: Request, exc: Exception) -> JSONResponse:
 async def service_secret_guard(request: Request, call_next):
     """AI_SERVICE_SECRET(또는 원본과 같은 INTERNAL_SECRET)을 설정하면 백엔드만 호출할 수 있다.
 
-    요청 ID 도 여기서 먼저 잡는다 — 라우트가 본문에서 더 나은 값을 찾으면 덮어�쓴다.
+    요청 ID 도 여기서 먼저 잡는다 — 라우트가 본문에서 더 나은 값을 찾으면 덮어쓴다.
     """
     request.state.request_id = request.headers.get("x-request-id") or str(uuid.uuid4())
 
@@ -137,19 +138,18 @@ async def health():
 
 @app.get("/api/ai/config")
 async def ai_config():
-    """현재 설정(키는 마스�킹). 원본 UI 설정 화면이 쓰던 것과 같은 모양이다."""
+    """현재 설정(키는 마스킹). 원본 UI 설정 화면이 쓰던 것과 같은 모양이다."""
     return mask_config(get_ai_config())
 
 
 @app.get("/api/ai/prompt-version")
 async def prompt_version():
-    """분석 재사용 키에 들어가는 프�롬프트 버전. 백엔드가 하드코딩하지 않고 여기서 읽어 간다.
+    """분석 재사용 키에 들어가는 프롬프트 버전. 백엔드가 하드코딩하지 않고 여기서 읽어 간다.
 
-    `versions` � 를 함께 � 낸다 — 프�롬프트가 **엔드포인트 × 문서종류**로 갈리므로 문자열 하나로는
-    표현되지 않는다(`decisions.md F-3`). 기존 `promptVersion` 은 그대로 두므로
-    `AiClient.promptVersion()`(그 키만 읽는다)은 영향받지 않는다.
+    `versions` 를 함께 낸다 — 엔드포인트가 늘면 문자열 하나로는 표현되지 않는다.
+    기존 `promptVersion` 키는 그대로 두므로 `AiClient.promptVersion()` 은 영향받지 않는다.
     """
-    return {"promptVersion": ITEM_SUMMARY_PROMPT_VERSION, "versions": PROMPT_VERSIONS}
+    return {"promptVersion": NOTICE_SUMMARY_PROMPT_VERSION, "versions": PROMPT_VERSIONS}
 
 
 @app.get("/api/ai/capacity")
@@ -182,7 +182,7 @@ async def llm_models():
 
 @app.post("/api/embed")
 async def embed(request: Request, payload: dict):
-    """�텍스트 임베딩. 유사도 계산은 백엔드가 한다."""
+    """텍스트 임베딩. 유사도 계산은 백엔드가 한다."""
     request.state.request_id = resolve_request_id(request, payload)
     texts = payload.get("texts")
     texts = [str(text) for text in texts] if isinstance(texts, list) else []
@@ -192,24 +192,25 @@ async def embed(request: Request, payload: dict):
         raise AiFailure("EMBEDDING_UNAVAILABLE", detail=str(error)) from error
 
 
-@app.post("/api/item-summary")
-async def item_summary(request: Request, payload: dict):
+# ── 요약 ─────────────────────────────────────────────────────────────────────
+@app.post("/api/notice-summary")
+async def notice_summary(request: Request, payload: dict):
+    """공고 1건 → 요약 1건. `item-summary`·`bid-summary` 를 대체한다.
+
+    실패는 200 으로 포장하지 않는다 — 200 폴백은 백엔드 컨트롤러가 만든다.
+    """
     request.state.request_id = resolve_request_id(request, payload)
-    return await handle_item_summary(request, payload)
+    return await handle_notice_summary(request, payload)
 
 
-
-@app.post("/api/bid-summary")
-async def bid_summary(request: Request, payload: dict):
-    request.state.request_id = resolve_request_id(request, payload)
-    return await handle_bid_summary(request, payload)
+# ── 미이식 ───────────────────────────────────────────────────────────────────
 @app.post("/api/legal/review-clauses")
 async def review_clauses(request: Request, payload: dict):
     not_ported(
         request,
         payload,
         "/api/legal/review-clauses",
-        "원본 lib/legal-review.js + lib/law-mcp.js 이식 예정. korean-law-mcp � 는 이 저장소에 들어와 있다.",
+        "원본 lib/legal-review.js + lib/law-mcp.js 이식 예정. korean-law-mcp 는 이 저장소에 들어와 있다.",
     )
 
 
@@ -226,42 +227,3 @@ async def pledge_revision(request: Request, payload: dict):
         "/api/pledge/revision-workflow",
         "원본 lib/pledge-workflow.js + lib/pledge-revision.js 이식 예정.",
     )
-
-
-@app.post("/api/price/resolve")
-async def price_resolve(request: Request, payload: dict):
-    """품목명 → 가격 후보(다나와·에누리·아이티마야 동시 조회). 검증·선택은 백엔드 소유(§4).
-
-    한 소스가 실패하고 다른 소스가 성공하면 degraded:true + degradedReasons 로 보고한다.
-    켜진 소스는 config.PRICE_SOURCES 로 정한다.
-    """
-    request.state.request_id = resolve_request_id(request, payload)
-    return await resolve_price(payload)
-
-
-@app.post("/api/price/url")
-async def price_url(request: Request, payload: dict):
-    """상품 URL 하나 → 가격. 다나와 pcode·에누리 modelno 만 화이트리스트, 그 밖은 UNSUPPORTED_SOURCE(§4.5)."""
-    request.state.request_id = resolve_request_id(request, payload)
-    return await resolve_price_by_url(payload)
-
-
-@app.post("/api/estimate-unit-cost")
-async def estimate_cost(request: Request, payload: dict):
-    """규격서 텍스트 → 부품 추출(LLM) → 부품별 가격(다나와) → 원가 추정.
-
-    deal-analysis 의 estimatedUnitCost 갈래(백엔드가 호출). 계약: decisions.md D-P1.
-    못 찾으면 에러가 아니라 {matched:false, reason} 200 이다 — 규격서에 부품이 없을 수 있다.
-    """
-    request.state.request_id = resolve_request_id(request, payload)
-    return await estimate_unit_cost(payload)
-
-
-@app.post("/api/prebuilt-comparables")
-async def prebuilt_comparables(request: Request, payload: dict):
-    """번들이 완제품인지 부품 조달인지 판정하고, 완제품이면 유사 완제품(다나와)을 찾는다.
-
-    부품 단가 추정과 반대 방향이다 — 완제품 PC 만 남긴다. 계약: docs/api-contract §F.
-    """
-    request.state.request_id = resolve_request_id(request, payload)
-    return await find_prebuilt_comparables(payload)

@@ -5,25 +5,41 @@
 "곧 됩니다"는 쓰지 않고, 되는 것과 안 되는 것만 적는다.
 
 기준 원본: `g2bmastersopen@d2fa9ada` (2026-08-05, `server.js` 5363줄 / `lib/` 52개 모듈).
-마지막 갱신: 2026-08-07
+마지막 갱신: 2026-08-26
 
 ---
 
 ## 요약
+
+**2026-08-26 — 가격 표면을 폐기하고 요약을 하나로 합쳤다.**
 
 | 엔드포인트 | 상태 |
 |---|---|
 | `GET /api/ai/prompt-version` | ✅ 완료 |
 | `GET /api/ai/capacity` | ✅ 완료 |
 | `GET /api/llm/models` | ✅ 완료 |
+| `GET /api/ai/config` | ✅ 완료 (계약 밖 — 백엔드는 부르지 않는다) |
 | `POST /api/embed` | ✅ 완료 (ML 스택 미설치 시 503 `EMBEDDING_UNAVAILABLE`) |
-| `POST /api/item-summary` | ❌ 501 `NOT_PORTED` (백엔드 첨부 파싱 대기) |
-| `POST /api/bid-summary` | ❌ 501 `NOT_PORTED` |
+| **`POST /api/notice-summary`** | ✅ **완료 — 실측 확인.** `item-summary`·`bid-summary` 를 대체한다 |
 | `POST /api/legal/review-clauses` | ❌ 501 `NOT_PORTED` |
 | `POST /api/legal/outreach-draft` | ❌ 501 `NOT_PORTED` |
 | `POST /api/pledge/revision-workflow` | ❌ 501 `NOT_PORTED` |
-| `POST /api/price/resolve` | ✅ 완료 — 다나와 실시간 조회로 `quotes[]` (실동작 확인) |
-| `POST /api/price/url` | ✅ 완료 — 다나와 상품 URL 화이트리스트(§4.5a) |
+
+### 폐기한 것 (2026-08-26)
+
+| 폐기 대상 | 사유 |
+|---|---|
+| `POST /api/price/resolve` · `/api/price/url` · `/api/estimate-unit-cost` · `/api/prebuilt-comparables` | AI 가격 탐색·원가추정 폐기 |
+| `app/` 13모듈 약 3,100줄 (`price` `pricecommon` `enuri` `itmaya` `estimate` `prebuilt` `part_resolver` `product_index` `discover` `hardware_kb` `wiki` `browser_fetch` `spec_parser`) | 위 표면의 구현체. `spec_parser` 는 애초에 importer 가 없는 고아였다 |
+| `POST /api/item-summary` · `/api/bid-summary` | `notice-summary` 하나로 합쳤다 |
+| 실패코드 `PRICE_SOURCE_BROKEN` · `UNSUPPORTED_SOURCE` | 대상 표면이 사라졌다 |
+| 설정 `searchProvider` `searchUrl` `searchKey` `searchPlatforms` `pricePrompt` `priceSources` | 〃 |
+| `set_ai_config()` | 호출자가 0이었다 (`data/ai-config.json` 의 유일한 writer) |
+| `docs/price-search.md` · `docs/backend-price-api.md` | 설계 문서 |
+
+**백엔드·프론트에 아직 반영되지 않았다.** `AiClient` 는 여전히 `itemSummary`·`resolvePrice`
+등을 들고 있고, 프론트는 존재하지 않는 `/api/bid-summary` 를 부른다. 두 저장소가 무엇을
+철거해야 하는지는 **`docs/contract-break.md`** 에 적었다.
 
 **미구현은 200 이 아니라 501 로 응답한다.** `AiClient.itemSummary` 는 `aiFallback` 응답을
 성공으로 치지 않는데(ai-boundary.md §6.3), 미구현을 폴백처럼 200 으로 위장하면 그 결과가
@@ -86,39 +102,34 @@ smoke_llm: SKIP — LLM 400: Failed to load model "qwen/qwen3.6-35b-a3b". Error:
 무거운 ML 스택은 `requirements-ml.txt` 로 분리했다. 없으면 서비스는 정상으로 뜨고
 임베딩 경로만 503 을 준다 — 임베딩 하나 때문에 나머지가 막히면 안 된다.
 
----
+### `POST /api/notice-summary` (2026-08-26)
 
-## ❌ 미착수
+`app/handlers/notice_summary_handler.py`. 원본 4스텝(clamp → facts → summary → items)을
+**LLM 호출 한 번**으로 줄였다 — 가격 추정과 품목 추출을 폐기했으므로 그 단계가 존재할 이유가 없다.
 
-### `POST /api/item-summary` · `POST /api/bid-summary` — LLM 분석 로직 미착수
-
-두 핸들러(`app/handlers/*_handler.py`)는 `501 NOT_PORTED` 를 올리는 자리표시자다.
-프롬프트와 LLM 호출을 옮기면 그 자리에 들어간다.
+실측: 픽스처 3건 전부 200. LM Studio 를 끄면 `503 LLM_UNAVAILABLE` +
+`retryable:true`. 회차 기록은 `docs/summary-eval.md`.
 
 > **한때 이 둘은 200 을 돌려주고 있었다.** payload 에 이름만 있으면
 > `"…요약이 완료되었습니다"` 라는 지어낸 문장을 `aiFallback=false` 로 실어 보냈다.
 > `AiClient` 는 `aiDisabled`/`aiFallback` 만 걸러내므로 그것을 **성공으로 판정**하고,
 > `AnalysisJobRunner` 가 `analysis_history` 에 적재한 뒤 작업을 완료 처리한다 —
-> 재사용 키(입력해시 + 프롬프트버전)가 같으므로 그 행은 영원히 재분석되지 않는다.
-> 이 문서 위쪽에 적어 둔 바로 그 사고다.
+> 재사용 키가 같으므로 그 행은 영원히 재분석되지 않는다.
 >
-> 도달 조건이 `get_ai_config().get("enabled", False)` 였는데 **설정에 `enabled` 키 자체가
-> 없어서**(`FIELDS` 에도 `env_defaults()` 에도 없다) 늘 거짓이었다 — 즉 두 표면은 실제로는
-> 항상 `aiDisabled=true` 를 냈고, 가짜 성공 분기는 그 키를 추가하는 순간 터질 지뢰였다.
-> `AI 활성 여부는 백엔드 소유`(`g2b.ai.enabled`)이고 백엔드는 꺼져 있으면 호출조차 하지
-> 않으므로, 이 서비스에 그 개념을 두지 않는 쪽으로 정리했다.
->
-> `scripts/test_http_contract.py` 가 이제 이 둘에 대해 **본문이 비어 있는지**를 확인한다.
-> 실제 분석을 이식할 때 그 블록을 200 검증으로 바꾼다.
+> `scripts/test_http_contract.py` 가 이제 그 반대를 건다: **LLM 이 닿지 않는 상태에서
+> `/api/notice-summary` 가 200 을 내면 실패**다.
 
-### 나머지 5개
+---
+
+## ❌ 미착수
+
+### 나머지 3개
 
 | 엔드포인트 | 옮겨올 원본 | 규모 |
 |---|---|---|
 | `legal/review-clauses` | `lib/legal-review.js` + `lib/law-mcp.js` | 520줄 |
 | `legal/outreach-draft` | `lib/legal-review.js` | (위와 공유) |
 | `pledge/revision-workflow` | `lib/pledge-workflow.js` + `lib/pledge-revision.js` | 255줄 |
-| `price/resolve` · `price/url` | `price-web.js` | 671줄 |
 
 LLM 호출 계층이 준비됐으므로 이들은 프롬프트와 후처리 이식만 남았다.
 `korean-law-mcp` 는 이미 이 저장소에 들어와 있어 법령 검토는 MCP 연결만 붙이면 된다.

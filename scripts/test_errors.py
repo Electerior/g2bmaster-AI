@@ -28,7 +28,10 @@ sys.path.insert(0, str(ROOT))
 os.environ.pop("AI_SERVICE_SECRET", None)
 os.environ.pop("INTERNAL_SECRET", None)
 os.environ["LMS_BASE"] = "http://127.0.0.1:9"
-os.environ.pop("LLM_WORKERS", None)
+# LLM_WORKERS 는 pop 하면 안 된다 — app/config.py 의 load_dotenv() 가 그 직후 .env 에서
+# 되살려 놓는다(dotenv 는 "이미 있는" 키만 덮지 않는다). 실제로 이 구멍 때문에 계약
+# 테스트가 개발 PC 의 LM Studio 에 붙어 요약을 진짜로 생성한 적이 있다. 닫힌 주소로 덮는다.
+os.environ["LLM_WORKERS"] = "http://127.0.0.1:9@1"
 os.environ["ATTACHMENT_CACHE_DIR"] = os.path.join(str(ROOT), ".pytest_cache", "errors")
 
 from fastapi.testclient import TestClient  # noqa: E402
@@ -36,7 +39,7 @@ from fastapi.testclient import TestClient  # noqa: E402
 from app import errors  # noqa: E402
 from app.errors import FAILURES, AiFailure, resolve_request_id, to_body  # noqa: E402
 from app.main import app  # noqa: E402
-from app.prompts import ITEM_SUMMARY_PROMPT_VERSION, PROMPT_VERSIONS  # noqa: E402
+from app.prompts import NOTICE_SUMMARY_PROMPT_VERSION, PROMPT_VERSIONS  # noqa: E402
 
 failures: list[str] = []
 
@@ -193,11 +196,11 @@ check(bool(client.post("/__test_raises__", json={}).json().get("requestId")), "�
 
 # 헤더와 본문에 서로 다른 요청 ID 가 동시에 온 경우. test_http_contract.py 는 둘을 따로만 보내서
 # 이 갈림을 못 본다 — 라우트는 본문 값을 골랐는데 응답 조립이 헤더 값으로 되돌리는 사고가 여기서 난다.
-collide = client.post("/api/bid-summary", json={"requestId": "rid-body"}, headers={"X-Request-Id": "rid-header"})
+collide = client.post("/api/notice-summary", json={"requestId": "rid-body"}, headers={"X-Request-Id": "rid-header"})
 check(collide.json().get("requestId") == "rid-body", "헤더와 본문이 다르면 본문이 이겨야 합니다.")
 
 # 본문 자체가 없는 경우. FastAPI 기본 422 `{detail:[...]}` 를 덮지 못하면 code 도 error 도 없다.
-shape(client.post("/api/bid-summary"), "BAD_REQUEST", 400, "본문 없음")
+shape(client.post("/api/notice-summary"), "BAD_REQUEST", 400, "본문 없음")
 
 # 메서드 불일치(405). status 는 400 으로 뭉개지지만 백엔드는 code 로 판단한다
 # — `docs/failure-modes.md §1`. 분류가 사라지지 않는 것이 요점이다.
@@ -223,7 +226,7 @@ main_module.SERVICE_SECRET = ""
 
 
 # ── 6. 프롬프트 버전 맵 ──────────────────────────────────────────────────────
-check(PROMPT_VERSIONS.get("item-summary") == ITEM_SUMMARY_PROMPT_VERSION, "맵과 단일 값이 갈리면 캐시가 갈립니다.")
+check(PROMPT_VERSIONS.get("notice-summary") == NOTICE_SUMMARY_PROMPT_VERSION, "맵과 단일 값이 갈리면 캐시가 갈립니다.")
 for key, value in PROMPT_VERSIONS.items():
     # 빈 문자열을 채우면 백엔드가 그것을 재사용 키에 넣고, 서로 다른 상태가 한 키로 묶인다.
     check(bool(key) and isinstance(value, str) and bool(value), f"프롬프트 버전 {key!r} 가 비어 있습니다.")

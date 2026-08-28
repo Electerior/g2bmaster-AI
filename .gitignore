@@ -17,6 +17,7 @@ data/
 # 분석 산출물. 입력 워크북(test/*.xlsx)은 커밋하지만 실행 결과는 커밋하지 않는다 —
 # 실행할 때마다 바뀌고, 실공고 데이터가 들어 있다. 측정값은 docs/opportunity-eval.md 에 남긴다.
 test/out/
+.env.bak*
 
 # bidpipe: 실행 산출물(날짜 폴더)·캐시는 커밋하지 않는다.
 bidpipe/out/

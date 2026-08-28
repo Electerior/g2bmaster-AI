@@ -1,7 +1,7 @@
 PY ?= .venv/bin/python
 PIP ?= .venv/bin/pip
 
-.PHONY: venv install install-ml dev start module-server check pool contract errors extractor embedding smoke clean
+.PHONY: venv install install-ml dev start module-server check pool contract errors extractor embedding smoke notice clean
 
 venv:
 	python3 -m venv .venv
@@ -78,6 +78,11 @@ contract:
 # 실제 LLM 서버 연동 확인. 서버가 없으면 SKIP 한다.
 smoke:
 	$(PY) scripts/smoke_llm.py
+
+# 공고 요약을 실제 LLM 으로 돌려 본다. 픽스처 3건이 기본이고, 인자로 공고 JSON 을 줄 수 있다.
+# check 에 넣지 않는다 — LLM 이 필요해서 환경에 흔들린다.
+notice:
+	$(PY) scripts/smoke_notice_summary.py
 
 clean:
 	find . -name __pycache__ -type d -prune -exec rm -rf {} +

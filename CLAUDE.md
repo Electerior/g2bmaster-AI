@@ -20,8 +20,8 @@
 
 충돌하면 위쪽이 이긴다. 단 §6의 미확인 항목은 어느 것도 이기지 못한다 — 검증이 먼저다.
 
-`Principles.md §5.1`은 `item-summary`를 6단계로 적고 있는데 이는 **모놀리스 기준이라 낡았다**.
-§3을 따른다.
+`Principles.md §5.1` 의 `item-summary` 6단계와 `ai-boundary.md` §5 의 11개 표면은
+**둘 다 낡았다**. 현재 표면은 §3, 계약 파기 내역은 `docs/contract-break.md`.
 
 ---
 
@@ -57,21 +57,24 @@
 
 ## 3. 우리가 소유하는 표면
 
-`ai-boundary.md` §5의 11개.
+2026-08-26 에 가격 표면을 폐기하고 요약을 하나로 합쳤다.
+끊어진 계약과 프론트·백 철거 지시는 **`docs/contract-break.md`** 에 있다.
 
 | 메서드 | 경로 | 비고 |
 |---|---|---|
-| POST | `/api/item-summary` | 4스텝: clamp → facts → summary → items (+legal) |
-| POST | `/api/bid-summary` | 영업 요약. item-summary와 프롬프트가 다름 |
-| POST | `/api/legal/review-clauses` | law MCP |
-| POST | `/api/legal/outreach-draft` | 콜드메일 초안 |
-| POST | `/api/pledge/revision-workflow` | 태그 없으면 첨부 접근 전 `400 TAG_MISSING` |
-| POST | `/api/price/resolve` | `queryRelaxed` 필수 보고 |
-| POST | `/api/price/url` | |
+| POST | `/api/notice-summary` | 공고 요약. LLM 호출 1회. `item-summary`·`bid-summary` 를 대체 |
 | POST | `/api/embed` | `{model, embeddingVersion, dim, vectors[]}` |
-| GET | `/api/ai/prompt-version` | 자동 파생값 |
+| GET | `/api/ai/prompt-version` | `{promptVersion, versions{}}` |
 | GET | `/api/ai/capacity` | 백엔드 ETA 계산용 |
 | GET | `/api/llm/models` | 시스템 화면용 |
+| GET | `/api/ai/config` | 설정 조회 — **읽기 전용** |
+| POST | `/api/legal/review-clauses` | `501 NOT_PORTED` |
+| POST | `/api/legal/outreach-draft` | `501 NOT_PORTED` |
+| POST | `/api/pledge/revision-workflow` | `501 NOT_PORTED` |
+
+**폐기(2026-08-26).** `/api/item-summary` · `/api/bid-summary` ·
+`/api/price/resolve` · `/api/price/url` · `/api/estimate-unit-cost` ·
+`/api/prebuilt-comparables`. 가격은 제품에서 뺐다 — AI 추정이든 단가 DB 든 다시 만들지 않는다.
 
 별도 프로세스: `module_a/`, `module_b/`, `korean-law-mcp` (Python). 백엔드가 직접 프록시한다.
 
@@ -99,9 +102,11 @@
 
 ```
 app/
-  main.py         HTTP 표면 11개. 라우트 = 얇은 어댑터, 로직 없음
-  config.py       설정. data/ai-config.json > 환경변수 > 기본값 (원본과 같은 우선순위)
-  prompts.py      프롬프트 버전. 재사용 키의 일부다
+  main.py         HTTP 표면. 라우트 = 얇은 어댑터, 로직 없음
+  config.py       설정. data/ai-config.json > 환경변수 > 기본값. **읽기 전용**
+  prompts.py      프롬프트 본문과 버전. 버전은 재사용 키의 일부다
+  errors.py       실패 분류 한 곳. 라우트는 AiFailure 만 올린다
+  handlers/notice_summary_handler.py   공고 요약
   embedding.py    POST /api/embed
   llm/client.py   LM Studio·OpenAI 호환 클라이언트. 원본 lib/lms.js
   llm/worker_pool.py  다중 엔드포인트 분배·쿨다운·페일오버. 원본 lib/llm-worker-pool.js
@@ -112,10 +117,8 @@ scripts/          test_http_contract.py · test_worker_pool.py · smoke_llm.py
 ```
 
 진척은 `PORTING_STATUS.md` 가 유일한 출처다. "곧 됩니다"는 쓰지 않는다.
-현재: `prompt-version`·`capacity`·`models`·`embed` 완료, 나머지 7개는 `501 NOT_PORTED`.
-
-남은 순서: **bid-summary** → **item-summary**(백엔드 첨부 파싱 대기) →
-**price** → **legal·pledge**.
+현재: `notice-summary`·`prompt-version`·`capacity`·`models`·`embed`·`config` 완료.
+남은 것은 `legal/review-clauses` · `legal/outreach-draft` · `pledge/revision-workflow` 3개다.
 
 각 표면의 DoD: `scripts/test_http_contract.py` 통과 + `PORTING_STATUS.md` 갱신 +
 실패 응답이 `docs/failure-modes.md` 의 모양을 지킬 것.
@@ -148,10 +151,16 @@ M0 은 이 중 어느 것에도 의존하지 않기 때문에 먼저 낼 수 있
 ```
 설치:        make install       # 임베딩까지 쓰려면 make install-ml
 설정:        cp .env.example .env
-실행:        make start         # http://127.0.0.1:8000
-계약 테스트:  python scripts/test_http_contract.py
-워커 풀:     python scripts/test_worker_pool.py
-LLM 연기:    python scripts/smoke_llm.py    # 실제 모델에 붙는다
+실행:        make start         # 포트는 .env 의 PORT (기본 8000)
+계약 검증:    make check         # pool·errors·contract·extractor·embedding. LLM 불필요
+공고 요약:    make notice        # 픽스처 3건을 실제 LLM 으로. 없으면 SKIP
+LLM 연기:    make smoke         # 모델 목록·용량·채팅 1회
+
+임의 공고로 요약을 돌리려면(맨 `python` 은 시스템 파이썬이라 죽는다):
+
+    .venv/bin/python scripts/smoke_notice_summary.py <공고.json>
+
+사람이 읽을 실행 안내는 `README.md` 「검증 — 직접 돌리는 법」에 있다.
 ```
 
 백엔드가 요구하는 것은 하나뿐이다 — **`AI_BASE_URL`(기본 `http://localhost:8000`)에서
@@ -165,11 +174,13 @@ cd ../g2bmaster-backend && AI_ENABLED=true AI_BASE_URL=http://localhost:8000 ./m
 
 `docs/decisions.md §1` 에 코드를 읽고 확인한 항목이 있다. 시급한 순서로:
 
-1. **F-4** — `501 NOT_PORTED` 가 백엔드의 `AiUnavailableException` 경로를 타는지 확인.
+1. **F-4 (미해소)** — `501 NOT_PORTED` 가 백엔드의 `AiUnavailableException` 경로를 타는지 확인.
    안 타면 프론트가 날것의 501 을 받고 AI 없이도 되는 화면까지 같이 죽는다.
-2. **F-1** — 실패 본문 모양이 다섯 가지다. `code`·`retryable`·`requestId` 가 빠져 있다.
-   표준형은 `docs/failure-modes.md`.
-3. **F-3** — 단일 `promptVersion` 은 `bid-summary` 가 들어오는 순간 깨진다. M2 이전에 정한다.
+2. **가격 철거 반영 (미해소)** — 백엔드·프론트가 아직 옛 계약을 향하고 있다.
+   지시서는 `docs/contract-break.md`. 이 저장소에서 더 할 일은 없다.
+
+~~F-1 실패 본문 다섯 가지~~ — 해소. `app/errors.py` 한 곳으로 모았고 `scripts/test_errors.py` 가 건다.
+~~F-3 단일 promptVersion~~ — 해소. `{promptVersion, versions{}}` 를 함께 낸다.
 
 ---
 

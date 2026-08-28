@@ -16,19 +16,10 @@ load_dotenv()
 
 FIELDS = [
     "llmBase", "llmApiKey", "llmModel", "llmTemperature", "llmTopP",
-    "llmMaxTokens", "llmContextWindow", "searchProvider", "searchUrl",
-    "searchKey", "searchPlatforms", "pricePrompt", "priceSources",
+    "llmMaxTokens", "llmContextWindow",
 ]
-KEY_FIELDS = {"llmApiKey", "searchKey"}
+KEY_FIELDS = {"llmApiKey"}
 
-# 가격 검색 우선 플랫폼 기본값. 원본 주석 그대로: 컴퓨존은 가격을 JS 로 그려
-# studyweb 이 "none priced" 로 흘리므로 단독 지정 금지 — URL 수동 경로로 커버한다.
-DEFAULT_PLATFORMS = "다나와, 에누리, 컴퓨존, 쿠팡, 11번가, 네이버쇼핑, 숨고, 크몽, 알바몬, 알바천국, 사람인"
-
-# 멀티소스 가격 리졸버(price.resolve)가 동시에 칠 소스. 세 소스 모두 직접 조회형이라
-# 기본값에 넣는다: danawa(부품·노트북), enuri(가격비교), itmaya(GPU서버 가격표, stale).
-# DEFAULT_PLATFORMS 와 별개다 — 이쪽은 실제로 파서가 붙어 있는 소스만 나열한다.
-DEFAULT_PRICE_SOURCES = "danawa,enuri,itmaya"
 
 
 def config_dir() -> Path:
@@ -48,14 +39,6 @@ def env_defaults() -> dict:
         "llmTopP": os.getenv("LLM_TOP_P") or "0.95",
         "llmMaxTokens": os.getenv("LLM_MAX_TOKENS") or "8192",
         "llmContextWindow": os.getenv("LLM_CONTEXT_WINDOW") or "32768",
-        # studyweb 은 전용 스크래퍼로 대체돼 사라졌다. 이 슬롯은 이제 "탐색기"용이다 —
-        # searxng 로 두면 사양→모델 탐색(설계 2번)이 켜진다. 가격은 여전히 전용 파서가 매긴다.
-        "searchProvider": os.getenv("SEARCH_PROVIDER") or "searxng",
-        "searchUrl": os.getenv("SEARCH_URL") or os.getenv("STUDYWEB_URL") or "http://localhost:8888",
-        "searchKey": os.getenv("STUDYWEB_API_KEY") or "",
-        "searchPlatforms": os.getenv("SEARCH_PLATFORMS") or DEFAULT_PLATFORMS,
-        "pricePrompt": os.getenv("PRICE_PROMPT") or "",
-        "priceSources": os.getenv("PRICE_SOURCES") or DEFAULT_PRICE_SOURCES,
     }
 
 
@@ -76,7 +59,6 @@ def resolve_config(file_values: dict | None = None, env: dict | None = None) -> 
         if value is not None and str(value).strip() != "":
             out[key] = value
     out["llmBase"] = str(out.get("llmBase") or "").rstrip("/")
-    out["searchUrl"] = str(out.get("searchUrl") or "").rstrip("/")
     return out
 
 
@@ -84,21 +66,6 @@ def get_ai_config() -> dict:
     return resolve_config(read_file(), env_defaults())
 
 
-def set_ai_config(partial: dict | None = None) -> dict:
-    """부분 저장. 키 필드는 빈 값이면 기존 유지(마스크 표시를 덮어쓰지 않도록)."""
-    partial = partial or {}
-    current = read_file()
-    next_values = dict(current)
-    for key in FIELDS:
-        if key not in partial:
-            continue
-        value = partial[key]
-        if key in KEY_FIELDS and (value is None or str(value).strip() == ""):
-            continue
-        next_values[key] = "" if value is None else str(value)
-    config_dir().mkdir(parents=True, exist_ok=True)
-    config_path().write_text(json.dumps(next_values, ensure_ascii=False, indent=2), encoding="utf-8")
-    return next_values
 
 
 def mask_config(cfg: dict) -> dict:
@@ -110,15 +77,9 @@ def mask_config(cfg: dict) -> dict:
     return {
         "llmBase": cfg.get("llmBase"),
         "llmModel": cfg.get("llmModel"),
-        "searchProvider": cfg.get("searchProvider"),
-        "searchUrl": cfg.get("searchUrl"),
-        "searchPlatforms": cfg.get("searchPlatforms") or "",
-        "pricePrompt": cfg.get("pricePrompt") or "",
-        "priceSources": cfg.get("priceSources") or "",
+        "llmContextWindow": cfg.get("llmContextWindow"),
         "llmApiKey": mask(cfg.get("llmApiKey")),
-        "searchKey": mask(cfg.get("searchKey")),
         "llmApiKeySet": bool(cfg.get("llmApiKey")),
-        "searchKeySet": bool(cfg.get("searchKey")),
     }
 
 
@@ -151,17 +112,3 @@ def llm_headers() -> dict:
     return {"Authorization": f"Bearer {key}"} if key else {}
 
 
-def _parse_sources(raw: str) -> list[str]:
-    return [s.strip().lower() for s in str(raw or "").split(",") if s.strip()]
-
-
-def price_sources() -> list[str]:
-    """멀티소스 가격 리졸버가 켤 소스 이름들 — 파일 > 환경변수 > 기본값(config 우선순위).
-
-    price.resolve 가 이 목록으로 SOURCES 레지스트리를 거른다. 값이 비면 기본값으로 되돌린다.
-    """
-    return _parse_sources(get_ai_config().get("priceSources")) or _parse_sources(DEFAULT_PRICE_SOURCES)
-
-
-#: 편의 상수 — 환경변수/기본값에서 파생. 파일 오버라이드까지 반영하려면 price_sources() 를 쓴다.
-PRICE_SOURCES = _parse_sources(os.getenv("PRICE_SOURCES") or DEFAULT_PRICE_SOURCES)
