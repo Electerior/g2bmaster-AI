@@ -99,6 +99,13 @@ make check; echo "exit=$?"   # exit=0 이어야 한다
 | `make extractor` | `module_b` 스키마·근거 좌표·프롬프트 규칙 |
 | `make embedding` | 청크 자르기·상주 구조 (ML 스택 없으면 skip) |
 
+`make check` 에 **들어가지 않는** 것이 둘 있다. 서비스 기동과 무관하고 별도 패키지가 필요하다.
+
+| 타깃 | 무엇인가 |
+|---|---|
+| `make bidpipe-check` 외 | `bidpipe/` — 조달 공고 마진 분석 파이프라인(오프라인, LLM 불필요). `pip install -r requirements-bidpipe.txt` |
+| (타깃 없음) | `scripts/analyze_opportunities.py` — 사업기회 분류 워크북 도구. `pip install -r requirements-tools.txt` |
+
 #### 3. 공고 요약을 눈으로 확인 — LLM 필요
 
 **LM Studio 를 먼저 띄운다.**

@@ -13,15 +13,20 @@
 1. `../g2bmaster-backend/docs/ai-boundary.md` — **경계 계약. 최상위 권위.**
 2. `../g2bmaster-backend/docs/api-contract.md` — 프론트↔백엔드 계약.
    **우리가 지키는 문서가 아니다.** 배경 지식으로만 읽는다.
-3. `Principles.md` — 판단 기준
+3. `docs/Principles.md` — 판단 기준
 4. `docs/failure-modes.md` — 실패 분류표 (없으면 만들 것)
 5. `docs/decisions.md` — 결정 기록과 미합의 목록 (없으면 만들 것)
 6. 이 파일
 
 충돌하면 위쪽이 이긴다. 단 §6의 미확인 항목은 어느 것도 이기지 못한다 — 검증이 먼저다.
 
-`Principles.md §5.1` 의 `item-summary` 6단계와 `ai-boundary.md` §5 의 11개 표면은
+`docs/Principles.md §5.1` 의 `item-summary` 6단계와 `ai-boundary.md` §5 의 11개 표면은
 **둘 다 낡았다**. 현재 표면은 §3, 계약 파기 내역은 `docs/contract-break.md`.
+
+**위 1·2 번은 이 저장소에 사본을 두지 않는다.** 2026-08-28 에 `docs/ai-boundary.md`·
+`docs/api-contract.md` 를 지웠다 — 백엔드 원본에서 각각 25줄·122줄 갈라진 채 방치돼
+있었고, 갈라진 사본은 최상위 권위를 흉내 내면서 틀린 답을 준다. 문서 안의
+`ai-boundary.md §6.4` 같은 인용은 **백엔드 저장소의 원본**을 가리킨다. 다시 복사해 오지 말 것.
 
 ---
 
@@ -87,7 +92,8 @@
 - 작업 큐·리스·재시도 장부·결과 이력·재사용 캐시 조회
 - 첨부 다운로드(SSRF 가드 포함)와 텍스트 추출(HWP/HWPX 등)
 - 문서 태그·독소조항 규칙 판정 — 규칙 기반이라 `ai.enabled=false`에서도 동작
-- 수주기회 점수 `_opportunity*` — `lib/scoring.js`는 순수 규칙
+- 수주기회 점수 `_opportunity*` — `lib/scoring.js`는 순수 규칙, 백엔드 소유.
+  **`app/opportunity.py` 와 혼동하지 말 것** — 그쪽은 우리 것이되 엔드포인트가 아니다(§5)
 - 임베딩 유사도 계산과 벡터 저장 (우리는 벡터만 만든다)
 - `evidence.quote` 최종 채택 판정
 - 가격 `result = null` 강제 (우리는 `queryRelaxed`만 보고)
@@ -116,6 +122,26 @@ module_a/ module_b/ korean-law-mcp/   Python 모듈 서버. 백엔드가 직접 
 scripts/          test_http_contract.py · test_worker_pool.py · smoke_llm.py
 ```
 
+**HTTP 표면이 아닌 것 두 갈래가 같은 저장소에 산다.** 서비스 기동에 필요 없고,
+`make check` 에도 들어가지 않는다.
+
+```
+app/opportunity.py            사업기회 분류(LLM). **엔드포인트가 아니다** — 오프라인 도구다.
+scripts/analyze_opportunities.py  ↑ 를 불러 워크북(xlsx)을 읽고 쓴다. make 타깃 없음
+docs/opportunity-eval.md      그 실측 이력
+                              필요 패키지는 requirements-tools.txt
+
+bidpipe/                      조달 공고 마진 분석 파이프라인. 2026-08-25 Electerior 에서 이전.
+                              LLM 불필요한 결정론적 코어 — AGENTS.md 규칙 + 8스킬 + 가격 DB.
+                              make bidpipe-check · bidpipe-gen · bidpipe-fidelity · bidpipe-fixture
+                              필요 패키지는 requirements-bidpipe.txt
+```
+
+> **§3 의 가격 폐기와 `bidpipe/` 의 가격 DB 는 모순이 아니다.** 폐기한 것은 *AI 서비스가
+> 실시간으로 값을 만들어 내던* 표면이고, `bidpipe/` 는 사람이 돌리는 오프라인 분석
+> 파이프라인이다. **`bidpipe/` 를 HTTP 표면으로 끌어올리지 말 것** — 그러면 폐기한
+> 것이 이름만 바꿔 돌아온다.
+
 진척은 `PORTING_STATUS.md` 가 유일한 출처다. "곧 됩니다"는 쓰지 않는다.
 현재: `notice-summary`·`prompt-version`·`capacity`·`models`·`embed`·`config` 완료.
 남은 것은 `legal/review-clauses` · `legal/outreach-draft` · `pledge/revision-workflow` 3개다.
@@ -142,7 +168,7 @@ scripts/          test_http_contract.py · test_worker_pool.py · smoke_llm.py
 
 B~F 는 여전히 미확인이다. 해당 영역 코드를 쓰기 전에 확인한다.
 M0 은 이 중 어느 것에도 의존하지 않기 때문에 먼저 낼 수 있었다.
-합의가 필요한 전체 목록은 `docs/decisions.md §3`. 보내는 계획은 `docs/plan.md §8`.
+합의가 필요한 전체 목록은 `docs/decisions.md §3`, 백엔드에 보내는 요청 본문은 `§3.1`.
 
 ---
 
@@ -187,7 +213,7 @@ cd ../g2bmaster-backend && AI_ENABLED=true AI_BASE_URL=http://localhost:8000 ./m
 ## 8. 작업 방식
 
 - 계약 변경이 필요해지면 **구현으로 우회하지 말고** `docs/decisions.md`에 적고
-  백엔드에 역제안한다. `Principles.md §7.3`에 현재 목록이 있다.
+  백엔드에 역제안한다. `docs/Principles.md §7.3`에 현재 목록이 있다.
 - 원칙을 어겨야 하면 어기되, **무엇을 왜 어겼는지 주석과 결정 기록에 남긴다.**
   이유 없는 규칙은 다음 사람이 정리해 버린다.
 - 새 필드 추가는 자유롭게, 제거·이름 변경·의미 변경은 백엔드 합의 후에.

@@ -83,7 +83,7 @@ smoke_llm: SKIP — LLM 400: Failed to load model "qwen/qwen3.6-35b-a3b". Error:
 한쪽만 고치면 `make check` 가 깨진다.
 
 > **아직 실효가 없다.** 백엔드 `AiClient` 는 `e.getMessage()` 만 남기고 이 본문을 읽지 않는다.
-> 계약을 먼저 세워 둔 것이고, 파싱 요청은 `docs/plan.md §8.2` 의 **R0** 이다.
+> 계약을 먼저 세워 둔 것이고, 파싱 요청은 `docs/decisions.md §3.1` 의 **R0** 이다.
 
 ### 프롬프트 버전
 
@@ -151,3 +151,12 @@ make check
 
 `test_http_contract.py` 는 개발 PC 에 LM Studio 가 떠 있어도 결과가 흔들리지 않도록
 닫힌 주소로 고정해 돈다. 라이브 확인은 `smoke_llm.py` 가 따로 한다.
+
+### `make check` 밖에 있는 것
+
+이 문서는 **HTTP 표면의 이식 현황**만 다룬다. 아래 둘은 표면이 아니므로 위 표에 없다.
+
+| | 무엇 | 검증 |
+|---|---|---|
+| `bidpipe/` | 조달 공고 마진 분석 파이프라인. 2026-08-25 Electerior 에서 이전 | `make bidpipe-check` · `bidpipe-fidelity` · `bidpipe-fixture` |
+| `app/opportunity.py` | 사업기회 분류(LLM). 엔드포인트가 아니다 | 없음. 실측 이력은 `docs/opportunity-eval.md` |

@@ -69,7 +69,7 @@ status 는 프록시·로드밸런서·모니터링이 읽는 값이고, 분류�
   재시도는 순수한 낭비이고, 워커의 재시도 예산을 태워 큐의 다른 작업을 굶긴다.
 
 → 다만 **백엔드는 아직 이 본문을 읽지 않는다.** `e.getMessage()` 만 남기고 `code`·
-`retryable` 을 버린다. 그래서 `retryable: false` 가 실효를 가지려면 `plan.md §8.2` 의
+`retryable` 을 버린다. 그래서 `retryable: false` 가 실효를 가지려면 `decisions.md §3.1` 의
 **R0**(본문 파싱)이 함께 가야 한다.
 
 ---
